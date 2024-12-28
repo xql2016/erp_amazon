@@ -13,6 +13,7 @@ import repository.read.AutoPlaceReadRepository;
 import repository.read.GoodsPlaceReadRepository;
 import repository.read.KeyPlaceReadRepository;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,12 +73,18 @@ public class SpamValidFromPlaceAction extends AbstractSpamControlAction {
             // 按照执行顺序进行排序
             asinPlaceSpamValidFromPlaceDetailList = asinPlaceSpamValidFromPlaceDetailList.stream().sorted(Comparator.comparing(SpamValidFromPlaceDetail::getOperateSeq)).collect(Collectors.toList());
             for(SpamValidFromPlaceDetail spamValidFromPlaceDetail : asinPlaceSpamValidFromPlaceDetailList) {
-                // 1. 获取列表信息
-                GoodsPlaceRequest goodsPlaceRequest = AsinPlaceSpamValidFromPlaceService.buildGoodsPlaceRequest(spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition(), hubId, configuration.getHubPortfolioIdList());
-                List<GoodsPlace> placeList = new GoodsPlaceReadRepository().queryGoodsPlaceList(goodsPlaceRequest, configuration);
-                // 2. 根据列表信息做for循环处理
-                for(GoodsPlace goodsPlace : placeList) {
-                    AsinPlaceSpamValidFromPlaceService.doOperation(goodsPlace, spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation(), configuration);
+                // 处理商品和商品扩展
+                List<String> expressionTypes = new ArrayList<>();
+                expressionTypes.add("asinSameAs");// 商品
+                expressionTypes.add("asinExpandedFrom");// 商品扩展
+                for(String expressionType : expressionTypes) {
+                    // 1. 获取列表信息
+                    GoodsPlaceRequest goodsPlaceRequest = AsinPlaceSpamValidFromPlaceService.buildGoodsPlaceRequest(spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition(), hubId, configuration.getHubPortfolioIdList(), expressionType);
+                    List<GoodsPlace> placeList = new GoodsPlaceReadRepository().queryGoodsPlaceList(goodsPlaceRequest, configuration);
+                    // 2. 根据列表信息做for循环处理
+                    for(GoodsPlace goodsPlace : placeList) {
+                        AsinPlaceSpamValidFromPlaceService.doOperation(goodsPlace, spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation(), configuration, expressionType);
+                    }
                 }
             }
             System.out.println(String.format("hub=%s,处理完毕", hubId));

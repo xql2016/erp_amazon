@@ -12,6 +12,7 @@ import repository.read.AutoPlaceReadRepository;
 import repository.read.GoodsPlaceReadRepository;
 import repository.read.KeyPlaceReadRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,12 +58,18 @@ public class SpamTrafficFromPlaceAction extends AbstractSpamControlAction {
                 }
             }
             for(SpamTrafficFromPlaceDetail spamTrafficFromPlaceDetail : spamTrafficFromPlaceConfiguration.getAsinPlaceSpamTrafficFromPlaceDetailList()) {
-                // 1. 获取列表信息
-                GoodsPlaceRequest goodsPlaceRequest = AsinPlaceSpamTrafficFromPlaceService.buildGoodsPlaceRequest(spamTrafficFromPlaceDetail.getSpamTrafficFromPlaceSearchCondition(), hubId, configuration.getHubPortfolioIdList());
-                List<GoodsPlace> placeList = new GoodsPlaceReadRepository().queryGoodsPlaceList(goodsPlaceRequest, configuration);
-                // 2. 根据列表信息做for循环处理
-                for(GoodsPlace goodsPlace : placeList) {
-                    AsinPlaceSpamTrafficFromPlaceService.doOperation(goodsPlace, spamTrafficFromPlaceDetail.getSpamTrafficFromPlaceDoOperation(), configuration);
+                // 处理商品和商品扩展
+                List<String> expressionTypes = new ArrayList<>();
+                expressionTypes.add("asinSameAs");// 商品
+                expressionTypes.add("asinExpandedFrom");// 商品扩展
+                for(String expressionType : expressionTypes) {
+                    // 1. 获取列表信息
+                    GoodsPlaceRequest goodsPlaceRequest = AsinPlaceSpamTrafficFromPlaceService.buildGoodsPlaceRequest(spamTrafficFromPlaceDetail.getSpamTrafficFromPlaceSearchCondition(), hubId, configuration.getHubPortfolioIdList(), expressionType);
+                    List<GoodsPlace> placeList = new GoodsPlaceReadRepository().queryGoodsPlaceList(goodsPlaceRequest, configuration);
+                    // 2. 根据列表信息做for循环处理
+                    for(GoodsPlace goodsPlace : placeList) {
+                        AsinPlaceSpamTrafficFromPlaceService.doOperation(goodsPlace, spamTrafficFromPlaceDetail.getSpamTrafficFromPlaceDoOperation(), configuration, expressionType);
+                    }
                 }
             }
             System.out.println(String.format("hub=%s,处理完毕", hubId));

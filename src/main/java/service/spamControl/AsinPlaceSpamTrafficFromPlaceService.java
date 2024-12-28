@@ -28,18 +28,24 @@ import java.util.List;
  */
 public class AsinPlaceSpamTrafficFromPlaceService {
 
-    public static GoodsPlaceRequest buildGoodsPlaceRequest(SpamTrafficFromPlaceSearchCondition spamTrafficFromPlaceSearchCondition, Long hubId, List<HubPortfolioId> hubPortfolioIdList) {
+    public static GoodsPlaceRequest buildGoodsPlaceRequest(SpamTrafficFromPlaceSearchCondition spamTrafficFromPlaceSearchCondition, Long hubId, List<HubPortfolioId> hubPortfolioIdList, String expressionType) {
         List<Long> clicks = new ArrayList<>();
-        clicks.add(spamTrafficFromPlaceSearchCondition.getClicksLargerThan());
-        clicks.add(spamTrafficFromPlaceSearchCondition.getClicksSmallerThan());
+        if(null != spamTrafficFromPlaceSearchCondition.getClicksLargerThan() || null != spamTrafficFromPlaceSearchCondition.getClicksSmallerThan()) {
+            clicks.add(spamTrafficFromPlaceSearchCondition.getClicksLargerThan());
+            clicks.add(spamTrafficFromPlaceSearchCondition.getClicksSmallerThan());
+        }
         List<Long> orders = new ArrayList<>();
-        orders.add(spamTrafficFromPlaceSearchCondition.getOrdersLargerThan());
-        orders.add(spamTrafficFromPlaceSearchCondition.getOrdersSmallerThan());
+        if(null != spamTrafficFromPlaceSearchCondition.getOrdersLargerThan() || null != spamTrafficFromPlaceSearchCondition.getOrdersSmallerThan()) {
+            orders.add(spamTrafficFromPlaceSearchCondition.getOrdersLargerThan());
+            orders.add(spamTrafficFromPlaceSearchCondition.getOrdersSmallerThan());
+        }
         List<Long> acos = new ArrayList<>();
-        acos.add(spamTrafficFromPlaceSearchCondition.getAcosLargerThan());
-        acos.add(spamTrafficFromPlaceSearchCondition.getAcosSmallerThan());
-        List<String> expression_types = new ArrayList<>(); // asinSameAs=商品,asinCategorySameAs=类目
-        expression_types.add("asinSameAs");
+        if(null != spamTrafficFromPlaceSearchCondition.getAcosLargerThan() || null != spamTrafficFromPlaceSearchCondition.getAcosSmallerThan()) {
+            acos.add(spamTrafficFromPlaceSearchCondition.getAcosLargerThan());
+            acos.add(spamTrafficFromPlaceSearchCondition.getAcosSmallerThan());
+        }
+        List<String> expression_types = new ArrayList<>(); // asinSameAs=商品,asinCategorySameAs=类目,asinExpandedFrom=商品扩展
+        expression_types.add(expressionType);
 
         GoodsPlaceRequest goodsPlaceRequest = new GoodsPlaceRequest();
         goodsPlaceRequest.setClicks(clicks);
@@ -58,17 +64,19 @@ public class AsinPlaceSpamTrafficFromPlaceService {
     }
 
     // 找到符合条件的策略然后进行操作
-    public static void doOperation(GoodsPlace goodsPlace, SpamTrafficFromPlaceDoOperation spamTrafficFromPlaceDoOperation, Configuration configuration) {
+    public static void doOperation(GoodsPlace goodsPlace, SpamTrafficFromPlaceDoOperation spamTrafficFromPlaceDoOperation, Configuration configuration, String expressionType) {
         for(SpamTrafficFromPlaceDoOperationSingle doOperationSingle : spamTrafficFromPlaceDoOperation.getDoOperationSingleList()) {
             if(matchCondition(goodsPlace, doOperationSingle)) {
-                doOperation(goodsPlace, doOperationSingle, configuration);
+                doOperation(goodsPlace, doOperationSingle, configuration, expressionType);
                 return;
             }
         }
-        System.out.println(String.format("asin投放无处理, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", goodsPlace.getAd_group_name(),goodsPlace.getBid(),goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+        String operation = "asinSameAs".equalsIgnoreCase(expressionType) ? "商品投放" : "商品扩展";
+        System.out.println(String.format("%s无处理, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation, goodsPlace.getAd_group_name(),goodsPlace.getBid(),goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
     }
 
-    private static void doOperation(GoodsPlace goodsPlace, SpamTrafficFromPlaceDoOperationSingle spamTrafficFromPlaceDoOperationSingle, Configuration configuration) {
+    private static void doOperation(GoodsPlace goodsPlace, SpamTrafficFromPlaceDoOperationSingle spamTrafficFromPlaceDoOperationSingle, Configuration configuration, String expressionType) {
+        String operation = "asinSameAs".equalsIgnoreCase(expressionType) ? "商品投放" : "商品扩展";
         for(SpamTrafficFromPlaceDoOperationAction action : spamTrafficFromPlaceDoOperationSingle.getActionList()) {
             double bidNow;
             if(null == goodsPlace.getBid()) {
@@ -81,19 +89,19 @@ public class AsinPlaceSpamTrafficFromPlaceService {
             }
             switch (AutoPlaceOperateType.getByValue(action.getAutoPlaceOperateType())) {
                 case NO_OPERATE:
-                    System.out.println(String.format("asin投放操作,不操作, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+                    System.out.println(String.format("%s操作,不操作, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation, goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
                     break;
                 case CLOSE:
-                    doClose(configuration, goodsPlace, bidNow);
+                    doClose(configuration, goodsPlace, bidNow, expressionType);
                     break;
                 case CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE:
                     double bidChangeTo = Math.max(goodsPlace.getCpc() - action.getClickMultiplyValue() * (goodsPlace.getClicks() - action.getClickSubtractValue()), action.getLagerThanValue());
                     BigDecimal bd = new BigDecimal(bidChangeTo);
                     bidChangeTo = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
                     if(bidNow <= bidChangeTo) {
-                        System.out.println(String.format("asin投放操作,bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeTo,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+                        System.out.println(String.format("%s操作,bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation, bidNow,bidChangeTo,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
                     }else {
-                        doChangeBid(configuration, bidChangeTo, goodsPlace, bidNow);
+                        doChangeBid(configuration, bidChangeTo, goodsPlace, bidNow, expressionType);
                     }
                     break;
                 case CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE:
@@ -101,9 +109,9 @@ public class AsinPlaceSpamTrafficFromPlaceService {
                     BigDecimal bdB = new BigDecimal(bidChangeToB);
                     bidChangeToB = bdB.setScale(2, RoundingMode.HALF_UP).doubleValue();
                     if(bidNow <= bidChangeToB) {
-                        System.out.println(String.format("asin投放操作,bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeToB,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+                        System.out.println(String.format("%s操作,bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation, bidNow,bidChangeToB,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
                     }else {
-                        doChangeBid(configuration, bidChangeToB, goodsPlace, bidNow);
+                        doChangeBid(configuration, bidChangeToB, goodsPlace, bidNow, expressionType);
                     }
                     break;
                 case BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE:
@@ -111,9 +119,9 @@ public class AsinPlaceSpamTrafficFromPlaceService {
                     BigDecimal bdC = new BigDecimal(bidChangeToC);
                     bidChangeToC = bdC.setScale(2, RoundingMode.HALF_UP).doubleValue();
                     if(bidNow <= bidChangeToC) {
-                        System.out.println(String.format("asin投放操作,bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeToC,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+                        System.out.println(String.format("%s操作,bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation, bidNow,bidChangeToC,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
                     }else {
-                        doChangeBid(configuration, bidChangeToC, goodsPlace, bidNow);
+                        doChangeBid(configuration, bidChangeToC, goodsPlace, bidNow, expressionType);
                     }
                     break;
             }
@@ -140,7 +148,8 @@ public class AsinPlaceSpamTrafficFromPlaceService {
         return true;
     }
 
-    private static void doChangeBid(Configuration configuration, double bidChangeTo, GoodsPlace goodsPlace, double bidNow) {
+    private static void doChangeBid(Configuration configuration, double bidChangeTo, GoodsPlace goodsPlace, double bidNow, String expressionType) {
+        String operation = "asinSameAs".equalsIgnoreCase(expressionType) ? "商品投放" : "商品扩展";
         if(!configuration.isDoSimulation()) {
             AdWriteRepository adWriteRepository = new AdWriteRepository();
             AdPlacementChangeBidRequest adPlacementChangeBidRequest = new AdPlacementChangeBidRequest();
@@ -148,22 +157,23 @@ public class AsinPlaceSpamTrafficFromPlaceService {
             adPlacementChangeBidRequest.setTargetId(goodsPlace.getTarget_id());
             adPlacementChangeBidRequest.setProfileId(goodsPlace.getProfile_id());
             boolean operateResult = adWriteRepository.doAdPlacementOperateChangeBid(adPlacementChangeBidRequest, configuration, AdGroupType.ASIN_AD_GROUP);
-            System.out.println(String.format("asin投放操作,bid变更,真实操作结果=%s,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,bidNow,bidChangeTo,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+            System.out.println(String.format("%s操作,bid变更,真实操作结果=%s,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation, operateResult,bidNow,bidChangeTo,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
         } else {
-            System.out.println(String.format("asin投放操作,bid变更,仿真,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeTo,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+            System.out.println(String.format("%s操作,bid变更,仿真,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation, bidNow,bidChangeTo,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
         }
     }
 
-    private static void doClose(Configuration configuration, GoodsPlace goodsPlace, double bidNow) {
+    private static void doClose(Configuration configuration, GoodsPlace goodsPlace, double bidNow, String expressionType) {
+        String operation = "asinSameAs".equalsIgnoreCase(expressionType) ? "商品投放" : "商品扩展";
         if(!configuration.isDoSimulation()) {
             AdWriteRepository adWriteRepository = new AdWriteRepository();
             AdPlacementPauseRequest adPlacementPauseRequest = new AdPlacementPauseRequest();
             adPlacementPauseRequest.setTargetId(goodsPlace.getTarget_id());
             adPlacementPauseRequest.setProfileId(goodsPlace.getProfile_id());
             boolean operateResult = adWriteRepository.doAdPlacementOperatePause(adPlacementPauseRequest, configuration, AdGroupType.ASIN_AD_GROUP);
-            System.out.println(String.format("asin投放操作,关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+            System.out.println(String.format("%s操作,关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation, operateResult,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
         } else {
-            System.out.println(String.format("asin投放操作,关闭,仿真, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+            System.out.println(String.format("%s操作,关闭,仿真, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation, goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
         }
     }
 

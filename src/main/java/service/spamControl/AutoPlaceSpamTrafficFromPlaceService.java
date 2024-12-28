@@ -30,14 +30,20 @@ public class AutoPlaceSpamTrafficFromPlaceService {
 
     public static AutoPlaceRequest buildAutoPlaceRequest(SpamTrafficFromPlaceSearchCondition spamTrafficFromPlaceSearchCondition, Long hubId, List<HubPortfolioId> hubPortfolioIdList) {
         List<Long> clicks = new ArrayList<>();
-        clicks.add(spamTrafficFromPlaceSearchCondition.getClicksLargerThan());
-        clicks.add(spamTrafficFromPlaceSearchCondition.getClicksSmallerThan());
+        if(null != spamTrafficFromPlaceSearchCondition.getClicksLargerThan() || null != spamTrafficFromPlaceSearchCondition.getClicksSmallerThan()) {
+            clicks.add(spamTrafficFromPlaceSearchCondition.getClicksLargerThan());
+            clicks.add(spamTrafficFromPlaceSearchCondition.getClicksSmallerThan());
+        }
         List<Long> orders = new ArrayList<>();
-        orders.add(spamTrafficFromPlaceSearchCondition.getOrdersLargerThan());
-        orders.add(spamTrafficFromPlaceSearchCondition.getOrdersSmallerThan());
+        if(null != spamTrafficFromPlaceSearchCondition.getOrdersLargerThan() || null != spamTrafficFromPlaceSearchCondition.getOrdersSmallerThan()) {
+            orders.add(spamTrafficFromPlaceSearchCondition.getOrdersLargerThan());
+            orders.add(spamTrafficFromPlaceSearchCondition.getOrdersSmallerThan());
+        }
         List<Long> acos = new ArrayList<>();
-        acos.add(spamTrafficFromPlaceSearchCondition.getAcosLargerThan());
-        acos.add(spamTrafficFromPlaceSearchCondition.getAcosSmallerThan());
+        if(null != spamTrafficFromPlaceSearchCondition.getAcosLargerThan() || null != spamTrafficFromPlaceSearchCondition.getAcosSmallerThan()) {
+            acos.add(spamTrafficFromPlaceSearchCondition.getAcosLargerThan());
+            acos.add(spamTrafficFromPlaceSearchCondition.getAcosSmallerThan());
+        }
 
         AutoPlaceRequest autoPlaceRequest = new AutoPlaceRequest();
         autoPlaceRequest.setClicks(clicks);
