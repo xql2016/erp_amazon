@@ -45,9 +45,15 @@ public class KeyPlaceSpamTrafficFromPlaceService {
         }
 
         KeyPlaceRequest keyPlaceRequest = new KeyPlaceRequest();
-        keyPlaceRequest.setClicks(clicks);
-        keyPlaceRequest.setOrders(orders);
-        keyPlaceRequest.setAcos(acos);
+        if(CollectionUtils.isNotEmpty(clicks)) {
+            keyPlaceRequest.setClicks(clicks);
+        }
+        if(CollectionUtils.isNotEmpty(orders)) {
+            keyPlaceRequest.setOrders(orders);
+        }
+        if(CollectionUtils.isNotEmpty(acos)) {
+            keyPlaceRequest.setAcos(acos);
+        }
         if(CollectionUtils.isNotEmpty(hubPortfolioIdList)) {
             HubPortfolioId hubPortfolioId = hubPortfolioIdList.stream().filter(it -> null != hubId && null != it.getHubId() && hubId.equals(it.getHubId())).findFirst().orElse(null);
             if(null != hubPortfolioId && CollectionUtils.isNotEmpty(hubPortfolioId.getPortfolioIdList())) {

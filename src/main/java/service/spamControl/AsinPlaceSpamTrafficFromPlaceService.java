@@ -48,9 +48,15 @@ public class AsinPlaceSpamTrafficFromPlaceService {
         expression_types.add(expressionType);
 
         GoodsPlaceRequest goodsPlaceRequest = new GoodsPlaceRequest();
-        goodsPlaceRequest.setClicks(clicks);
-        goodsPlaceRequest.setOrders(orders);
-        goodsPlaceRequest.setAcos(acos);
+        if(CollectionUtils.isNotEmpty(clicks)) {
+            goodsPlaceRequest.setClicks(clicks);
+        }
+        if(CollectionUtils.isNotEmpty(orders)) {
+            goodsPlaceRequest.setOrders(orders);
+        }
+        if(CollectionUtils.isNotEmpty(acos)) {
+            goodsPlaceRequest.setAcos(acos);
+        }
         if(CollectionUtils.isNotEmpty(hubPortfolioIdList)) {
             HubPortfolioId hubPortfolioId = hubPortfolioIdList.stream().filter(it -> null != hubId && null != it.getHubId() && hubId.equals(it.getHubId())).findFirst().orElse(null);
             if(null != hubPortfolioId && CollectionUtils.isNotEmpty(hubPortfolioId.getPortfolioIdList())) {

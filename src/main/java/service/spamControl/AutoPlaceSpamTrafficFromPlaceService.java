@@ -46,9 +46,15 @@ public class AutoPlaceSpamTrafficFromPlaceService {
         }
 
         AutoPlaceRequest autoPlaceRequest = new AutoPlaceRequest();
-        autoPlaceRequest.setClicks(clicks);
-        autoPlaceRequest.setOrders(orders);
-        autoPlaceRequest.setAcos(acos);
+        if(CollectionUtils.isNotEmpty(clicks)) {
+            autoPlaceRequest.setClicks(clicks);
+        }
+        if(CollectionUtils.isNotEmpty(orders)) {
+            autoPlaceRequest.setOrders(orders);
+        }
+        if(CollectionUtils.isNotEmpty(acos)) {
+            autoPlaceRequest.setAcos(acos);
+        }
         if(CollectionUtils.isNotEmpty(hubPortfolioIdList)) {
             HubPortfolioId hubPortfolioId = hubPortfolioIdList.stream().filter(it -> null != hubId && null != it.getHubId() && hubId.equals(it.getHubId())).findFirst().orElse(null);
             if(null != hubPortfolioId && CollectionUtils.isNotEmpty(hubPortfolioId.getPortfolioIdList())) {

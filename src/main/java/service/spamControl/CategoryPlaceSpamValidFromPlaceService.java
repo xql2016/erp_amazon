@@ -29,21 +29,33 @@ public class CategoryPlaceSpamValidFromPlaceService {
 
     public static GoodsPlaceRequest buildGoodsPlaceRequest(SpamValidFromPlaceSearchCondition spamValidFromPlaceSearchCondition, Long hubId, List<HubPortfolioId> hubPortfolioIdList) {
         List<Double> cpcs = new ArrayList<>();
-        cpcs.add(spamValidFromPlaceSearchCondition.getCpcLargerThan());
-        cpcs.add(spamValidFromPlaceSearchCondition.getCpcSmallerThan());
+        if(null != spamValidFromPlaceSearchCondition.getCpcLargerThan() || null != spamValidFromPlaceSearchCondition.getCpcSmallerThan()) {
+            cpcs.add(spamValidFromPlaceSearchCondition.getCpcLargerThan());
+            cpcs.add(spamValidFromPlaceSearchCondition.getCpcSmallerThan());
+        }
         List<Long> orders = new ArrayList<>();
-        orders.add(spamValidFromPlaceSearchCondition.getOrdersLargerThan());
-        orders.add(spamValidFromPlaceSearchCondition.getOrdersSmallerThan());
+        if(null != spamValidFromPlaceSearchCondition.getOrdersLargerThan() || null != spamValidFromPlaceSearchCondition.getOrdersSmallerThan()) {
+            orders.add(spamValidFromPlaceSearchCondition.getOrdersLargerThan());
+            orders.add(spamValidFromPlaceSearchCondition.getOrdersSmallerThan());
+        }
         List<Long> acos = new ArrayList<>();
-        acos.add(spamValidFromPlaceSearchCondition.getAcosLargerThan());
-        acos.add(spamValidFromPlaceSearchCondition.getAcosSmallerThan());
+        if(null != spamValidFromPlaceSearchCondition.getAcosLargerThan() || null != spamValidFromPlaceSearchCondition.getAcosSmallerThan()) {
+            acos.add(spamValidFromPlaceSearchCondition.getAcosLargerThan());
+            acos.add(spamValidFromPlaceSearchCondition.getAcosSmallerThan());
+        }
         List<String> expression_types = new ArrayList<>(); // asinSameAs=商品,asinCategorySameAs=类目
         expression_types.add("asinCategorySameAs");
 
         GoodsPlaceRequest goodsPlaceRequest = new GoodsPlaceRequest();
-        goodsPlaceRequest.setOrders(orders);
-        goodsPlaceRequest.setAcos(acos);
-        goodsPlaceRequest.setCpc(cpcs);
+        if(CollectionUtils.isNotEmpty(orders)) {
+            goodsPlaceRequest.setOrders(orders);
+        }
+        if(CollectionUtils.isNotEmpty(acos)) {
+            goodsPlaceRequest.setAcos(acos);
+        }
+        if(CollectionUtils.isNotEmpty(cpcs)) {
+            goodsPlaceRequest.setCpc(cpcs);
+        }
         if(CollectionUtils.isNotEmpty(hubPortfolioIdList)) {
             HubPortfolioId hubPortfolioId = hubPortfolioIdList.stream().filter(it -> null != hubId && null != it.getHubId() && hubId.equals(it.getHubId())).findFirst().orElse(null);
             if(null != hubPortfolioId && CollectionUtils.isNotEmpty(hubPortfolioId.getPortfolioIdList())) {

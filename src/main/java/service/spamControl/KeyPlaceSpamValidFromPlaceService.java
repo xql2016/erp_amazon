@@ -29,19 +29,31 @@ public class KeyPlaceSpamValidFromPlaceService {
 
     public static KeyPlaceRequest buildKeyPlaceRequest(SpamValidFromPlaceSearchCondition spamValidFromPlaceSearchCondition, Long hubId, List<HubPortfolioId> hubPortfolioIdList) {
         List<Double> cpcs = new ArrayList<>();
-        cpcs.add(spamValidFromPlaceSearchCondition.getCpcLargerThan());
-        cpcs.add(spamValidFromPlaceSearchCondition.getCpcSmallerThan());
+        if(null != spamValidFromPlaceSearchCondition.getCpcLargerThan() || null != spamValidFromPlaceSearchCondition.getCpcSmallerThan()) {
+            cpcs.add(spamValidFromPlaceSearchCondition.getCpcLargerThan());
+            cpcs.add(spamValidFromPlaceSearchCondition.getCpcSmallerThan());
+        }
         List<Long> orders = new ArrayList<>();
-        orders.add(spamValidFromPlaceSearchCondition.getOrdersLargerThan());
-        orders.add(spamValidFromPlaceSearchCondition.getOrdersSmallerThan());
+        if(null != spamValidFromPlaceSearchCondition.getOrdersLargerThan() || null != spamValidFromPlaceSearchCondition.getOrdersSmallerThan()) {
+            orders.add(spamValidFromPlaceSearchCondition.getOrdersLargerThan());
+            orders.add(spamValidFromPlaceSearchCondition.getOrdersSmallerThan());
+        }
         List<Long> acos = new ArrayList<>();
-        acos.add(spamValidFromPlaceSearchCondition.getAcosLargerThan());
-        acos.add(spamValidFromPlaceSearchCondition.getAcosSmallerThan());
+        if(null != spamValidFromPlaceSearchCondition.getAcosLargerThan() || null != spamValidFromPlaceSearchCondition.getAcosSmallerThan()) {
+            acos.add(spamValidFromPlaceSearchCondition.getAcosLargerThan());
+            acos.add(spamValidFromPlaceSearchCondition.getAcosSmallerThan());
+        }
 
         KeyPlaceRequest keyPlaceRequest = new KeyPlaceRequest();
-        keyPlaceRequest.setOrders(orders);
-        keyPlaceRequest.setAcos(acos);
-        keyPlaceRequest.setCpc(cpcs);
+        if(CollectionUtils.isNotEmpty(orders)) {
+            keyPlaceRequest.setOrders(orders);
+        }
+        if(CollectionUtils.isNotEmpty(acos)) {
+            keyPlaceRequest.setAcos(acos);
+        }
+        if(CollectionUtils.isNotEmpty(cpcs)) {
+            keyPlaceRequest.setCpc(cpcs);
+        }
         if(CollectionUtils.isNotEmpty(hubPortfolioIdList)) {
             HubPortfolioId hubPortfolioId = hubPortfolioIdList.stream().filter(it -> null != hubId && null != it.getHubId() && hubId.equals(it.getHubId())).findFirst().orElse(null);
             if(null != hubPortfolioId && CollectionUtils.isNotEmpty(hubPortfolioId.getPortfolioIdList())) {
