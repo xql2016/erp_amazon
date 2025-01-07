@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.example</groupId>
   <artifactId>ERP</artifactId>
-  <version>5.0-SNAPSHOT</version>
+  <version>7.0-SNAPSHOT</version>
   <name>Archetype - ERP</name>
   <url>http://maven.apache.org</url>
   <dependencies>
