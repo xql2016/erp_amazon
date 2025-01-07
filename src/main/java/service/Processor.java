@@ -3,6 +3,8 @@ package service;
 import com.alibaba.fastjson.JSONObject;
 import model.configuration.*;
 import model.configuration.spamTrafficFromAdGroup.SpamTrafficFromAdGroupConfiguration;
+import model.configuration.spamTrafficFromAdGroup.SpamTrafficFromAdGroupDetail;
+import model.configuration.spamTrafficFromAdGroup.SpamTrafficFromAdGroupDoOperationAction;
 import model.configuration.spamTrafficFromPlace.SpamTrafficFromPlaceConfiguration;
 import model.configuration.spamTrafficFromPlace.SpamTrafficFromPlaceDoOperationAction;
 import model.configuration.spamTrafficFromPlace.SpamTrafficFromPlaceDoOperationCompare;
@@ -80,8 +82,8 @@ public class Processor {
         SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration = loadSpamValidConfiguration();
         JSONObject spamValidCustomConfiguration = loadSpamValidCustomConfiguration();
         SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfiguration = loadSpamTrafficFromAdGroupConfiguration();
-        // todo
-        return assembleConfiguration(inputConfigurationToken, inputConfigurationDetail, spamTrafficFromPlaceConfiguration, spamTrafficCustomConfiguration, spamValidFromPlaceConfiguration, spamValidCustomConfiguration, spamTrafficFromAdGroupConfiguration);
+        JSONObject spamTrafficFromAdGroupCustomConfiguration = loadSpamTrafficFromAdGroupCustomConfiguration();
+        return assembleConfiguration(inputConfigurationToken, inputConfigurationDetail, spamTrafficFromPlaceConfiguration, spamTrafficCustomConfiguration, spamValidFromPlaceConfiguration, spamValidCustomConfiguration, spamTrafficFromAdGroupConfiguration, spamTrafficFromAdGroupCustomConfiguration);
     }
 
     private InputConfigurationToken loadInputConfigurationToken() {
@@ -101,6 +103,17 @@ public class Processor {
     private JSONObject loadSpamValidCustomConfiguration() {
         String str = FileUtils.loadFile(FilePath.spamValidFromPlaceConfigurationCustom);
         return JSONObject.parseObject(str);
+    }
+
+    private JSONObject loadSpamTrafficFromAdGroupCustomConfiguration() {
+        try {
+            String str = FileUtils.loadFile(FilePath.spamTrafficFromAdGroupConfigurationCustom);
+            return JSONObject.parseObject(str);
+        } catch (Exception e) {
+            System.out.println("loadSpamTrafficFromAdGroupCustomConfiguration error");
+            return null;
+        }
+
     }
 
     private SpamValidFromPlaceConfiguration loadSpamValidConfiguration() {
@@ -124,7 +137,7 @@ public class Processor {
         }
     }
 
-    private Configuration assembleConfiguration(InputConfigurationToken inputConfigurationToken, InputConfigurationDetail inputConfigurationDetail, SpamTrafficFromPlaceConfiguration spamTrafficFromPlaceConfiguration, JSONObject spamTrafficCustomConfiguration, SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration, JSONObject spamValidCustomConfiguration, SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfiguration) {
+    private Configuration assembleConfiguration(InputConfigurationToken inputConfigurationToken, InputConfigurationDetail inputConfigurationDetail, SpamTrafficFromPlaceConfiguration spamTrafficFromPlaceConfiguration, JSONObject spamTrafficCustomConfiguration, SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration, JSONObject spamValidCustomConfiguration, SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfiguration, JSONObject spamTrafficFromAdGroupCustomConfiguration) {
         if(null == inputConfigurationToken || null == inputConfigurationDetail) {
             return null;
         }
@@ -165,6 +178,7 @@ public class Processor {
 
         SpamTrafficFromPlaceConfiguration spamTrafficFromPlaceConfigurationAssemble = assembleSpamTrafficFromPlaceConfiguration(spamTrafficFromPlaceConfiguration, spamTrafficCustomConfiguration);
         SpamValidFromPlaceConfiguration spamValidFromPlaceConfigurationAssemble = assembleSpamValidFromPlaceConfiguration(spamValidFromPlaceConfiguration, spamValidCustomConfiguration);
+        SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfigurationAssemble = assembleSpamTrafficFromAdGroupConfiguration(spamTrafficFromAdGroupConfiguration, spamTrafficFromAdGroupCustomConfiguration);
 
         configuration.setSkuList(inputConfigurationDetail.getSkuList());
         configuration.setHubIdList(inputConfigurationDetail.getHubIdList());
@@ -176,8 +190,41 @@ public class Processor {
         configuration.setSpamTrafficFromPlaceConfiguration(spamTrafficFromPlaceConfigurationAssemble);
         configuration.setSpamValidFromPlaceConfiguration(spamValidFromPlaceConfigurationAssemble);
         configuration.setHubPortfolioIdList(inputConfigurationDetail.getHubPortfolioIdList());
-        configuration.setSpamTrafficFromAdGroupConfiguration(spamTrafficFromAdGroupConfiguration);
+        configuration.setSpamTrafficFromAdGroupConfiguration(spamTrafficFromAdGroupConfigurationAssemble);
         return configuration;
+    }
+
+    private SpamTrafficFromAdGroupConfiguration assembleSpamTrafficFromAdGroupConfiguration(SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfiguration, JSONObject spamTrafficFromAdGroupCustomConfiguration) {
+        Integer nearlyDays = null == spamTrafficFromAdGroupCustomConfiguration ? null : spamTrafficFromAdGroupCustomConfiguration.getInteger("广告活动入口，控制长期垃圾流量的天数");
+        Double spendsLimit = null == spamTrafficFromAdGroupCustomConfiguration ? null : spamTrafficFromAdGroupCustomConfiguration.getDouble("广告活动花费临界数");
+
+        for(SpamTrafficFromAdGroupDetail spamTrafficFromAdGroupDetail : spamTrafficFromAdGroupConfiguration.getSpamTrafficFromAdGroupDetailList()) {
+            if(null != nearlyDays) {
+                spamTrafficFromAdGroupDetail.getSpamTrafficFromAdGroupSearchCondition().setDaysLargerThan(nearlyDays - 1);
+                spamTrafficFromAdGroupDetail.getSpamTrafficFromAdGroupSearchCondition().setDaysSmallerThan(0);
+
+                for(SpamTrafficFromAdGroupDoOperationAction spamTrafficFromAdGroupDoOperationAction : spamTrafficFromAdGroupDetail.getAutoSpamTrafficFromAdGroupDoOperation().getDoOperationActionList()) {
+                    spamTrafficFromAdGroupDoOperationAction.getSpamTrafficFromAdGroupDoOperationSearch().setDaysLargerThan(nearlyDays - 1);
+                    spamTrafficFromAdGroupDoOperationAction.getSpamTrafficFromAdGroupDoOperationSearch().setDaysSmallerThan(0);
+                }
+                for(SpamTrafficFromAdGroupDoOperationAction spamTrafficFromAdGroupDoOperationAction : spamTrafficFromAdGroupDetail.getAsinSpamTrafficFromAdGroupDoOperation().getDoOperationActionList()) {
+                    spamTrafficFromAdGroupDoOperationAction.getSpamTrafficFromAdGroupDoOperationSearch().setDaysLargerThan(nearlyDays - 1);
+                    spamTrafficFromAdGroupDoOperationAction.getSpamTrafficFromAdGroupDoOperationSearch().setDaysSmallerThan(0);
+                }
+                for(SpamTrafficFromAdGroupDoOperationAction spamTrafficFromAdGroupDoOperationAction : spamTrafficFromAdGroupDetail.getKeySpamTrafficFromAdGroupDoOperation().getDoOperationActionList()) {
+                    spamTrafficFromAdGroupDoOperationAction.getSpamTrafficFromAdGroupDoOperationSearch().setDaysLargerThan(nearlyDays - 1);
+                    spamTrafficFromAdGroupDoOperationAction.getSpamTrafficFromAdGroupDoOperationSearch().setDaysSmallerThan(0);
+                }
+                for(SpamTrafficFromAdGroupDoOperationAction spamTrafficFromAdGroupDoOperationAction : spamTrafficFromAdGroupDetail.getCategorySpamTrafficFromAdGroupDoOperation().getDoOperationActionList()) {
+                    spamTrafficFromAdGroupDoOperationAction.getSpamTrafficFromAdGroupDoOperationSearch().setDaysLargerThan(nearlyDays - 1);
+                    spamTrafficFromAdGroupDoOperationAction.getSpamTrafficFromAdGroupDoOperationSearch().setDaysSmallerThan(0);
+                }
+            }
+            if(null != spendsLimit && null != spamTrafficFromAdGroupDetail.getSpamTrafficFromAdGroupSearchCondition().getSpendLargerThan()) {
+                spamTrafficFromAdGroupDetail.getSpamTrafficFromAdGroupSearchCondition().setSpendLargerThan(spendsLimit);
+            }
+        }
+        return spamTrafficFromAdGroupConfiguration;
     }
 
     private SpamValidFromPlaceConfiguration assembleSpamValidFromPlaceConfiguration(SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration, JSONObject spamValidFromPlaceCustomConfiguration) {

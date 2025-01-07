@@ -17,6 +17,7 @@ public class FilePath {
     public static String spamValidFromPlaceConfiguration = "src/main/resources/SpamValidFromPlaceConfiguration.txt";
     public static String spamValidFromPlaceConfigurationCustom = "src/main/resources/有效流量配置.txt";
     public static String spamTrafficFromAdGroupConfiguration = "src/main/resources/SpamTrafficFromAdGroupConfiguration.txt";
+    public static String spamTrafficFromAdGroupConfigurationCustom = "src/main/resources/广告活动入口垃圾流量配置.txt";
 
 //    public static String inputConfigurationToken = "InputConfigurationToken.txt";
 //    public static String inputConfigurationDetail = "InputConfigurationDetail.txt";
@@ -28,4 +29,5 @@ public class FilePath {
 //    public static String spamValidFromPlaceConfiguration = "SpamValidFromPlaceConfiguration.txt";
 //    public static String spamValidFromPlaceConfigurationCustom = "有效流量配置.txt";
 //    public static String spamTrafficFromAdGroupConfiguration = "SpamTrafficFromAdGroupConfiguration.txt";
+//    public static String spamTrafficFromAdGroupConfigurationCustom = "广告活动入口垃圾流量配置.txt";
 }
