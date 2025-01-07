@@ -42,6 +42,17 @@ public class SpamTrafficFromAdGroupAction extends AbstractSpamControlAction {
             for(SpamTrafficFromAdGroupDetail spamTrafficFromAdGroupDetail : spamTrafficFromAdGroupConfiguration.getSpamTrafficFromAdGroupDetailList()) {
                 // 1. 构建adGroup查询条件
                 AdGroupRequest adGroupRequest = this.buildAdGroupRequest(spamTrafficFromAdGroupDetail.getSpamTrafficFromAdGroupSearchCondition(), hubId, configuration.getHubPortfolioIdList());
+                StringBuilder sb = new StringBuilder();
+                if(CollectionUtils.isNotEmpty(adGroupRequest.getSpends())) {
+                    sb.append("花费处于").append(adGroupRequest.getSpends());
+                }
+                if(CollectionUtils.isNotEmpty(adGroupRequest.getAcos())) {
+                    sb.append("acos处于").append(adGroupRequest.getAcos());
+                }
+                if(CollectionUtils.isNotEmpty(adGroupRequest.getOrders())) {
+                    sb.append("订单处于").append(adGroupRequest.getOrders());
+                }
+                System.out.println("处理" + sb + "开始");
                 // 2. 查询广告组列表
                 List<AdGroup> adGroupList = new AdGroupReadRepository().queryAdGroupList(adGroupRequest, configuration);
                 // 3. 根据广告组信息做for循环处理
@@ -56,7 +67,7 @@ public class SpamTrafficFromAdGroupAction extends AbstractSpamControlAction {
                     }
                     if(needHandle(adGroup, adGroupType, configuration)) {
                         // 4. 处理每个广告组
-                        System.out.println(String.format("handle adGroup=%s, adGroupType=%s", adGroup.getName(), adGroupType.getDesc()));
+                        System.out.println(String.format("handle adGroup=%s, adGroupType=%s, 查询条件=%s", adGroup.getName(), adGroupType.getDesc(), sb));
                         SpamTrafficFromAdGroupDoOperation spamTrafficFromAdGroupDoOperation = null;
                         // 5. 构建投放入口的查询条件
                         switch (adGroupType) {
@@ -89,6 +100,7 @@ public class SpamTrafficFromAdGroupAction extends AbstractSpamControlAction {
 
                     }
                 }
+                System.out.println("处理" + sb + "结束");
             }
             System.out.println(String.format("hub=%s,处理完毕", hubId));
         }
@@ -107,22 +119,32 @@ public class SpamTrafficFromAdGroupAction extends AbstractSpamControlAction {
         } else {
             bidNow = adPlacement.getReal_bid();
         }
-
         double cpc = Double.parseDouble(adPlacement.getCpc());
+        String adPlacementName = null;
+        switch (adGroupType) {
+            case KEY_AD_GROUP:
+                adPlacementName = adPlacement.getKeyword_text();
+                break;
+            case AUTO_AD_GROUP:
+            case ASIN_AD_GROUP:
+            case CATEGORY_AD_GROUP:
+                adPlacementName = adPlacement.getTargeting_text_zh();
+                break;
+        }
         switch (spamTrafficFromAdGroupOperateType) {
             case NO_OPERATE:
-                System.out.println(String.format("  不操作, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,",adPlacement.getAd_group_name(),bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                System.out.println(String.format("  不操作, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,",adPlacementName,bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
             case CLOSE:
-                doClose(configuration, adPlacement, adGroupType, hubId, bidNow);
+                doClose(configuration, adPlacement, adGroupType, hubId, bidNow, adPlacementName);
                 return;
             case CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE:
                 double bidChangeToB = Math.max(cpc - action.getAcosMultiplyValue() * ((int)Math.ceil(Double.parseDouble(adPlacement.getAcos())/10) - action.getAcosSubtractValue()), action.getLagerThanValue());
                 BigDecimal bdB = new BigDecimal(bidChangeToB);
                 bidChangeToB = bdB.setScale(2, RoundingMode.HALF_UP).doubleValue();
                 if(bidNow <= bidChangeToB) {
-                    System.out.println(String.format("  bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeToB,adPlacement.getAd_group_name(),bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeToB,adPlacementName,bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                 }else {
-                    doChangeBid(configuration, bidChangeToB, adPlacement, adGroupType, hubId, bidNow);
+                    doChangeBid(configuration, bidChangeToB, adPlacement, adGroupType, hubId, bidNow, adPlacementName);
                 }
                 break;
             case CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE:
@@ -130,9 +152,9 @@ public class SpamTrafficFromAdGroupAction extends AbstractSpamControlAction {
                 BigDecimal bd = new BigDecimal(bidChangeTo);
                 bidChangeTo = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
                 if(bidNow <= bidChangeTo) {
-                    System.out.println(String.format("  bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeTo,adPlacement.getAd_group_name(),bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeTo,adPlacementName,bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                 }else {
-                    doChangeBid(configuration, bidChangeTo, adPlacement, adGroupType, hubId, bidNow);
+                    doChangeBid(configuration, bidChangeTo, adPlacement, adGroupType, hubId, bidNow, adPlacementName);
                 }
                 return;
             case BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE:
@@ -140,15 +162,15 @@ public class SpamTrafficFromAdGroupAction extends AbstractSpamControlAction {
                 BigDecimal bdC = new BigDecimal(bidChangeToC);
                 bidChangeToC = bdC.setScale(2, RoundingMode.HALF_UP).doubleValue();
                 if(bidNow <= bidChangeToC) {
-                    System.out.println(String.format("  bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeToC,adPlacement.getAd_group_name(),bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeToC,adPlacementName,bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                 }else {
-                    doChangeBid(configuration, bidChangeToC, adPlacement, adGroupType, hubId, bidNow);
+                    doChangeBid(configuration, bidChangeToC, adPlacement, adGroupType, hubId, bidNow, adPlacementName);
                 }
                 return;
         }
     }
 
-    private void doClose(Configuration configuration, AdPlacement adPlacement, AdGroupType adGroupType, Long hubId, Double bidNow) {
+    private void doClose(Configuration configuration, AdPlacement adPlacement, AdGroupType adGroupType, Long hubId, Double bidNow, String adPlacementName) {
         if(!configuration.isDoSimulation()) {
             AdWriteRepository adWriteRepository = new AdWriteRepository();
             AdPlacementPauseRequest adPlacementPauseRequest = new AdPlacementPauseRequest();
@@ -158,33 +180,33 @@ public class SpamTrafficFromAdGroupAction extends AbstractSpamControlAction {
                     adPlacementPauseRequest.setTargetId(adPlacement.getTarget_id());
                     adPlacementPauseRequest.setProfileId(hubId);
                     operateResult = adWriteRepository.doAdPlacementOperatePause(adPlacementPauseRequest, configuration, AdGroupType.AUTO_AD_GROUP);
-                    System.out.println(String.format("  关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacement.getAd_group_name(),bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacementName,bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                     return;
                 case ASIN_AD_GROUP:
                     adPlacementPauseRequest.setTargetId(adPlacement.getTarget_id());
                     adPlacementPauseRequest.setProfileId(hubId);
                     operateResult = adWriteRepository.doAdPlacementOperatePause(adPlacementPauseRequest, configuration, AdGroupType.ASIN_AD_GROUP);
-                    System.out.println(String.format("  关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacement.getAd_group_name(),bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacementName,bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                     return;
                 case CATEGORY_AD_GROUP:
                     adPlacementPauseRequest.setTargetId(adPlacement.getTarget_id());
                     adPlacementPauseRequest.setProfileId(hubId);
                     operateResult = adWriteRepository.doAdPlacementOperatePause(adPlacementPauseRequest, configuration, AdGroupType.CATEGORY_AD_GROUP);
-                    System.out.println(String.format("  关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacement.getAd_group_name(),bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacementName,bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                     return;
                 case KEY_AD_GROUP:
                     adPlacementPauseRequest.setProfileId(hubId);
                     adPlacementPauseRequest.setKeywordId(adPlacement.getKeyword_id());
                     operateResult = adWriteRepository.doAdPlacementOperatePause(adPlacementPauseRequest, configuration, AdGroupType.KEY_AD_GROUP);
-                    System.out.println(String.format("  关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacement.getAd_group_name(),bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  关闭,真实操作结果=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacementName,bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                     return;
             }
         } else {
-            System.out.println(String.format("  关闭,仿真, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,",adPlacement.getAd_group_name(),bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+            System.out.println(String.format("  关闭,仿真, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,",adPlacementName,bidNow,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
         }
     }
 
-    private void doChangeBid(Configuration configuration, Double bidChangeTo, AdPlacement adPlacement, AdGroupType adGroupType, Long hubId, Double bidNow) {
+    private void doChangeBid(Configuration configuration, Double bidChangeTo, AdPlacement adPlacement, AdGroupType adGroupType, Long hubId, Double bidNow, String adPlacementName) {
         if(!configuration.isDoSimulation()) {
             AdWriteRepository adWriteRepository = new AdWriteRepository();
             AdPlacementChangeBidRequest adPlacementChangeBidRequest = new AdPlacementChangeBidRequest();
@@ -195,32 +217,32 @@ public class SpamTrafficFromAdGroupAction extends AbstractSpamControlAction {
                     adPlacementChangeBidRequest.setTargetId(adPlacement.getTarget_id());
                     adPlacementChangeBidRequest.setProfileId(hubId);
                     operateResult = adWriteRepository.doAdPlacementOperateChangeBid(adPlacementChangeBidRequest, configuration, AdGroupType.AUTO_AD_GROUP);
-                    System.out.println(String.format("  变更bid,真实操作结果=%s, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacement.getAd_group_name(),bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  变更bid,真实操作结果=%s, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacementName,bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                     return;
                 case ASIN_AD_GROUP:
                     adPlacementChangeBidRequest.setBid(bidChangeTo);
                     adPlacementChangeBidRequest.setTargetId(adPlacement.getTarget_id());
                     adPlacementChangeBidRequest.setProfileId(hubId);
                     operateResult = adWriteRepository.doAdPlacementOperateChangeBid(adPlacementChangeBidRequest, configuration, AdGroupType.ASIN_AD_GROUP);
-                    System.out.println(String.format("  变更bid,真实操作结果=%s, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacement.getAd_group_name(),bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  变更bid,真实操作结果=%s, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacementName,bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                     return;
                 case CATEGORY_AD_GROUP:
                     adPlacementChangeBidRequest.setBid(bidChangeTo);
                     adPlacementChangeBidRequest.setTargetId(adPlacement.getTarget_id());
                     adPlacementChangeBidRequest.setProfileId(hubId);
                     operateResult = adWriteRepository.doAdPlacementOperateChangeBid(adPlacementChangeBidRequest, configuration, AdGroupType.CATEGORY_AD_GROUP);
-                    System.out.println(String.format("  变更bid,真实操作结果=%s, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacement.getAd_group_name(),bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  变更bid,真实操作结果=%s, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacementName,bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                     return;
                 case KEY_AD_GROUP:
                     adPlacementChangeBidRequest.setBid(bidChangeTo);
                     adPlacementChangeBidRequest.setProfileId(hubId);
                     adPlacementChangeBidRequest.setKeywordId(adPlacement.getKeyword_id());
                     operateResult = adWriteRepository.doAdPlacementOperateChangeBid(adPlacementChangeBidRequest, configuration, AdGroupType.KEY_AD_GROUP);
-                    System.out.println(String.format("  变更bid,真实操作结果=%s, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacement.getAd_group_name(),bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+                    System.out.println(String.format("  变更bid,真实操作结果=%s, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operateResult,adPlacementName,bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
                     return;
             }
         } else {
-            System.out.println(String.format("  变更bid,仿真, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", adPlacement.getAd_group_name(),bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
+            System.out.println(String.format("  变更bid,仿真, 名称=%s,bid=%s,bid变更后=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", adPlacementName,bidNow,bidChangeTo,adPlacement.getCpc(),adPlacement.getAcos(),adPlacement.getClicks(),adPlacement.getOrders()));
         }
     }
 
@@ -237,8 +259,8 @@ public class SpamTrafficFromAdGroupAction extends AbstractSpamControlAction {
         }
         List<Long> orders = new ArrayList<>();
         if(null != search.getOrdersLargerThan() || null != search.getOrdersSmallerThan()) {
-            clicks.add(search.getOrdersLargerThan());
-            clicks.add(search.getOrdersSmallerThan());
+            orders.add(search.getOrdersLargerThan());
+            orders.add(search.getOrdersSmallerThan());
         }
 
         AdPlacementRequest adPlacementRequest = new AdPlacementRequest();
