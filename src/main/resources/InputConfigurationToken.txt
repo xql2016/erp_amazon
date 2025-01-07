@@ -1,5 +1,5 @@
 {
-    "cookie": "amzbi=kwCA0hn7KbhRl3nM9tpsueIhUyK397uq1ZAYFau6",
-    "token": "vozEeYoo9DTAGrsawC3SeKaH6y0MxYoMLxvhtwHL",
+    "cookie": "amzbi=2TLg3QEmLqq4dZRHInmV1vMb9uvyuyHypNX5SDXZ",
+    "token": "gujKfA6suI1hrVK8smXTVNHm1kA4ex0C7SAtsISr",
     "doSimulation": true
 }

@@ -1,0 +1,494 @@
+{
+    "spamTrafficFromAdGroupDetailList": [
+        {
+            "spamTrafficFromAdGroupSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "portfolioIdList": [
+                    208410301142303
+                ],
+                "ordersSmallerThan": 0,
+                "spendLargerThan": 5
+            },
+            "autoSpamTrafficFromAdGroupDoOperation": {
+                "doOperationActionList": [
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 20
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                            "changeToValue": 0.02,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 10,
+                            "clicksSmallerThan": 19
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 9,
+                            "clickMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 1,
+                            "clicksSmallerThan": 9
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 0,
+                            "clickMultiplyValue": 0,
+                            "lagerThanValue": 0.02
+                        }
+                    }
+                ]
+            },
+            "categorySpamTrafficFromAdGroupDoOperation": {
+                "doOperationActionList": [
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 20
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                            "changeToValue": 0.02,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 10,
+                            "clicksSmallerThan": 19
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 9,
+                            "clickMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 1,
+                            "clicksSmallerThan": 9
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 0,
+                            "clickMultiplyValue": 0,
+                            "lagerThanValue": 0.02
+                        }
+                    }
+                ]
+            },
+            "keySpamTrafficFromAdGroupDoOperation": {
+                "doOperationActionList": [
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 10
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CLOSE"
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 5,
+                            "clicksSmallerThan": 9
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 4,
+                            "clickMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 1,
+                            "clicksSmallerThan": 4
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 0,
+                            "clickMultiplyValue": 0,
+                            "lagerThanValue": 0.02
+                        }
+                    }
+                ]
+            },
+            "asinSpamTrafficFromAdGroupDoOperation": {
+                "doOperationActionList": [
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 10
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CLOSE"
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 5,
+                            "clicksSmallerThan": 9
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 4,
+                            "clickMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "clicksLargerThan": 1,
+                            "clicksSmallerThan": 4
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 0,
+                            "clickMultiplyValue": 0,
+                            "lagerThanValue": 0.02
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "spamTrafficFromAdGroupSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "portfolioIdList": [
+                    208410301142303
+                ],
+                "ordersLargerThan": 1,
+                "acosLargerThan": 40
+            },
+            "autoSpamTrafficFromAdGroupDoOperation": {
+                "doOperationActionList": [
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 20
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                            "changeToValue": 0.02,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 10,
+                            "clicksSmallerThan": 19
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 9,
+                            "clickMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 1,
+                            "clicksSmallerThan": 9
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 0,
+                            "clickMultiplyValue": 0,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersLargerThan": 1,
+                            "acosLargerThan": 40,
+                            "acosSmallerThan": 100
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "acosSubtractValue": 4,
+                            "acosMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersLargerThan": 1,
+                            "acosLargerThan": 100
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                            "changeToValue": 0.1,
+                            "lagerThanValue": 0.1
+                        }
+                    }
+                ]
+            },
+            "categorySpamTrafficFromAdGroupDoOperation": {
+                "doOperationActionList": [
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 20
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                            "changeToValue": 0.02,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 10,
+                            "clicksSmallerThan": 19
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 9,
+                            "clickMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 1,
+                            "clicksSmallerThan": 9
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 0,
+                            "clickMultiplyValue": 0,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersLargerThan": 1,
+                            "acosLargerThan": 40,
+                            "acosSmallerThan": 100
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "acosSubtractValue": 4,
+                            "acosMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersLargerThan": 1,
+                            "acosLargerThan": 100
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                            "changeToValue": 0.1,
+                            "lagerThanValue": 0.1
+                        }
+                    }
+                ]
+            },
+            "keySpamTrafficFromAdGroupDoOperation": {
+                "doOperationActionList": [
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 10
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CLOSE"
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 5,
+                            "clicksSmallerThan": 9
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 4,
+                            "clickMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 1,
+                            "clicksSmallerThan": 4
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 0,
+                            "clickMultiplyValue": 0,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersLargerThan": 1,
+                            "acosLargerThan": 40,
+                            "acosSmallerThan": 100
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "acosSubtractValue": 4,
+                            "acosMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersLargerThan": 1,
+                            "acosLargerThan": 100
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                            "changeToValue": 0.1,
+                            "lagerThanValue": 0.1
+                        }
+                    }
+                ]
+            },
+            "asinSpamTrafficFromAdGroupDoOperation": {
+                "doOperationActionList": [
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 10
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CLOSE"
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 5,
+                            "clicksSmallerThan": 9
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 4,
+                            "clickMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersSmallerThan": 0,
+                            "clicksLargerThan": 1,
+                            "clicksSmallerThan": 4
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "clickSubtractValue": 0,
+                            "clickMultiplyValue": 0,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersLargerThan": 1,
+                            "acosLargerThan": 40,
+                            "acosSmallerThan": 100
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                            "acosSubtractValue": 4,
+                            "acosMultiplyValue": 0.01,
+                            "lagerThanValue": 0.02
+                        }
+                    },
+                    {
+                        "spamTrafficFromAdGroupDoOperationSearch": {
+                            "daysLargerThan": 29,
+                            "daysSmallerThan": 0,
+                            "ordersLargerThan": 1,
+                            "acosLargerThan": 100
+                        },
+                        "spamTrafficFromAdGroupDoOperationDetail": {
+                            "spamTrafficAdGroupOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                            "changeToValue": 0.1,
+                            "lagerThanValue": 0.1
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

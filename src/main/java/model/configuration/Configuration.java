@@ -1,6 +1,7 @@
 package model.configuration;
 
 import lombok.Data;
+import model.configuration.spamTrafficFromAdGroup.SpamTrafficFromAdGroupConfiguration;
 import model.configuration.spamTrafficFromPlace.SpamTrafficFromPlaceConfiguration;
 import model.configuration.spamValidFromPlace.SpamValidFromPlaceConfiguration;
 import model.configuration.spamValidFromPlace.SpamValidFromPlaceDoOperation;
@@ -45,6 +46,8 @@ public class Configuration {
     private SpamTrafficFromPlaceConfiguration spamTrafficFromPlaceConfiguration; // 垃圾流量控制
 
     private SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration; // 有效流量控制
+
+    private SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfiguration; // 垃圾流量控制-来源广告组
 
     private List<HubPortfolioId> hubPortfolioIdList;
 

@@ -36,6 +36,8 @@ public class AdPlacement {
 
     private String bid;
 
+    private Double real_bid;
+
     private String campaign_id;
 
     private String campaign_name;

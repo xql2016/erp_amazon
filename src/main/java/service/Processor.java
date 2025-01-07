@@ -2,6 +2,7 @@ package service;
 
 import com.alibaba.fastjson.JSONObject;
 import model.configuration.*;
+import model.configuration.spamTrafficFromAdGroup.SpamTrafficFromAdGroupConfiguration;
 import model.configuration.spamTrafficFromPlace.SpamTrafficFromPlaceConfiguration;
 import model.configuration.spamTrafficFromPlace.SpamTrafficFromPlaceDoOperationAction;
 import model.configuration.spamTrafficFromPlace.SpamTrafficFromPlaceDoOperationCompare;
@@ -25,6 +26,7 @@ import model.strategy.oldAdStrategy.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import service.adControl.*;
+import service.spamControl.SpamTrafficFromAdGroupAction;
 import service.spamControl.SpamTrafficFromPlaceAction;
 import service.spamControl.SpamValidFromPlaceAction;
 import tools.FileUtils;
@@ -77,7 +79,9 @@ public class Processor {
         JSONObject spamTrafficCustomConfiguration = loadSpamTrafficCustomConfiguration();
         SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration = loadSpamValidConfiguration();
         JSONObject spamValidCustomConfiguration = loadSpamValidCustomConfiguration();
-        return assembleConfiguration(inputConfigurationToken, inputConfigurationDetail, spamTrafficFromPlaceConfiguration, spamTrafficCustomConfiguration, spamValidFromPlaceConfiguration, spamValidCustomConfiguration);
+        SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfiguration = loadSpamTrafficFromAdGroupConfiguration();
+        // todo
+        return assembleConfiguration(inputConfigurationToken, inputConfigurationDetail, spamTrafficFromPlaceConfiguration, spamTrafficCustomConfiguration, spamValidFromPlaceConfiguration, spamValidCustomConfiguration, spamTrafficFromAdGroupConfiguration);
     }
 
     private InputConfigurationToken loadInputConfigurationToken() {
@@ -110,7 +114,17 @@ public class Processor {
         return JSONObject.parseObject(str, SpamTrafficFromPlaceConfiguration.class);
     }
 
-    private Configuration assembleConfiguration(InputConfigurationToken inputConfigurationToken, InputConfigurationDetail inputConfigurationDetail, SpamTrafficFromPlaceConfiguration spamTrafficFromPlaceConfiguration, JSONObject spamTrafficCustomConfiguration, SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration, JSONObject spamValidCustomConfiguration) {
+    private SpamTrafficFromAdGroupConfiguration loadSpamTrafficFromAdGroupConfiguration() {
+        try {
+            String str = FileUtils.loadFile(FilePath.spamTrafficFromAdGroupConfiguration);
+            return JSONObject.parseObject(str, SpamTrafficFromAdGroupConfiguration.class);
+        }catch (Exception e) {
+            System.out.println("loadSpamTrafficFromAdGroupConfiguration error");
+            return null;
+        }
+    }
+
+    private Configuration assembleConfiguration(InputConfigurationToken inputConfigurationToken, InputConfigurationDetail inputConfigurationDetail, SpamTrafficFromPlaceConfiguration spamTrafficFromPlaceConfiguration, JSONObject spamTrafficCustomConfiguration, SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration, JSONObject spamValidCustomConfiguration, SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfiguration) {
         if(null == inputConfigurationToken || null == inputConfigurationDetail) {
             return null;
         }
@@ -162,6 +176,7 @@ public class Processor {
         configuration.setSpamTrafficFromPlaceConfiguration(spamTrafficFromPlaceConfigurationAssemble);
         configuration.setSpamValidFromPlaceConfiguration(spamValidFromPlaceConfigurationAssemble);
         configuration.setHubPortfolioIdList(inputConfigurationDetail.getHubPortfolioIdList());
+        configuration.setSpamTrafficFromAdGroupConfiguration(spamTrafficFromAdGroupConfiguration);
         return configuration;
     }
 
@@ -500,6 +515,7 @@ public class Processor {
         abstractionActionList.add(new OldAdControlAdControlAction());
         abstractionActionList.add(new SpamTrafficFromPlaceAction());
         abstractionActionList.add(new SpamValidFromPlaceAction());
+        abstractionActionList.add(new SpamTrafficFromAdGroupAction());
         return abstractionActionList;
     }
 }

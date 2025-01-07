@@ -2091,7 +2091,7 @@
 
     ],
     "executeActionCodeList": [
-        "SpamTrafficFromPlace"
+        "SpamTrafficFromAdGroup"
     ],
     "hubIdList": [
         1769812645248266
