@@ -22,4 +22,11 @@ public class NumberUtils {
         }
         return val.toString();
     }
+
+    public static Double parseDouble(String str) {
+        if(null == str || StringUtils.isBlank(str) || "null".equalsIgnoreCase(str)) {
+            return null;
+        }
+        return Double.parseDouble(str);
+    }
 }

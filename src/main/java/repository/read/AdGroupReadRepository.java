@@ -10,6 +10,7 @@ import model.response.AdGroup;
 import model.response.AdGroupPageResult;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import tools.HttpUtils;
 
@@ -27,6 +28,33 @@ import java.util.stream.Collectors;
  * @since 2024/8/29
  */
 public class AdGroupReadRepository {
+
+    @SneakyThrows
+    public AdGroupPageResult queryAdGroupSimpleInfoList(String cookie, String token, List<Long> hubIdList) {
+        String url = "https://ads.lingxing.com/ad_report/suggestion/power_ad_group/portfolios";
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Accept", "application/json, text/javascript, */*; q=0.01");
+        header.put("Accept-Language", "zh-CN,zh;q=0.9");
+        header.put("Connection", "keep-alive");
+        header.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        header.put("Origin", "https://ads.lingxing.com");
+        header.put("Sec-Fetch-Site", "same-origin");
+        header.put("X-AK-Company-Id", "901303884196873728");
+        header.put("X-CSRF-TOKEN", token);
+        header.put("Cookie", cookie);
+
+        AdGroupRequest adGroupRequest = new AdGroupRequest();
+        adGroupRequest.setProfile_ids(hubIdList);
+        String result = HttpUtils.doPost(url, header, adGroupRequest, 10000, 10000, 5000);
+        if(CommonConstant.HTTP_ERROR.equalsIgnoreCase(result)) {
+            throw new Exception(ErrorMessage.HTTP_ERROR);
+        }
+        if(CommonConstant.INVALID_TOKEN.equalsIgnoreCase(result)) {
+            throw new Exception(ErrorMessage.TOKEN_INVALID);
+        }
+        return convertToAdGroupPageResult(result);
+    }
+
 
     // 分页查询广告组列表
     private AdGroupPageResult pageQueryAdGroup(AdGroupRequest adGroupRequest, Configuration configuration) throws Exception{
@@ -49,7 +77,7 @@ public class AdGroupReadRepository {
         if(CommonConstant.INVALID_TOKEN.equalsIgnoreCase(result)) {
             throw new Exception(ErrorMessage.TOKEN_INVALID);
         }
-        return JSONObject.parseObject(result, AdGroupPageResult.class);
+        return convertToAdGroupPageResult(result);
     }
 
     @SneakyThrows
@@ -103,7 +131,7 @@ public class AdGroupReadRepository {
         if(CommonConstant.INVALID_TOKEN.equalsIgnoreCase(result)) {
             throw new Exception(ErrorMessage.TOKEN_INVALID);
         }
-        return JSONObject.parseObject(result, AdGroupPageResult.class);
+        return convertToAdGroupPageResult(result);
     }
 
     @SneakyThrows
@@ -135,5 +163,13 @@ public class AdGroupReadRepository {
         }
         result = result.stream().filter(it -> StringUtils.isNotBlank(it.getName())).collect(Collectors.toList());
         return result.get(0);
+    }
+
+    private AdGroupPageResult convertToAdGroupPageResult(String str) {
+        AdGroupPageResult adGroupPageResult = JSONObject.parseObject(str, AdGroupPageResult.class);
+        if(CollectionUtils.isNotEmpty(adGroupPageResult.getData())) {
+            adGroupPageResult.getData().forEach(it -> it.setName(StringEscapeUtils.unescapeJava(it.getName())));
+        }
+        return adGroupPageResult;
     }
 }

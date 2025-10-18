@@ -10,7 +10,9 @@ import lombok.Data;
 @Data
 public class AdGroup {
 
-    private String profile_id;
+    private String profile_id; // hub id
+
+    private Long portfolio_id; // 广告组id
 
     private String campaign_id; // 广告组id
 
@@ -117,4 +119,9 @@ public class AdGroup {
      * bid
      */
     private String default_bid;
+
+    /**
+     * 广告订单
+     */
+    private Long orders;
 }

@@ -1,6 +1,5 @@
 package tools;
 
-import lombok.extern.slf4j.Slf4j;
 import model.enums.AdGroupType;
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0
  * @since 2024/9/2
  */
-//@Slf4j
 public class AdUtils {
 
     public static AdGroupType getAdGroupType(String adGroupName) {

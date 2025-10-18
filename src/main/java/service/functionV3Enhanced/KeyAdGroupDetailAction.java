@@ -1,0 +1,57 @@
+package service.functionV3Enhanced;
+
+import model.configuration.Configuration;
+import model.enums.AdGroupType;
+import model.request.AdGroupRequest;
+import model.response.AdGroup;
+import repository.read.AdGroupReadRepository;
+import tools.AdGroupUtils;
+import tools.DateUtils;
+import tools.NumberUtils;
+
+public class KeyAdGroupDetailAction {
+
+    // 昨天点击=0，点进去前天广告数据
+    // 前天点击数≤1
+    //      广告组竞价≤0.3，广告组竞价调高0.02
+    //      广告组竞价＞0.3，不做处理
+    // 前天点击数＞1，不做处理
+    // 昨天点击>0，不做处理
+    public void executeAdGroupDetail(AdGroup adGroup, AdGroupType adGroupType, Configuration configuration) {
+        // 1. 查看广告组昨天的的数据
+        AdGroupRequest d1AdGroupRequest = new AdGroupRequest();
+        d1AdGroupRequest.setReport_date(DateUtils.buildReportDateString(1,1));
+        d1AdGroupRequest.setProfile_id(Long.parseLong(adGroup.getProfile_id()));
+        d1AdGroupRequest.setCampaign_id(Long.parseLong(adGroup.getCampaign_id()));
+        AdGroup d1AdGroup = new AdGroupReadRepository().queryAdGroupListInAdGroupPage(d1AdGroupRequest, configuration);
+        if(d1AdGroup.getClicks() > 0) {
+            // 打日志,不做处理
+            System.out.println(String.format("    当前广告组昨天点击>0,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s", adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks()));
+            return;
+        }
+        // 2. 查看广告组前天的数据
+        AdGroupRequest d2AdGroupRequest = new AdGroupRequest();
+        d2AdGroupRequest.setReport_date(DateUtils.buildReportDateString(2,2));
+        d2AdGroupRequest.setProfile_id(Long.parseLong(adGroup.getProfile_id()));
+        d2AdGroupRequest.setCampaign_id(Long.parseLong(adGroup.getCampaign_id()));
+        AdGroup d2AdGroup = new AdGroupReadRepository().queryAdGroupListInAdGroupPage(d2AdGroupRequest, configuration);
+        if(d2AdGroup.getClicks() > 1) {
+            // 打日志,不做处理
+            System.out.println(String.format("    当前广告组昨天点击=0且前天点击>1,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s, 前天曝光=%s, 前天点击=%s", adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks(), d2AdGroup.getImpressions(), d2AdGroup.getClicks()));
+            return;
+        }
+        Double bidValue = NumberUtils.parseDouble(adGroup.getDefault_bid());
+        if(null == bidValue|| bidValue > 0.4) {
+            // 打日志,不做处理
+            System.out.println(String.format("    当前广告组昨天点击=0且前天点击>1且bid大于0.4,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s, 前天曝光=%s, 前天点击=%s, bid=%s", adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks(), d2AdGroup.getImpressions(), d2AdGroup.getClicks(), bidValue));
+            return;
+        }
+        if(bidValue > 0.3) {
+            // 昨天和今天有变更日志则不处理
+            new AdGroupUtils().addBidWithLog(adGroup, adGroupType, bidValue + 0.01, configuration, 1);
+        } else {
+            // 昨天和今天有变更日志则不处理
+            new AdGroupUtils().addBidWithLog(adGroup, adGroupType, bidValue + 0.02, configuration, 1);
+        }
+    }
+}

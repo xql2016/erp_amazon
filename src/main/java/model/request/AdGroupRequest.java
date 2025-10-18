@@ -38,4 +38,8 @@ public class AdGroupRequest extends PageRequest {
     private List<String> name;
 
     private List<String> sku;
+
+    private List<Long> clicks;
+
+    private List<String> countries;
 }

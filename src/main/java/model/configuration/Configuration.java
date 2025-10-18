@@ -1,15 +1,10 @@
 package model.configuration;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
-import model.configuration.spamTrafficFromAdGroup.SpamTrafficFromAdGroupConfiguration;
-import model.configuration.spamTrafficFromPlace.SpamTrafficFromPlaceConfiguration;
-import model.configuration.spamValidFromPlace.SpamValidFromPlaceConfiguration;
-import model.configuration.spamValidFromPlace.SpamValidFromPlaceDoOperation;
-import model.strategy.adControl.AdControlStrategy;
-import model.strategy.newAdControl.NewAdControlStrategy;
-import model.strategy.oldAdStrategy.OldAdControlStrategy;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:qinglong.xql@cainiao.com">qinglong.xql</a>
@@ -19,36 +14,44 @@ import java.util.List;
 @Data
 public class Configuration {
 
+    /**
+     * cookie
+     */
     private String cookie;
 
+    /**
+     * token
+     */
     private String token;
 
+    /**
+     * doSimulation
+     */
     private boolean doSimulation;
 
+    /**
+     * 执行的操作
+     */
     private List<String> executeActionCodeList;
 
+    /**
+     * 店铺id
+     */
     private List<Long> hubIdList;
 
-    private List<String> skuList;
+    /**
+     * 国家列表
+     */
+    private List<String> countryList;
 
-    private List<String> adGroupNameList;
+    /**
+     * 广告组合ID列表
+     */
+    private List<Long> portfolioIdList;
 
-    private List<AdControlStrategy> adControlStrategyList;
-
-    private List<NewAdControlStrategy> newAdControlStrategyList;
-
-    private List<OldAdControlStrategy> oldAdControlStrategyList;
-
-    private NewAdConfiguration newAdConfiguration;
-
-    private OldAdConfiguration oldAdConfiguration;
-
-    private SpamTrafficFromPlaceConfiguration spamTrafficFromPlaceConfiguration; // 垃圾流量控制
-
-    private SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration; // 有效流量控制
-
-    private SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfiguration; // 垃圾流量控制-来源广告组
-
-    private List<HubPortfolioId> hubPortfolioIdList;
+    /**
+     * 用户自定义的一些策略参数
+     */
+    private JSONObject features;
 
 }
