@@ -13,7 +13,7 @@ import tools.DateUtils;
 
 import java.util.List;
 
-public class AdGroupAction extends AbstractAction {
+public class AdGroupActionV3Common extends AbstractAction {
 
     @Override
     protected void execute(Configuration configuration) throws Exception {

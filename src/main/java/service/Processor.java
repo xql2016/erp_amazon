@@ -2,11 +2,10 @@ package service;
 
 import model.configuration.*;
 import org.apache.commons.collections4.CollectionUtils;
-import service.adControl.*;
 import service.configuration.ConfigurationService;
-import service.spamControl.SpamTrafficFromAdGroupAction;
-import service.spamControl.SpamTrafficFromPlaceAction;
-import service.spamControl.SpamValidFromPlaceAction;
+import service.functionV2.AdGroupActionV2;
+import service.functionV3Common.AdGroupActionV3Common;
+import service.functionV3Enhanced.AdGroupActionV3Enhanced;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +48,9 @@ public class Processor {
 
     private List<AbstractAction> loadAllActionList() {
         List<AbstractAction> abstractionActionList = new ArrayList<>();
-        abstractionActionList.add(new AdControlAdControlAction());
-        abstractionActionList.add(new NewAdControlAdControlAction());
-        abstractionActionList.add(new ExcelExportAdControlAction());
-        abstractionActionList.add(new OldAdControlAdControlAction());
-        abstractionActionList.add(new SpamTrafficFromPlaceAction());
-        abstractionActionList.add(new SpamValidFromPlaceAction());
-        abstractionActionList.add(new SpamTrafficFromAdGroupAction());
+        abstractionActionList.add(new AdGroupActionV2());
+        abstractionActionList.add(new AdGroupActionV3Common());
+        abstractionActionList.add(new AdGroupActionV3Enhanced());
         return abstractionActionList;
     }
 }

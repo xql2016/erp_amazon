@@ -14,7 +14,7 @@ import tools.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdGroupAction extends AbstractAction {
+public class AdGroupActionV2 extends AbstractAction {
 
     @Override
     protected void execute(Configuration configuration) throws Exception {
