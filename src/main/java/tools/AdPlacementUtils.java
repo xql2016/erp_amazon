@@ -73,7 +73,10 @@ public class AdPlacementUtils {
     }
 
     public void addBidWithLog(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, double changeToBid, Configuration configuration, int days) {
-        // todo 如果days里面有变更bid日志则不再变更
+        if(new AdPlacementLogUtils().hasBidOperateLog(adGroup, adGroupType, adPlacement, configuration, days)) {
+            System.out.println(String.format("    近%s天发生过bid操作,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", days + 1, adGroup.getStore_country(), adPlacement.getAd_group_name(), getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+            return;
+        }
         addBid(adGroup, adGroupType, adPlacement, changeToBid, configuration);
     }
 

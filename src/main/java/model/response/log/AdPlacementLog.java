@@ -3,7 +3,7 @@ package model.response.log;
 import lombok.Data;
 
 @Data
-public class AdGroupLog {
+public class AdPlacementLog {
 
     private String created_at; // 2025-10-16 11:47:49
 
