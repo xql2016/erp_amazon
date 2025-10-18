@@ -12,7 +12,10 @@ import java.math.RoundingMode;
 public class AdGroupUtils {
 
     public void addBidWithLog(AdGroup adGroup, AdGroupType adGroupType, double changeToBid, Configuration configuration, int days) {
-        // todo 如果days里面有变更bid日志则不再变更
+        if(new AdGroupLogUtils().hasBidOperateLog(adGroup, adGroupType, configuration, days)) {
+            System.out.println(String.format("    近%s天发生过bid操作,无需变更, country=%s, adGroupName=%s, click=%s, 曝光=%s", days + 1, adGroup.getStore_country(), adGroup.getName(), adGroup.getClicks(), adGroup.getImpressions()));
+            return;
+        }
         addBid(adGroup, adGroupType, changeToBid, configuration);
     }
 
