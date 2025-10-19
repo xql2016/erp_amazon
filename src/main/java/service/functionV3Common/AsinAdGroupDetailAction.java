@@ -71,7 +71,7 @@ public class AsinAdGroupDetailAction {
                         return;
                     } else {
                         // 昨天和今天有变更日志则不处理
-                        new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement,adPlacementBid + 0.02, configuration, 1);
+                        new AdPlacementUtils().addBidWithLog(d2AdGroup, adGroupType, adPlacement,adPlacementBid + 0.02, configuration, 1);
                     }
                 }
             } else {
@@ -86,9 +86,9 @@ public class AsinAdGroupDetailAction {
                     // 投放入口打开
                     new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);
                 } else if(adPlacementAcos > 15) {
-                    new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement,adPlacementCpc - 0.01, configuration, 1);
+                    new AdPlacementUtils().addBidWithLog(d2AdGroup, adGroupType, adPlacement,adPlacementCpc - 0.01, configuration, 1);
                 } else {
-                    new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement,adPlacementCpc, configuration, 1);
+                    new AdPlacementUtils().addBidWithLog(d2AdGroup, adGroupType, adPlacement,adPlacementCpc, configuration, 1);
                 }
             }
         }
