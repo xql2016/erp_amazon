@@ -7,7 +7,12 @@ package model.constant;
  */
 public class FilePath {
 
-    public static String inputConfigurationToken = "src/main/resources/InputConfigurationToken.txt";
-    public static String inputConfigurationDetail = "src/main/resources/InputConfigurationDetail.txt";
-    public static String inputConfigurationCustom = "src/main/resources/InputConfigurationCustom.txt";
+//    public static String inputConfigurationToken = "src/main/resources/InputConfigurationToken.txt";
+//    public static String inputConfigurationDetail = "src/main/resources/InputConfigurationDetail.txt";
+//    public static String inputConfigurationCustom = "src/main/resources/InputConfigurationCustom.txt";
+
+    public static String inputConfigurationToken = "InputConfigurationToken.txt";
+    public static String inputConfigurationDetail = "InputConfigurationDetail.txt";
+    public static String inputConfigurationCustom = "InputConfigurationCustom.txt";
+
 }
