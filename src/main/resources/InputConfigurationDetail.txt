@@ -3,12 +3,12 @@
         "function_v2"
     ],
     "hubIdList" : [
-        4318992733363080
+        2045052115486676
     ],
     "countryList" : [
-        "ES"
-    ]
+        "FR","IT"
+    ],
     "adGroupNameList": [
-        "ABC"
+        "老品"
     ]
 }
