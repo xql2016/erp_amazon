@@ -25,9 +25,9 @@ import java.util.List;
  */
 public class TestRun {
 
-//    public static void main(String[] args) throws Exception {
-//        runAdPlacementLog();
-//    }
+    public static void main(String[] args) throws Exception {
+        runAdPlacementLog();
+    }
 
     private static void runAdPlacementLog() {
         Configuration configuration = new ConfigurationService().loadLocalConfiguration();
@@ -54,7 +54,10 @@ public class TestRun {
                 System.out.println(String.format("not find adGroupType, adGroup.name=%s", adGroup.getName()));
                 continue;
             }
-            if(!adGroupType.equals(AdGroupType.ASIN_AD_GROUP)) {
+            if(!adGroupType.equals(AdGroupType.KEY_AD_GROUP)) {
+                continue;
+            }
+            if(!adGroup.getName().equalsIgnoreCase("ZY202405-LWB006-手动-关键词-BROAD-关键词-刘文斌")) {
                 continue;
             }
             AdGroupRequest request = new AdGroupRequest();
