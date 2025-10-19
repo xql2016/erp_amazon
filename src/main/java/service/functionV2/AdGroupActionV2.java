@@ -52,6 +52,10 @@ public class AdGroupActionV2 extends AbstractAction {
                 System.out.println(String.format("not find adGroupType, adGroup.name=%s", adGroup.getName()));
                 continue;
             }
+            if(!"enabled".equalsIgnoreCase(adGroup.getState())) {
+                System.out.println(String.format("广告组未启用, adGroup.name=%s", adGroup.getName()));
+                continue;
+            }
             // 处理每个广告组
             System.out.println(String.format("handle adGroup=%s, adGroupType=%s", adGroup.getName(), adGroupType.getDesc()));
             executeAdGroupBase(adGroup, adGroupType, configuration);
