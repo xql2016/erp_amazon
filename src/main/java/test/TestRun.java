@@ -25,9 +25,9 @@ import java.util.List;
  */
 public class TestRun {
 
-    public static void main(String[] args) throws Exception {
-        runAdPlacementLog();
-    }
+//    public static void main(String[] args) throws Exception {
+//        runAdPlacementLog();
+//    }
 
     private static void runAdPlacementLog() {
         Configuration configuration = new ConfigurationService().loadLocalConfiguration();
