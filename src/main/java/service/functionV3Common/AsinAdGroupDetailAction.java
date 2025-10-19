@@ -53,7 +53,7 @@ public class AsinAdGroupDetailAction {
         for(AdPlacement adPlacement : adPlacementList) {
             // 第一行统计不做处理
             if(StringUtils.isBlank(adPlacement.getAd_group_name())) {
-                return;
+                continue;
             }
             if(adPlacement.getOrders() <= 0) {
                 // 投放入口无广告订单

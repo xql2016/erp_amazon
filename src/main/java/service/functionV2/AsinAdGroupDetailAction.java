@@ -46,7 +46,12 @@ public class AsinAdGroupDetailAction {
         for(AdPlacement adPlacement : adPlacementList) {
             // 第一行统计不做处理
             if(StringUtils.isBlank(adPlacement.getAd_group_name())) {
-                return;
+                continue;
+            }
+            if(!"enabled".equalsIgnoreCase(adPlacement.getState())) {
+                // 不处理,打日志
+                System.out.println(String.format("   广告组投放入口未启用,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+                continue;
             }
             if(null == newAdGroup.getOrders() || 0 == newAdGroup.getOrders()) {
                 // 无广告订单处理
