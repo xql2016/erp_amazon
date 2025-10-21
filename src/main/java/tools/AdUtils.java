@@ -24,7 +24,7 @@ public class AdUtils {
         if(adGroupName.contains("ASIN") || adGroupName.contains("Asin") || adGroupName.contains("asin")){
             return AdGroupType.ASIN_AD_GROUP;
         }
-        if(adGroupName.contains("CATEGORY") || adGroupName.contains("类目")){
+        if(adGroupName.contains("CATEGORY") || adGroupName.contains("Category") || adGroupName.contains("category") || adGroupName.contains("类目")){
             return AdGroupType.CATEGORY_AD_GROUP;
         }
         System.out.println(String.format("not find AdGroupType, adGroupName=%s", adGroupName));
