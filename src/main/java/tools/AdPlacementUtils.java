@@ -30,11 +30,11 @@ public class AdPlacementUtils {
     }
 
     public void subtractBid(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, double changeToBid, Configuration configuration) {
-        String nowBid = adPlacement.getBid();
+        Double nowBid = BidUtils.getAdPlacementBid(adPlacement);
         changeToBid = Math.max(0.02, changeToBid);
         BigDecimal bd = new BigDecimal(changeToBid);
         changeToBid = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
-        if(StringUtils.isNotBlank(nowBid) && Double.parseDouble(nowBid) <= changeToBid) {
+        if(null != nowBid && nowBid <= changeToBid) {
             System.out.println(String.format("    bid当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s, nowBid %s changeToBid %s", adGroup.getStore_country(), adPlacement.getAd_group_name(), getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc(), nowBid, changeToBid));
             return;
         }
@@ -81,10 +81,10 @@ public class AdPlacementUtils {
     }
 
     public void addBid(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, double changeToBid, Configuration configuration) {
-        String nowBid = adPlacement.getBid();
+        Double nowBid = BidUtils.getAdPlacementBid(adPlacement);
         BigDecimal bd = new BigDecimal(changeToBid);
         changeToBid = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
-        if(StringUtils.isNotBlank(nowBid) && Double.parseDouble(nowBid) >= changeToBid) {
+        if(null != nowBid && nowBid >= changeToBid) {
             System.out.println(String.format("    bid当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s, nowBid %s changeToBid %s", adGroup.getStore_country(), adPlacement.getAd_group_name(), getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc(), nowBid, changeToBid));
             return;
         }

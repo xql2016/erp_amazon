@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import repository.read.AdGroupReadRepository;
 import repository.read.AdReadRepository;
 import tools.AdPlacementUtils;
+import tools.BidUtils;
 import tools.DateUtils;
 import tools.NumberUtils;
 
@@ -64,7 +65,7 @@ public class AsinAdGroupDetailAction {
                 } else {
                     // 投放入口Bid≤0.3，则将投放入口Bid增加0.02
                     // 投放入口Bid＞0.3，不做处理
-                    Double adPlacementBid = NumberUtils.parseDouble(adPlacement.getBid());
+                    Double adPlacementBid = BidUtils.getAdPlacementBid(adPlacement);
                     if(null == adPlacementBid || adPlacementBid > 0.4) {
                         // 不做处理,打日志
                         System.out.println(String.format("    前天广告组点击为0且60天投放入口无广告订单且bid大于0.4当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", adGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
