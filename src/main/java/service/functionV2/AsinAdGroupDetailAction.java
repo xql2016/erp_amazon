@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import repository.read.AdReadRepository;
 import tools.AdPlacementUtils;
 import tools.DateUtils;
+import tools.HubUtils;
 
 import java.util.List;
 
@@ -28,12 +29,12 @@ public class AsinAdGroupDetailAction {
         int value2 = configuration.getFeatures().getIntValue(key2);
         if((null == newAdGroup.getOrders() || 0 == newAdGroup.getOrders()) && newAdGroup.getClicks() < 7) {
             // 不处理,打日志
-            System.out.println(String.format("    当前广告组广告订单数为0且点击数小于7,无需变更, country=%s, adGroupName=%s, acos =%s", newAdGroup.getStore_country(), newAdGroup.getName(), newAdGroup.getAcos()));
+            System.out.println(String.format("    店铺id=%s,名称=%s,当前广告组广告订单数为0且点击数小于7,无需变更, country=%s, adGroupName=%s, acos =%s", newAdGroup.getProfile_id(), HubUtils.getHubName(newAdGroup.getProfile_id()),newAdGroup.getStore_country(), newAdGroup.getName(), newAdGroup.getAcos()));
             return;
         }
         if((null != newAdGroup.getOrders() && 0 != newAdGroup.getOrders()) && Double.parseDouble(newAdGroup.getAcos()) <= value1) {
             // 不处理,打日志
-            System.out.println(String.format("    当前广告组广告订单数非0且acos小于等于%s,无需变更, country=%s, adGroupName=%s, acos =%s", value1, newAdGroup.getStore_country(), newAdGroup.getName(), newAdGroup.getAcos()));
+            System.out.println(String.format("    店铺id=%s,名称=%s,当前广告组广告订单数非0且acos小于等于%s,无需变更, country=%s, adGroupName=%s, acos =%s", newAdGroup.getProfile_id(), HubUtils.getHubName(newAdGroup.getProfile_id()),value1, newAdGroup.getStore_country(), newAdGroup.getName(), newAdGroup.getAcos()));
             return;
         }
 
@@ -50,7 +51,7 @@ public class AsinAdGroupDetailAction {
             }
             if(!"enabled".equalsIgnoreCase(adPlacement.getState())) {
                 // 不处理,打日志
-                System.out.println(String.format("   广告组投放入口未启用,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+                System.out.println(String.format("   店铺id=%s,名称=%s,广告组投放入口未启用,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getProfile_id(), HubUtils.getHubName(newAdGroup.getProfile_id()),newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
                 continue;
             }
             if(null == newAdGroup.getOrders() || 0 == newAdGroup.getOrders()) {
@@ -82,7 +83,7 @@ public class AsinAdGroupDetailAction {
             new AdPlacementUtils().subtractBid(newAdGroup, adGroupType, adPlacement, Double.parseDouble(adPlacement.getCpc()), configuration);
         } else {
             // 不处理,打日志
-            System.out.println(String.format("   广告组无广告订单且点击数处于7-30且投放入口点击数小于1,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+            System.out.println(String.format("   店铺id=%s,名称=%s,广告组无广告订单且点击数处于7-30且投放入口点击数小于1,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getProfile_id(), HubUtils.getHubName(newAdGroup.getProfile_id()),newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
         }
     }
 
@@ -96,7 +97,7 @@ public class AsinAdGroupDetailAction {
             new AdPlacementUtils().subtractBid(newAdGroup, adGroupType, adPlacement, Double.parseDouble(adPlacement.getCpc()) - 0.02, configuration);
         } else {
             // 不处理,打日志
-            System.out.println(String.format("   广告组无广告订单且点击数大于30且投放入口点击数小于1,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+            System.out.println(String.format("   店铺id=%s,名称=%s,广告组无广告订单且点击数大于30且投放入口点击数小于1,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getProfile_id(), HubUtils.getHubName(newAdGroup.getProfile_id()),newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
         }
     }
 
@@ -105,7 +106,7 @@ public class AsinAdGroupDetailAction {
         if (adPlacement.getOrders() > 0) {
             if (Double.parseDouble(adPlacement.getAcos()) <= value1) {
                 // 不处理,打日志
-                System.out.println(String.format("   广告组有广告订单且acos处于%s-60且投放入口有订单且acos小于等于%s,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", value1,value1, newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+                System.out.println(String.format("   店铺id=%s,名称=%s,广告组有广告订单且acos处于%s-60且投放入口有订单且acos小于等于%s,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getProfile_id(), HubUtils.getHubName(newAdGroup.getProfile_id()),value1,value1, newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
             } else if (Double.parseDouble(adPlacement.getAcos()) <= value2) {
                 new AdPlacementUtils().subtractBid(newAdGroup, adGroupType, adPlacement, Double.parseDouble(adPlacement.getCpc()), configuration);
             } else {
@@ -120,7 +121,7 @@ public class AsinAdGroupDetailAction {
                 new AdPlacementUtils().subtractBid(newAdGroup, adGroupType, adPlacement, Double.parseDouble(adPlacement.getCpc()), configuration);
             } else {
                 // 不处理,打日志
-                System.out.println(String.format("   广告组有广告订单且acos处于%s-60且投放入口无订单且投放入口点击数小于1,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", value1, newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+                System.out.println(String.format("   店铺id=%s,名称=%s,广告组有广告订单且acos处于%s-60且投放入口无订单且投放入口点击数小于1,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getProfile_id(), HubUtils.getHubName(newAdGroup.getProfile_id()),value1, newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
             }
         }
     }
@@ -129,7 +130,7 @@ public class AsinAdGroupDetailAction {
         if (adPlacement.getOrders() > 0) {
             if (Double.parseDouble(adPlacement.getAcos()) <= value1) {
                 // 不处理,打日志
-                System.out.println(String.format("   广告组有广告订单且acos大于60且投放入口有订单且acos小于等于%s,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", value1, newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+                System.out.println(String.format("   店铺id=%s,名称=%s,广告组有广告订单且acos大于60且投放入口有订单且acos小于等于%s,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getProfile_id(), HubUtils.getHubName(newAdGroup.getProfile_id()),value1, newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
             } else if (Double.parseDouble(adPlacement.getAcos()) <= value2) {
                 new AdPlacementUtils().subtractBid(newAdGroup, adGroupType, adPlacement, Double.parseDouble(adPlacement.getCpc()), configuration);
             } else {
@@ -144,7 +145,7 @@ public class AsinAdGroupDetailAction {
                 new AdPlacementUtils().subtractBid(newAdGroup, adGroupType, adPlacement, Double.parseDouble(adPlacement.getCpc()) - 0.02, configuration);
             } else {
                 // 不处理,打日志
-                System.out.println(String.format("   广告组有广告订单且acos大于60且投放入口无订单且投放入口点击数小于1,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+                System.out.println(String.format("   店铺id=%s,名称=%s,广告组有广告订单且acos大于60且投放入口无订单且投放入口点击数小于1,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", newAdGroup.getProfile_id(), HubUtils.getHubName(newAdGroup.getProfile_id()),newAdGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
             }
         }
     }

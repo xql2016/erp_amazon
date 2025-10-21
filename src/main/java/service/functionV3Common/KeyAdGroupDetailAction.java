@@ -7,6 +7,7 @@ import model.response.AdGroup;
 import repository.read.AdGroupReadRepository;
 import tools.AdGroupUtils;
 import tools.DateUtils;
+import tools.HubUtils;
 import tools.NumberUtils;
 
 public class KeyAdGroupDetailAction {
@@ -26,7 +27,7 @@ public class KeyAdGroupDetailAction {
         AdGroup d1AdGroup = new AdGroupReadRepository().queryAdGroupListInAdGroupPage(d1AdGroupRequest, configuration);
         if(d1AdGroup.getClicks() > 0) {
             // 打日志,不做处理
-            System.out.println(String.format("    当前广告组昨天点击>0,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s", adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks()));
+            System.out.println(String.format("    店铺id=%s,名称=%s,当前广告组昨天点击>0,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks()));
             return;
         }
         // 2. 查看广告组前天的数据
@@ -37,13 +38,13 @@ public class KeyAdGroupDetailAction {
         AdGroup d2AdGroup = new AdGroupReadRepository().queryAdGroupListInAdGroupPage(d2AdGroupRequest, configuration);
         if(d2AdGroup.getClicks() > 1) {
             // 打日志,不做处理
-            System.out.println(String.format("    当前广告组昨天点击=0且前天点击>1,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s, 前天曝光=%s, 前天点击=%s", adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks(), d2AdGroup.getImpressions(), d2AdGroup.getClicks()));
+            System.out.println(String.format("    店铺id=%s,名称=%s,当前广告组昨天点击=0且前天点击>1,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s, 前天曝光=%s, 前天点击=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks(), d2AdGroup.getImpressions(), d2AdGroup.getClicks()));
             return;
         }
         Double bidValue = NumberUtils.parseDouble(adGroup.getDefault_bid());
         if(null == bidValue|| bidValue > 0.3) {
             // 打日志,不做处理
-            System.out.println(String.format("    当前广告组昨天点击=0且前天点击>1且bid大于0.3,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s, 前天曝光=%s, 前天点击=%s, bid=%s", adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks(), d2AdGroup.getImpressions(), d2AdGroup.getClicks(), bidValue));
+            System.out.println(String.format("    店铺id=%s,名称=%s,当前广告组昨天点击=0且前天点击>1且bid大于0.3,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s, 前天曝光=%s, 前天点击=%s, bid=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks(), d2AdGroup.getImpressions(), d2AdGroup.getClicks(), bidValue));
             return;
         }
         // 昨天和今天有变更日志则不处理
