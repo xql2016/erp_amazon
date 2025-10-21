@@ -11,6 +11,7 @@ import repository.read.AdGroupReadRepository;
 import service.AbstractAction;
 import tools.AdUtils;
 import tools.DateUtils;
+import tools.HubUtils;
 
 import java.util.List;
 
@@ -45,15 +46,15 @@ public class AdGroupActionV3Enhanced extends AbstractAction {
             }
             AdGroupType adGroupType = AdUtils.getAdGroupType(adGroup.getName());
             if(null == adGroupType) {
-                System.out.println(String.format("not find adGroupType, adGroup.name=%s", adGroup.getName()));
+                System.out.println(String.format("店铺id=%s,名称=%s,not find adGroupType, adGroup.name=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getName()));
                 continue;
             }
             if(!"enabled".equalsIgnoreCase(adGroup.getState())) {
-                System.out.println(String.format("广告组未启用, adGroup.name=%s", adGroup.getName()));
+                System.out.println(String.format("店铺id=%s,名称=%s,广告组未启用, adGroup.name=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getName()));
                 continue;
             }
             // 处理每个广告组
-            System.out.println(String.format("handle adGroup=%s, adGroupType=%s", adGroup.getName(), adGroupType.getDesc()));
+            System.out.println(String.format("店铺id=%s,名称=%s,handle adGroup=%s, adGroupType=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getName(), adGroupType.getDesc()));
             executeAdGroupBase(adGroup, adGroupType, configuration);
         }
     }

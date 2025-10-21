@@ -9,10 +9,7 @@ import model.response.AdPlacement;
 import org.apache.commons.lang3.StringUtils;
 import repository.read.AdGroupReadRepository;
 import repository.read.AdReadRepository;
-import tools.AdPlacementUtils;
-import tools.BidUtils;
-import tools.DateUtils;
-import tools.NumberUtils;
+import tools.*;
 
 import java.util.List;
 
@@ -31,7 +28,7 @@ public class AsinAdGroupDetailAction {
         AdGroup d1AdGroup = new AdGroupReadRepository().queryAdGroupListInAdGroupPage(d1AdGroupRequest, configuration);
         if(d1AdGroup.getClicks() > 0) {
             // 打日志,不做处理
-            System.out.println(String.format("    当前广告组昨天点击>0,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s", adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks()));
+            System.out.println(String.format("    店铺id=%s,名称=%s,当前广告组昨天点击>0,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks()));
             return;
         }
         // 2. 查看广告组前天的数据
@@ -42,7 +39,7 @@ public class AsinAdGroupDetailAction {
         AdGroup d2AdGroup = new AdGroupReadRepository().queryAdGroupListInAdGroupPage(d2AdGroupRequest, configuration);
         if(d2AdGroup.getClicks() > 1) {
             // 打日志,不做处理
-            System.out.println(String.format("    当前广告组昨天点击=0且前天点击>1,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s, 前天曝光=%s, 前天点击=%s", adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks(), d2AdGroup.getImpressions(), d2AdGroup.getClicks()));
+            System.out.println(String.format("    店铺id=%s,名称=%s,当前广告组昨天点击=0且前天点击>1,无需变更, country=%s, adGroupName=%s, 昨天曝光=%s, 昨天点击=%s, 前天曝光=%s, 前天点击=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adGroup.getName(), d1AdGroup.getImpressions(), d1AdGroup.getClicks(), d2AdGroup.getImpressions(), d2AdGroup.getClicks()));
             return;
         }
         // 3. 查看投放入口近60天数据
@@ -60,7 +57,7 @@ public class AsinAdGroupDetailAction {
                 // 投放入口无广告订单
                 if(adPlacement.getClicks() >= 1) {
                     // 不做处理,打日志
-                    System.out.println(String.format("    前天广告组点击为0且60天投放入口无广告订单且点击大于等于1当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", adGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+                    System.out.println(String.format("    店铺id=%s,名称=%s,前天广告组点击为0且60天投放入口无广告订单且点击大于等于1当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
                     return;
                 } else {
                     // 投放入口Bid≤0.3，则将投放入口Bid增加0.02
@@ -68,7 +65,7 @@ public class AsinAdGroupDetailAction {
                     Double adPlacementBid = BidUtils.getAdPlacementBid(adPlacement);
                     if(null == adPlacementBid || adPlacementBid > 0.4) {
                         // 不做处理,打日志
-                        System.out.println(String.format("    前天广告组点击为0且60天投放入口无广告订单且bid大于0.4当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", adGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+                        System.out.println(String.format("    店铺id=%s,名称=%s,前天广告组点击为0且60天投放入口无广告订单且bid大于0.4当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
                         return;
                     } else if(adPlacementBid > 0.3){
                         // 昨天和今天有变更日志则不处理
@@ -84,7 +81,7 @@ public class AsinAdGroupDetailAction {
                 Double adPlacementCpc = NumberUtils.parseDouble(adPlacement.getCpc());
                 if(adPlacementAcos > 40) {
                     // 不做处理,打日志
-                    System.out.println(String.format("    前天广告组点击为0且60天投放入口有广告订单且acos大于40当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", adGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
+                    System.out.println(String.format("    店铺id=%s,名称=%s,前天广告组点击为0且60天投放入口有广告订单且acos大于40当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adPlacement.getAd_group_name(), new AdPlacementUtils().getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
                     return;
                 } else if(adPlacementAcos > 30) {
                     // 投放入口打开
