@@ -1,12 +1,12 @@
 {
     "executeActionCodeList": [
-        "function_v2"
+        "function_v3_common"
     ],
     "hubIdList" : [
-        2872359474906836,3694859621919747,2900750670247683,3028812319743577
+        2872359474906836
     ],
     "countryList" : [
-        "DE","FR","IT","ES"
+        "DE"
     ],
     "adGroupNameList": [
         "debug广告组合"
