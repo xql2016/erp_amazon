@@ -8,7 +8,12 @@ public class BidUtils {
     public static Double getAdPlacementBid(AdPlacement adPlacement) {
         String nowBid = adPlacement.getBid();
         if(StringUtils.isBlank(nowBid) || "null".equalsIgnoreCase(nowBid)) {
-            return adPlacement.getReal_bid();
+            if(null != adPlacement.getReal_bid()) {
+                return adPlacement.getReal_bid();
+            } else if(null != adPlacement.getDefault_bid()) {
+                return adPlacement.getDefault_bid();
+            }
+            return 0.0;
         }
         return Double.parseDouble(nowBid);
     }

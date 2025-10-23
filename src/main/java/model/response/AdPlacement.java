@@ -63,5 +63,7 @@ public class AdPlacement {
      */
     private String state;
 
+    private Double default_bid;
+
 
 }
