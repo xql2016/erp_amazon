@@ -36,14 +36,14 @@ public class CategoryAdGroupDetailAction {
             System.out.println(String.format("    店铺id=%s,名称=%s,当前广告组近3天曝光小于等于20且近60天点击大于等于10,无需变更, country=%s, adGroupName=%s, 近3天曝光=%s, 近60天点击=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adGroup.getName(), adGroup.getImpressions(), newAdGroup.getClicks()));
             return;
         }
-        Double bidValue = NumberUtils.parseDouble(adGroup.getDefault_bid());
+        Double bidValue = NumberUtils.parseDouble(newAdGroup.getDefault_bid());
         if(null == bidValue|| bidValue > 0.3) {
             // 打日志,不做处理
             System.out.println(String.format("    店铺id=%s,名称=%s,当前广告组近3天曝光小于等于20且近60天点击小于10且bid大于0.3,无需变更, country=%s, adGroupName=%s, 近3天曝光=%s, 近60天点击=%s, bid=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adGroup.getName(), adGroup.getImpressions(), newAdGroup.getClicks(), bidValue));
             return;
         }
         // 昨天和今天有变更日志则不处理
-        new AdGroupUtils().addBidWithLog(adGroup, adGroupType, bidValue + 0.02, configuration, 1);
+        new AdGroupUtils().addBidWithLog(newAdGroup, adGroupType, bidValue + 0.02, configuration, 1);
 
     }
 }

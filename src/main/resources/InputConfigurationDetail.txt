@@ -3,10 +3,10 @@
         "function_v3_common"
     ],
     "hubIdList" : [
-        2872359474906836
+        3694859621919747
     ],
     "countryList" : [
-        "DE"
+        "FR"
     ],
     "adGroupNameList": [
         "debug广告组合"
