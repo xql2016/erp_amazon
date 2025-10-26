@@ -171,8 +171,16 @@ public class AdGroupReadRepository {
             return null;
         }
         AdGroupPageResult adGroupPageResult = JSONObject.parseObject(str, AdGroupPageResult.class);
+        if(null == adGroupPageResult) {
+            System.out.println("调用领星接口查询广告组报错,正在重试中");
+            return null;
+        }
         if(CollectionUtils.isNotEmpty(adGroupPageResult.getData())) {
-            adGroupPageResult.getData().forEach(it -> it.setName(StringEscapeUtils.unescapeJava(it.getName())));
+            adGroupPageResult.getData().forEach(it -> {
+                if(StringUtils.isNotBlank(it.getName())) {
+                    it.setName(StringEscapeUtils.unescapeJava(it.getName()));
+                }
+            });
         }
         return adGroupPageResult;
     }

@@ -39,22 +39,23 @@ public class AdGroupActionV3Enhanced extends AbstractAction {
         }
         System.out.println(String.format("adGroupList.size=%s", adGroupList.size()));
         // 对每个广告组判断和处理
-        for(AdGroup adGroup : adGroupList) {
+        for(int i = 0; i < adGroupList.size(); i ++) {
+            AdGroup adGroup = adGroupList.get(i);
             // 第一行的广告组不处理
             if(StringUtils.isBlank(adGroup.getName())) {
                 continue;
             }
             AdGroupType adGroupType = AdUtils.getAdGroupType(adGroup.getName());
             if(null == adGroupType) {
-                System.out.println(String.format("店铺id=%s,名称=%s,not find adGroupType, adGroup.name=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getName()));
+                System.out.println(String.format("已处理%s广告组, 店铺id=%s,名称=%s,not find adGroupType, adGroup.name=%s", i, adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getName()));
                 continue;
             }
             if(!"enabled".equalsIgnoreCase(adGroup.getState())) {
-                System.out.println(String.format("店铺id=%s,名称=%s,广告组未启用, adGroup.name=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getName()));
+                System.out.println(String.format("已处理%s广告组, 店铺id=%s,名称=%s,广告组未启用, adGroup.name=%s", i, adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getName()));
                 continue;
             }
             // 处理每个广告组
-            System.out.println(String.format("店铺id=%s,名称=%s,handle adGroup=%s, adGroupType=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getName(), adGroupType.getDesc()));
+            System.out.println(String.format("已处理%s广告组, 店铺id=%s,名称=%s,handle adGroup=%s, adGroupType=%s", i, adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getName(), adGroupType.getDesc()));
             executeAdGroupBase(adGroup, adGroupType, configuration);
         }
     }
