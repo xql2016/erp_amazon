@@ -6,6 +6,9 @@ import service.configuration.ConfigurationService;
 import service.functionV2.AdGroupActionV2;
 import service.functionV3Common.AdGroupActionV3Common;
 import service.functionV3Enhanced.AdGroupActionV3Enhanced;
+import service.functionV5.SpamTrafficFromPlaceAction;
+import service.functionV6.SpamValidFromPlaceAction;
+import service.functionV7.SpamTrafficFromAdGroupAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,9 @@ public class Processor {
         abstractionActionList.add(new AdGroupActionV2());
         abstractionActionList.add(new AdGroupActionV3Common());
         abstractionActionList.add(new AdGroupActionV3Enhanced());
+        abstractionActionList.add(new SpamTrafficFromPlaceAction());
+        abstractionActionList.add(new SpamValidFromPlaceAction());
+        abstractionActionList.add(new SpamTrafficFromAdGroupAction());
         return abstractionActionList;
     }
 }

@@ -20,5 +20,9 @@ public class FilePath {
 //    public static String inputConfigurationToken = "InputConfigurationToken.txt";
 //    public static String inputConfigurationDetail = "InputConfigurationDetail.txt";
 //    public static String inputConfigurationCustom = "InputConfigurationCustom.txt";
+//    public static String spamTrafficFromPlaceConfiguration = "SpamTrafficFromPlaceConfiguration.txt";
+//    public static String spamValidFromPlaceConfiguration = "SpamValidFromPlaceConfiguration.txt";
+//    public static String spamTrafficFromAdGroupConfiguration = "SpamTrafficFromAdGroupConfiguration.txt";
+
 
 }
