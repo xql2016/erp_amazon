@@ -1,0 +1,386 @@
+{
+    "autoPlaceSpamTrafficFromPlaceDetailList": [
+        {
+            "spamTrafficFromPlaceSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "clicksLargerThan": 10,
+                "ordersLargerThan": 0,
+                "ordersSmallerThan": 0
+            },
+            "SpamTrafficFromPlaceDoOperation": {
+                "doOperationSingleList": [
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "CLICK",
+                                "autoPlaceCompareValueType": "BIGGER_OR_EQUAL_TO_SMALLER_OR_EQUAL",
+                                "biggerThan": 10,
+                                "smallerThan": 19
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                                "clickSubtractValue": 9,
+                                "clickMultiplyValue": 0.01,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    },
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "CLICK",
+                                "autoPlaceCompareValueType": "BIGGER_OR_EQUAL_TO_SMALLER",
+                                "biggerThan": 20,
+                                "smallerThan": 9999999
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                                "changeToValue": 0.02,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "spamTrafficFromPlaceSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "ordersLargerThan": 1,
+                "acosLargerThan": 40
+            },
+            "SpamTrafficFromPlaceDoOperation": {
+                "doOperationSingleList": [
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "ACOS",
+                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER_OR_EQUAL",
+                                "biggerThan": 40,
+                                "smallerThan": 100
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                                "acosSubtractValue": 4,
+                                "acosMultiplyValue": 0.01,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    },
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "ACOS",
+                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER",
+                                "biggerThan": 100,
+                                "smallerThan": 9999999
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                                "changeToValue": 0.1,
+                                "lagerThanValue": 0.1
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "categoryPlaceSpamTrafficFromPlaceDetailList": [
+        {
+            "spamTrafficFromPlaceSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "clicksLargerThan": 10,
+                "ordersLargerThan": 0,
+                "ordersSmallerThan": 0
+            },
+            "SpamTrafficFromPlaceDoOperation": {
+                "doOperationSingleList": [
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "CLICK",
+                                "autoPlaceCompareValueType": "BIGGER_OR_EQUAL_TO_SMALLER_OR_EQUAL",
+                                "biggerThan": 10,
+                                "smallerThan": 19
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                                "clickSubtractValue": 9,
+                                "clickMultiplyValue": 0.01,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    },
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "CLICK",
+                                "autoPlaceCompareValueType": "BIGGER_OR_EQUAL_TO_SMALLER",
+                                "biggerThan": 20,
+                                "smallerThan": 9999999
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                                "changeToValue": 0.02,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "spamTrafficFromPlaceSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "ordersLargerThan": 1,
+                "acosLargerThan": 40
+            },
+            "SpamTrafficFromPlaceDoOperation": {
+                "doOperationSingleList": [
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "ACOS",
+                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER_OR_EQUAL",
+                                "biggerThan": 40,
+                                "smallerThan": 100
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                                "acosSubtractValue": 4,
+                                "acosMultiplyValue": 0.01,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    },
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "ACOS",
+                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER",
+                                "biggerThan": 100,
+                                "smallerThan": 9999999
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                                "changeToValue": 0.1,
+                                "lagerThanValue": 0.1
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "keyPlaceSpamTrafficFromPlaceDetailList": [
+        {
+            "spamTrafficFromPlaceSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "clicksLargerThan": 5,
+                "ordersLargerThan": 0,
+                "ordersSmallerThan": 0
+            },
+            "SpamTrafficFromPlaceDoOperation": {
+                "doOperationSingleList": [
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "CLICK",
+                                "autoPlaceCompareValueType": "BIGGER_OR_EQUAL_TO_SMALLER",
+                                "biggerThan": 5,
+                                "smallerThan": 10
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                                "clickSubtractValue": 4,
+                                "clickMultiplyValue": 0.01,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    },
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "CLICK",
+                                "autoPlaceCompareValueType": "BIGGER_OR_EQUAL_TO_SMALLER",
+                                "biggerThan": 10,
+                                "smallerThan": 9999999
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CLOSE"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "spamTrafficFromPlaceSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "ordersLargerThan": 1,
+                "acosLargerThan": 40
+            },
+            "SpamTrafficFromPlaceDoOperation": {
+                "doOperationSingleList": [
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "ACOS",
+                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER_OR_EQUAL",
+                                "biggerThan": 40,
+                                "smallerThan": 100
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                                "acosSubtractValue": 4,
+                                "acosMultiplyValue": 0.01,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    },
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "ACOS",
+                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER",
+                                "biggerThan": 100,
+                                "smallerThan": 9999999
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                                "changeToValue": 0.1,
+                                "lagerThanValue": 0.1
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "asinPlaceSpamTrafficFromPlaceDetailList": [
+        {
+            "spamTrafficFromPlaceSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "clicksLargerThan": 5,
+                "ordersLargerThan": 0,
+                "ordersSmallerThan": 0
+            },
+            "SpamTrafficFromPlaceDoOperation": {
+                "doOperationSingleList": [
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "CLICK",
+                                "autoPlaceCompareValueType": "BIGGER_OR_EQUAL_TO_SMALLER",
+                                "biggerThan": 5,
+                                "smallerThan": 10
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CPC_SUBTRACT_CLICK_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                                "clickSubtractValue": 4,
+                                "clickMultiplyValue": 0.01,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    },
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "CLICK",
+                                "autoPlaceCompareValueType": "BIGGER_OR_EQUAL_TO_SMALLER",
+                                "biggerThan": 10,
+                                "smallerThan": 9999999
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CLOSE"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "spamTrafficFromPlaceSearchCondition": {
+                "daysLargerThan": 29,
+                "daysSmallerThan": 0,
+                "ordersLargerThan": 1,
+                "acosLargerThan": 40
+            },
+            "SpamTrafficFromPlaceDoOperation": {
+                "doOperationSingleList": [
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "ACOS",
+                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER_OR_EQUAL",
+                                "biggerThan": 40,
+                                "smallerThan": 100
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
+                                "acosSubtractValue": 4,
+                                "acosMultiplyValue": 0.01,
+                                "lagerThanValue": 0.02
+                            }
+                        ]
+                    },
+                    {
+                        "compareList": [
+                            {
+                                "autoPlaceCompareValue": "ACOS",
+                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER",
+                                "biggerThan": 100,
+                                "smallerThan": 9999999
+                            }
+                        ],
+                        "actionList": [
+                            {
+                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
+                                "changeToValue": 0.1,
+                                "lagerThanValue": 0.1
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
