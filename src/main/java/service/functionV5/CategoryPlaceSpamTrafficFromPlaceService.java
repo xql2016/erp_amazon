@@ -1,7 +1,6 @@
 package service.functionV5;
 
 import model.configuration.Configuration;
-import model.configuration.HubPortfolioId;
 import model.enums.AdGroupType;
 import model.request.AdPlacementChangeBidRequest;
 import model.request.AdPlacementPauseRequest;

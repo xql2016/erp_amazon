@@ -10,10 +10,12 @@ public class FilePath {
     public static String inputConfigurationToken = "src/main/resources/InputConfigurationToken.txt";
     public static String inputConfigurationDetail = "src/main/resources/InputConfigurationDetail.txt";
     public static String inputConfigurationCustom = "src/main/resources/InputConfigurationCustom.txt";
-    // 垃圾流量配置
+    // v5垃圾流量配置
     public static String spamTrafficFromPlaceConfiguration = "src/main/resources/SpamTrafficFromPlaceConfiguration.txt";
-    // 有效流量配置
+    // v6有效流量配置
     public static String spamValidFromPlaceConfiguration = "src/main/resources/SpamValidFromPlaceConfiguration.txt";
+    // v7广告活动入口垃圾流量配置
+    public static String spamTrafficFromAdGroupConfiguration = "src/main/resources/SpamTrafficFromAdGroupConfiguration.txt";
 
 //    public static String inputConfigurationToken = "InputConfigurationToken.txt";
 //    public static String inputConfigurationDetail = "InputConfigurationDetail.txt";
