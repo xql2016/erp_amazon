@@ -334,8 +334,8 @@ public class SpamTrafficFromAdGroupAction extends AbstractAction {
     }
 
     private SpamTrafficFromAdGroupConfiguration assembleSpamTrafficFromAdGroupConfiguration(SpamTrafficFromAdGroupConfiguration spamTrafficFromAdGroupConfiguration, JSONObject spamTrafficFromAdGroupCustomConfiguration) {
-        Integer nearlyDays = null == spamTrafficFromAdGroupCustomConfiguration ? null : spamTrafficFromAdGroupCustomConfiguration.getInteger("广告活动入口,控制长期垃圾流量的天数");
-        Double spendsLimit = null == spamTrafficFromAdGroupCustomConfiguration ? null : spamTrafficFromAdGroupCustomConfiguration.getDouble("广告活动花费临界数");
+        Integer nearlyDays = null == spamTrafficFromAdGroupCustomConfiguration ? null : spamTrafficFromAdGroupCustomConfiguration.getInteger("V7,广告活动入口,控制长期垃圾流量的天数");
+        Double spendsLimit = null == spamTrafficFromAdGroupCustomConfiguration ? null : spamTrafficFromAdGroupCustomConfiguration.getDouble("V7,广告活动花费临界数");
 
         for(SpamTrafficFromAdGroupDetail spamTrafficFromAdGroupDetail : spamTrafficFromAdGroupConfiguration.getSpamTrafficFromAdGroupDetailList()) {
             if(null != nearlyDays) {
