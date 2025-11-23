@@ -69,7 +69,8 @@
                         "actionList": [
                             {
                                 "autoPlaceOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS",
-                                "cpcMultiplyValue": 0.35
+                                "cpcMultiplyValue": 0.35,
+                                "lagerThanValue": 0.02
                             }
                         ]
                     }
@@ -147,7 +148,8 @@
                         "actionList": [
                             {
                                 "autoPlaceOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS",
-                                "cpcMultiplyValue": 0.35
+                                "cpcMultiplyValue": 0.35,
+                                "lagerThanValue": 0.02
                             }
                         ]
                     }
@@ -223,7 +225,8 @@
                         "actionList": [
                             {
                                 "autoPlaceOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS",
-                                "cpcMultiplyValue": 0.35
+                                "cpcMultiplyValue": 0.35,
+                                "lagerThanValue": 0.02
                             }
                         ]
                     }
@@ -299,7 +302,8 @@
                         "actionList": [
                             {
                                 "autoPlaceOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS",
-                                "cpcMultiplyValue": 0.35
+                                "cpcMultiplyValue": 0.35,
+                                "lagerThanValue": 0.02
                             }
                         ]
                     }

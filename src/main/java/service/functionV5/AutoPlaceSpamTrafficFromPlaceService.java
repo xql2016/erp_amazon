@@ -120,7 +120,7 @@ public class AutoPlaceSpamTrafficFromPlaceService {
                     break;
                 case CPC_MULTIPLY_VALUE_DIVIDE_ACOS:
                     double acos = null == autoPlace.getAcos() || "99999999".equalsIgnoreCase(autoPlace.getAcos()) ? 0 : Double.parseDouble(autoPlace.getAcos());
-                    double bidChangeToD = autoPlace.getCpc() * action.getCpcMultiplyValue() / acos;
+                    double bidChangeToD = Math.max(autoPlace.getCpc() * action.getCpcMultiplyValue() / acos, action.getLagerThanValue());
                     BigDecimal bdD = new BigDecimal(bidChangeToD);
                     bidChangeToD = bdD.setScale(2, RoundingMode.HALF_UP).doubleValue();
                     if(bidNow <= bidChangeToD) {

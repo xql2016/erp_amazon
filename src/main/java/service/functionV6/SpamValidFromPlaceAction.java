@@ -108,19 +108,43 @@ public class SpamValidFromPlaceAction extends AbstractAction {
     }
 
     private SpamValidFromPlaceConfiguration assembleSpamValidFromPlaceConfiguration(SpamValidFromPlaceConfiguration spamValidFromPlaceConfiguration, JSONObject spamValidFromPlaceCustomConfiguration) {
-        Integer nearlyDays = spamValidFromPlaceCustomConfiguration.getInteger("投放入口,放大长期有效流量的天数");
-        Long autoPlaceAcosOpen = spamValidFromPlaceCustomConfiguration.getLong("自动投放入口打开ACOS临界值");
-        Long autoPlaceAcosSub = spamValidFromPlaceCustomConfiguration.getLong("自动投放竞价不低于CPC-0.01的ACOS临界值");
-        Double autoPlaceAcosAdd = spamValidFromPlaceCustomConfiguration.getDouble("自动投放ACOS＜20% 竞价增加值");
-        Long categoryPlaceAcosOpen = spamValidFromPlaceCustomConfiguration.getLong("类目投放ACOS临界值");
-        Long categoryPlaceAcosSub = spamValidFromPlaceCustomConfiguration.getLong("类目投放竞价不低于CPC-0.01的ACOS临界值");
-        Double categoryPlaceAcosAdd = spamValidFromPlaceCustomConfiguration.getDouble("类目投放ACOS＜20% 竞价增加值");
-        Long keyPlaceAcosOpen = spamValidFromPlaceCustomConfiguration.getLong("关键词投放ACOS临界值");
-        Long keyPlaceAcosSub = spamValidFromPlaceCustomConfiguration.getLong("关键词投放竞价不低于CPC-0.01的ACOS临界值");
-        Double keyPlaceAcosAdd = spamValidFromPlaceCustomConfiguration.getDouble("关键词投放ACOS＜20% 竞价增加值");
-        Long asinPlaceAcosOpen = spamValidFromPlaceCustomConfiguration.getLong("ASIN投放ACOS临界值");
-        Long asinPlaceAcosSub = spamValidFromPlaceCustomConfiguration.getLong("ASIN投放竞价不低于CPC-0.01的ACOS临界值");
-        Double asinPlaceAcosAdd = spamValidFromPlaceCustomConfiguration.getDouble("ASIN投放ACOS＜20% 竞价增加值");
+        Integer nearlyDays = spamValidFromPlaceCustomConfiguration.getInteger("V6,投放入口层面放大长期有效流量的控制天数");
+        Long autoSeq1AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,自动投放入口保持打开的ACOS临界值");
+        Long autoSeq2AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,自动投放入口保持打开的ACOS临界值");
+        Long autoSeq2AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,自动投放入口ACOS控制基准");
+        Long autoSeq3AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,自动投放入口ACOS控制基准");
+        Long autoSeq3AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,自动投放入口竞价不低于CPC-0.01的ACOS临界值");
+        Long autoSeq4AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,自动投放入口竞价不低于CPC-0.01的ACOS临界值");
+        Long autoSeq4AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,自动投放入口竞价不低于CPC+0.02的ACOS临界值");
+        Long autoSeq5AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,自动投放入口竞价不低于CPC+0.02的ACOS临界值");
+
+        Long categorySeq1AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,类目投放入口保持打开的ACOS临界值");
+        Long categorySeq2AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,类目投放入口保持打开的ACOS临界值");
+        Long categorySeq2AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,类目投放入口ACOS控制基准");
+        Long categorySeq3AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,类目投放入口ACOS控制基准");
+        Long categorySeq3AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,类目投放入口竞价不低于CPC-0.01的ACOS临界值");
+        Long categorySeq4AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,类目投放入口竞价不低于CPC-0.01的ACOS临界值");
+        Long categorySeq4AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,类目投放入口竞价不低于CPC+0.02的ACOS临界值");
+        Long categorySeq5AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,类目投放入口竞价不低于CPC+0.02的ACOS临界值");
+
+        Long keySeq1AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,关键词投放入口保持打开的ACOS临界值");
+        Long keySeq2AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,关键词投放入口保持打开的ACOS临界值");
+        Long keySeq2AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,关键词投放入口ACOS控制基准");
+        Long keySeq3AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,关键词投放入口ACOS控制基准");
+        Long keySeq3AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,关键词投放入口竞价不低于CPC-0.01的ACOS临界值");
+        Long keySeq4AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,关键词投放入口竞价不低于CPC-0.01的ACOS临界值");
+        Long keySeq4AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,关键词投放入口竞价不低于CPC+0.02的ACOS临界值");
+        Long keySeq5AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,关键词投放入口竞价不低于CPC+0.02的ACOS临界值");
+
+        Long asinSeq1AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,ASIN投放入口保持打开的ACOS临界值");
+        Long asinSeq2AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,ASIN投放入口保持打开的ACOS临界值");
+        Long asinSeq2AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,ASIN投放入口ACOS控制基准");
+        Long asinSeq3AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,ASIN投放入口ACOS控制基准");
+        Long asinSeq3AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,ASIN投放入口竞价不低于CPC-0.01的ACOS临界值");
+        Long asinSeq4AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,ASIN投放入口竞价不低于CPC-0.01的ACOS临界值");
+        Long asinSeq4AcosLargerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,ASIN投放入口竞价不低于CPC+0.02的ACOS临界值");
+        Long asinSeq5AcosSmallerThan = spamValidFromPlaceCustomConfiguration.getLong("V6,ASIN投放入口竞价不低于CPC+0.02的ACOS临界值");
+
         if(null != nearlyDays) {
             spamValidFromPlaceConfiguration.getAsinPlaceSpamValidFromPlaceDetailList().forEach(
                     it -> {
@@ -148,49 +172,153 @@ public class SpamValidFromPlaceAction extends AbstractAction {
             );
         }
         for(SpamValidFromPlaceDetail spamValidFromPlaceDetail : spamValidFromPlaceConfiguration.getAutoPlaceSpamValidFromPlaceDetailList()) {
-            if(null != autoPlaceAcosOpen &&"OPEN".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(autoPlaceAcosOpen);
+            if(1 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != autoSeq1AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(autoSeq1AcosSmallerThan);
+                }
             }
-            if(null != autoPlaceAcosSub &&"MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(autoPlaceAcosSub);
+            if(2 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != autoSeq2AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(autoSeq2AcosSmallerThan);
+                }
+                if(null != autoSeq2AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(autoSeq2AcosLargerThan);
+                }
             }
-            if(null != autoPlaceAcosAdd &&"MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().setCpcAddValue(autoPlaceAcosAdd);
+            if(3 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != autoSeq3AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(autoSeq3AcosSmallerThan);
+                }
+                if(null != autoSeq3AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(autoSeq3AcosLargerThan);
+                }
+            }
+            if(4 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != autoSeq4AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(autoSeq4AcosSmallerThan);
+                }
+                if(null != autoSeq4AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(autoSeq4AcosLargerThan);
+                }
+            }
+            if(5 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != autoSeq5AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(autoSeq5AcosSmallerThan);
+                }
             }
         }
-        for(SpamValidFromPlaceDetail spamValidFromPlaceDetail : spamValidFromPlaceConfiguration.getAsinPlaceSpamValidFromPlaceDetailList()) {
-            if(null != asinPlaceAcosOpen &&"OPEN".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(asinPlaceAcosOpen);
-            }
-            if(null != asinPlaceAcosSub &&"MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(asinPlaceAcosSub);
-            }
-            if(null != asinPlaceAcosAdd &&"MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().setCpcAddValue(asinPlaceAcosAdd);
-            }
-        }
+
         for(SpamValidFromPlaceDetail spamValidFromPlaceDetail : spamValidFromPlaceConfiguration.getCategoryPlaceSpamValidFromPlaceDetailList()) {
-            if(null != categoryPlaceAcosOpen &&"OPEN".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(categoryPlaceAcosOpen);
+            if(1 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != categorySeq1AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(categorySeq1AcosSmallerThan);
+                }
             }
-            if(null != categoryPlaceAcosSub &&"MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(categoryPlaceAcosSub);
+            if(2 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != categorySeq2AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(categorySeq2AcosSmallerThan);
+                }
+                if(null != categorySeq2AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(categorySeq2AcosLargerThan);
+                }
             }
-            if(null != categoryPlaceAcosAdd &&"MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().setCpcAddValue(categoryPlaceAcosAdd);
+            if(3 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != categorySeq3AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(categorySeq3AcosSmallerThan);
+                }
+                if(null != categorySeq3AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(categorySeq3AcosLargerThan);
+                }
+            }
+            if(4 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != categorySeq4AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(categorySeq4AcosSmallerThan);
+                }
+                if(null != categorySeq4AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(categorySeq4AcosLargerThan);
+                }
+            }
+            if(5 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != categorySeq5AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(categorySeq5AcosSmallerThan);
+                }
             }
         }
+
         for(SpamValidFromPlaceDetail spamValidFromPlaceDetail : spamValidFromPlaceConfiguration.getKeyPlaceSpamValidFromPlaceDetailList()) {
-            if(null != keyPlaceAcosOpen &&"OPEN".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(keyPlaceAcosOpen);
+            if(1 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != keySeq1AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(keySeq1AcosSmallerThan);
+                }
             }
-            if(null != keyPlaceAcosSub &&"MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(keyPlaceAcosSub);
+            if(2 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != keySeq2AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(keySeq2AcosSmallerThan);
+                }
+                if(null != keySeq2AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(keySeq2AcosLargerThan);
+                }
             }
-            if(null != keyPlaceAcosAdd &&"MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE".equalsIgnoreCase(spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().getSpamValidOperateType())) {
-                spamValidFromPlaceDetail.getSpamValidFromPlaceDoOperation().getSpamValidFromPlaceDoOperationAction().setCpcAddValue(keyPlaceAcosAdd);
+            if(3 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != keySeq3AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(keySeq3AcosSmallerThan);
+                }
+                if(null != keySeq3AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(keySeq3AcosLargerThan);
+                }
+            }
+            if(4 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != keySeq4AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(keySeq4AcosSmallerThan);
+                }
+                if(null != keySeq4AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(keySeq4AcosLargerThan);
+                }
+            }
+            if(5 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != keySeq5AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(keySeq5AcosSmallerThan);
+                }
             }
         }
+
+        for(SpamValidFromPlaceDetail spamValidFromPlaceDetail : spamValidFromPlaceConfiguration.getAsinPlaceSpamValidFromPlaceDetailList()) {
+            if(1 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != asinSeq1AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(asinSeq1AcosSmallerThan);
+                }
+            }
+            if(2 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != asinSeq2AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(asinSeq2AcosSmallerThan);
+                }
+                if(null != asinSeq2AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(asinSeq2AcosLargerThan);
+                }
+            }
+            if(3 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != asinSeq3AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(asinSeq3AcosSmallerThan);
+                }
+                if(null != asinSeq3AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(asinSeq3AcosLargerThan);
+                }
+            }
+            if(4 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != asinSeq4AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(asinSeq4AcosSmallerThan);
+                }
+                if(null != asinSeq4AcosLargerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosLargerThan(asinSeq4AcosLargerThan);
+                }
+            }
+            if(5 == spamValidFromPlaceDetail.getOperateSeq()) {
+                if(null != asinSeq5AcosSmallerThan) {
+                    spamValidFromPlaceDetail.getSpamValidFromPlaceSearchCondition().setAcosSmallerThan(asinSeq5AcosSmallerThan);
+                }
+            }
+        }
+
         return spamValidFromPlaceConfiguration;
     }
 

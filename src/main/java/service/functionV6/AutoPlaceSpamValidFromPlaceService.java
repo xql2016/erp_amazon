@@ -100,6 +100,17 @@ public class AutoPlaceSpamValidFromPlaceService {
                     doChangeBid(configuration, bidChangeToB, autoPlace, bidNow);
                 }
                 break;
+            case CPC_MULTIPLY_VALUE_DIVIDE_ACOS_SUB_VALUE:
+                double acos = null == autoPlace.getAcos() || "99999999".equalsIgnoreCase(autoPlace.getAcos()) ? 0 : Double.parseDouble(autoPlace.getAcos());
+                double bidChangeToC = Math.max((autoPlace.getCpc() * action.getCpcMultiplyValue()/ acos) - action.getSubValue(), action.getLagerThanValue());
+                BigDecimal bdC = new BigDecimal(bidChangeToC);
+                bidChangeToC = bdC.setScale(2, RoundingMode.HALF_UP).doubleValue();
+                if(bidNow >= bidChangeToC) {
+                    System.out.println(String.format("自动投放操作,bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeToC,autoPlace.getAd_group_name(),bidNow,autoPlace.getCpc(),autoPlace.getAcos(),autoPlace.getClicks(),autoPlace.getOrders()));
+                }else {
+                    doChangeBid(configuration, bidChangeToC, autoPlace, bidNow);
+                }
+                break;
         }
     }
 

@@ -16,4 +16,6 @@ public class SpamValidFromPlaceDoOperationAction {
     private Double cpcSubtractValue;
     private Double cpcAddValue;
     private Double lagerThanValue;
+    private Double cpcMultiplyValue;
+    private Double subValue;
 }

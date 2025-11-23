@@ -1,210 +1,346 @@
 {
-    "autoPlaceSpamValidFromPlaceDetailList": [
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 40,
-                "ordersLargerThan": 1
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "OPEN"
-                }
-            },
-            "operateSeq": 1
-        },
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 30,
-                "ordersLargerThan": 1
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
-                    "cpcSubtractValue": 0.01,
-                    "lagerThanValue": 0.02
-                }
-            },
-            "operateSeq": 2
-        },
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 20,
-                "ordersLargerThan": 2,
-                "cpcSmallerThan": 0.5
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE",
-                    "cpcAddValue": 0.02,
-                    "lagerThanValue": 0.02
-                }
-            },
-            "operateSeq": 3
-        }
-    ],
-    "categoryPlaceSpamValidFromPlaceDetailList": [
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 40,
-                "ordersLargerThan": 1
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "OPEN"
-                }
-            },
-            "operateSeq": 1
-        },
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 30,
-                "ordersLargerThan": 1
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
-                    "cpcSubtractValue": 0.01,
-                    "lagerThanValue": 0.02
-                }
-            },
-            "operateSeq": 2
-        },
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 20,
-                "ordersLargerThan": 2,
-                "cpcSmallerThan": 0.5
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE",
-                    "cpcAddValue": 0.02,
-                    "lagerThanValue": 0.02
-                }
-            },
-            "operateSeq": 3
-        }
-    ],
-    "keyPlaceSpamValidFromPlaceDetailList": [
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 40,
-                "ordersLargerThan": 1
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "OPEN"
-                }
-            },
-            "operateSeq": 1
-        },
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 30,
-                "ordersLargerThan": 1
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
-                    "cpcSubtractValue": 0.01,
-                    "lagerThanValue": 0.02
-                }
-            },
-            "operateSeq": 2
-        },
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 20,
-                "ordersLargerThan": 2,
-                "cpcSmallerThan": 0.5
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE",
-                    "cpcAddValue": 0.02,
-                    "lagerThanValue": 0.02
-                }
-            },
-            "operateSeq": 3
-        }
-    ],
-    "asinPlaceSpamValidFromPlaceDetailList": [
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 40,
-                "ordersLargerThan": 1
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "OPEN"
-                }
-            },
-            "operateSeq": 1
-        },
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 30,
-                "ordersLargerThan": 1
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
-                    "cpcSubtractValue": 0.01,
-                    "lagerThanValue": 0.02
-                }
-            },
-            "operateSeq": 2
-        },
-        {
-            "spamValidFromPlaceSearchCondition": {
-                "daysLargerThan": 29,
-                "daysSmallerThan": 0,
-                "acosLargerThan": 0,
-                "acosSmallerThan": 20,
-                "ordersLargerThan": 2,
-                "cpcSmallerThan": 0.5
-            },
-            "spamValidFromPlaceDoOperation": {
-                "spamValidFromPlaceDoOperationAction": {
-                    "spamValidOperateType": "MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE",
-                    "cpcAddValue": 0.02,
-                    "lagerThanValue": 0.02
-                }
-            },
-            "operateSeq": 3
-        }
-    ]
+	"autoPlaceSpamValidFromPlaceDetailList": [
+	    {
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 0,
+				"acosSmallerThan": 60,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "OPEN"
+				}
+			},
+			"operateSeq": 1
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 35,
+				"acosSmallerThan": 60,
+				"ordersLargerThan": 2
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS_SUB_VALUE",
+					"cpcMultiplyValue": 0.35,
+					"subValue": 0.01,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 2
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 25,
+				"acosSmallerThan": 35,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcSubtractValue": 0.01,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 3
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 15,
+				"acosSmallerThan": 25,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcSubtractValue": 0,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 4
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 0,
+				"acosSmallerThan": 15,
+				"ordersLargerThan": 2
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcAddValue": 0.02,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 5
+		}
+	],
+	"categoryPlaceSpamValidFromPlaceDetailList": [
+	    {
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 0,
+				"acosSmallerThan": 60,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "OPEN"
+				}
+			},
+			"operateSeq": 1
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 35,
+				"acosSmallerThan": 60,
+				"ordersLargerThan": 2
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS_SUB_VALUE",
+					"cpcMultiplyValue": 0.35,
+					"subValue": 0.01,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 2
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 25,
+				"acosSmallerThan": 35,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcSubtractValue": 0.01,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 3
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 15,
+				"acosSmallerThan": 25,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcSubtractValue": 0,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 4
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 0,
+				"acosSmallerThan": 15,
+				"ordersLargerThan": 2
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcAddValue": 0.02,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 5
+		}
+	],
+	"keyPlaceSpamValidFromPlaceDetailList": [
+	    {
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 0,
+				"acosSmallerThan": 60,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "OPEN"
+				}
+			},
+			"operateSeq": 1
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 35,
+				"acosSmallerThan": 60,
+				"ordersLargerThan": 2
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS_SUB_VALUE",
+					"cpcMultiplyValue": 0.35,
+					"subValue": 0.01,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 2
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 25,
+				"acosSmallerThan": 35,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcSubtractValue": 0.01,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 3
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 15,
+				"acosSmallerThan": 25,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcSubtractValue": 0,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 4
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 0,
+				"acosSmallerThan": 15,
+				"ordersLargerThan": 2
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcAddValue": 0.02,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 5
+		}
+	],
+	"asinPlaceSpamValidFromPlaceDetailList": [
+	    {
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 0,
+				"acosSmallerThan": 60,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "OPEN"
+				}
+			},
+			"operateSeq": 1
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 35,
+				"acosSmallerThan": 60,
+				"ordersLargerThan": 2
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS_SUB_VALUE",
+					"cpcMultiplyValue": 0.35,
+					"subValue": 0.01,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 2
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 25,
+				"acosSmallerThan": 35,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcSubtractValue": 0.01,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 3
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 15,
+				"acosSmallerThan": 25,
+				"ordersLargerThan": 1
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_SUBTRACT_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcSubtractValue": 0,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 4
+		},
+		{
+			"spamValidFromPlaceSearchCondition": {
+				"daysLargerThan": 59,
+				"daysSmallerThan": 0,
+				"acosLargerThan": 0,
+				"acosSmallerThan": 15,
+				"ordersLargerThan": 2
+			},
+			"spamValidFromPlaceDoOperation": {
+				"spamValidFromPlaceDoOperationAction": {
+					"spamValidOperateType": "MORE_THAN_CPC_ADD_VALUE_AND_LAGER_THAN_VALUE",
+					"cpcAddValue": 0.02,
+					"lagerThanValue": 0.02
+				}
+			},
+			"operateSeq": 5
+		}
+	]
 }

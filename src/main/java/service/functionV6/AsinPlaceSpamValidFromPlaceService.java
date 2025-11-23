@@ -104,6 +104,17 @@ public class AsinPlaceSpamValidFromPlaceService {
                     doChangeBid(configuration, bidChangeToB, goodsPlace, bidNow, expressionType);
                 }
                 break;
+            case CPC_MULTIPLY_VALUE_DIVIDE_ACOS_SUB_VALUE:
+                double acos = null == goodsPlace.getAcos() || "99999999".equalsIgnoreCase(goodsPlace.getAcos()) ? 0 : Double.parseDouble(goodsPlace.getAcos());
+                double bidChangeToC = Math.max((goodsPlace.getCpc() * action.getCpcMultiplyValue()/ acos) - action.getSubValue(), action.getLagerThanValue());
+                BigDecimal bdC = new BigDecimal(bidChangeToC);
+                bidChangeToC = bdC.setScale(2, RoundingMode.HALF_UP).doubleValue();
+                if(bidNow >= bidChangeToC) {
+                    System.out.println(String.format("%s操作,bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", operation,bidNow,bidChangeToC,goodsPlace.getAd_group_name(),bidNow,goodsPlace.getCpc(),goodsPlace.getAcos(),goodsPlace.getClicks(),goodsPlace.getOrders()));
+                }else {
+                    doChangeBid(configuration, bidChangeToC, goodsPlace, bidNow, expressionType);
+                }
+                break;
         }
     }
 
