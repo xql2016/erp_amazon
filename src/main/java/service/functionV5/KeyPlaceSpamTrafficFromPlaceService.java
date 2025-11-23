@@ -118,6 +118,17 @@ public class KeyPlaceSpamTrafficFromPlaceService {
                         doChangeBid(configuration, bidChangeToC, keyPlace, bidNow);
                     }
                     break;
+                case CPC_MULTIPLY_VALUE_DIVIDE_ACOS:
+                    double acos = null == keyPlace.getAcos() || "99999999".equalsIgnoreCase(keyPlace.getAcos()) ? 0 : Double.parseDouble(keyPlace.getAcos());
+                    double bidChangeToD = keyPlace.getCpc() * action.getCpcMultiplyValue() / acos;
+                    BigDecimal bdD = new BigDecimal(bidChangeToD);
+                    bidChangeToD = bdD.setScale(2, RoundingMode.HALF_UP).doubleValue();
+                    if(bidNow <= bidChangeToD) {
+                        System.out.println(String.format("关键词投放操作,bid无变更,变更前=%s,变更后=%s, 名称=%s,bid=%s,cpc=%s,acos=%s,点击数=%s,订单数=%s,", bidNow,bidChangeToD,keyPlace.getAd_group_name(),bidNow,keyPlace.getCpc(),keyPlace.getAcos(),keyPlace.getClicks(),keyPlace.getOrders()));
+                    }else {
+                        doChangeBid(configuration, bidChangeToD, keyPlace, bidNow);
+                    }
+                    break;
             }
         }
     }

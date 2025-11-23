@@ -19,4 +19,5 @@ public class SpamTrafficFromPlaceDoOperationAction {
     private Double acosMultiplyValue;
     private Double changeToValue;
     private Double lagerThanValue;
+    private Double cpcMultiplyValue;
 }

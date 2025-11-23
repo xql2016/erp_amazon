@@ -93,11 +93,12 @@ public class SpamTrafficFromPlaceAction extends AbstractAction {
     }
 
     private SpamTrafficFromPlaceConfiguration assembleSpamTrafficFromPlaceConfiguration(SpamTrafficFromPlaceConfiguration spamTrafficFromPlaceConfiguration, JSONObject spamTrafficCustomConfiguration) {
-        Integer nearlyDays = spamTrafficCustomConfiguration.getInteger("投放入口,控制长期垃圾流量的天数");
-        Long autoPlaceClicks = spamTrafficCustomConfiguration.getLong("自动点击临界数");
-        Long categoryPlaceClicks = spamTrafficCustomConfiguration.getLong("类目点击临界数");
-        Long keyPlaceClicks = spamTrafficCustomConfiguration.getLong("关键词点击临界数");
-        Long asinPlaceClicks = spamTrafficCustomConfiguration.getLong("ASIN点击临界数");
+        Integer nearlyDays = spamTrafficCustomConfiguration.getInteger("V5,投放入口,控制长期垃圾流量的天数");
+        Long autoPlaceClicks = spamTrafficCustomConfiguration.getLong("V5,自动点击临界数");
+        Long categoryPlaceClicks = spamTrafficCustomConfiguration.getLong("V5,类目点击临界数");
+        Long keyPlaceClicks = spamTrafficCustomConfiguration.getLong("V5,关键词点击临界数");
+        Long asinPlaceClicks = spamTrafficCustomConfiguration.getLong("V5,ASIN点击临界数");
+        Long acosLargerThan = spamTrafficCustomConfiguration.getLong("V5,投放入口,批量控广告ACOS控制基准");
         if(null != nearlyDays) {
             spamTrafficFromPlaceConfiguration.getAsinPlaceSpamTrafficFromPlaceDetailList().forEach(
                     it -> {
@@ -181,6 +182,28 @@ public class SpamTrafficFromPlaceAction extends AbstractAction {
                                 }
                             }
                         }
+                    }
+            );
+        }
+        if(null != acosLargerThan) {
+            spamTrafficFromPlaceConfiguration.getAsinPlaceSpamTrafficFromPlaceDetailList().forEach(
+                    it -> {
+                        it.getSpamTrafficFromPlaceSearchCondition().setAcosLargerThan(acosLargerThan);
+                    }
+            );
+            spamTrafficFromPlaceConfiguration.getCategoryPlaceSpamTrafficFromPlaceDetailList().forEach(
+                    it -> {
+                        it.getSpamTrafficFromPlaceSearchCondition().setAcosLargerThan(acosLargerThan);
+                    }
+            );
+            spamTrafficFromPlaceConfiguration.getKeyPlaceSpamTrafficFromPlaceDetailList().forEach(
+                    it -> {
+                        it.getSpamTrafficFromPlaceSearchCondition().setAcosLargerThan(acosLargerThan);
+                    }
+            );
+            spamTrafficFromPlaceConfiguration.getAutoPlaceSpamTrafficFromPlaceDetailList().forEach(
+                    it -> {
+                        it.getSpamTrafficFromPlaceSearchCondition().setAcosLargerThan(acosLargerThan);
                     }
             );
         }

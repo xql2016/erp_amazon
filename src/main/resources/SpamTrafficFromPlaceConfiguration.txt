@@ -53,7 +53,7 @@
                 "daysLargerThan": 29,
                 "daysSmallerThan": 0,
                 "ordersLargerThan": 1,
-                "acosLargerThan": 40
+                "acosLargerThan": 35
             },
             "SpamTrafficFromPlaceDoOperation": {
                 "doOperationSingleList": [
@@ -62,33 +62,14 @@
                             {
                                 "autoPlaceCompareValue": "ACOS",
                                 "autoPlaceCompareValueType": "BIGGER_TO_SMALLER_OR_EQUAL",
-                                "biggerThan": 40,
-                                "smallerThan": 100
-                            }
-                        ],
-                        "actionList": [
-                            {
-                                "autoPlaceOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
-                                "acosSubtractValue": 4,
-                                "acosMultiplyValue": 0.01,
-                                "lagerThanValue": 0.02
-                            }
-                        ]
-                    },
-                    {
-                        "compareList": [
-                            {
-                                "autoPlaceCompareValue": "ACOS",
-                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER",
-                                "biggerThan": 100,
+                                "biggerThan": 35,
                                 "smallerThan": 9999999
                             }
                         ],
                         "actionList": [
                             {
-                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
-                                "changeToValue": 0.1,
-                                "lagerThanValue": 0.1
+                                "autoPlaceOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS",
+                                "cpcMultiplyValue": 0.35
                             }
                         ]
                     }
@@ -150,7 +131,7 @@
                 "daysLargerThan": 29,
                 "daysSmallerThan": 0,
                 "ordersLargerThan": 1,
-                "acosLargerThan": 40
+                "acosLargerThan": 35
             },
             "SpamTrafficFromPlaceDoOperation": {
                 "doOperationSingleList": [
@@ -159,33 +140,14 @@
                             {
                                 "autoPlaceCompareValue": "ACOS",
                                 "autoPlaceCompareValueType": "BIGGER_TO_SMALLER_OR_EQUAL",
-                                "biggerThan": 40,
-                                "smallerThan": 100
-                            }
-                        ],
-                        "actionList": [
-                            {
-                                "autoPlaceOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
-                                "acosSubtractValue": 4,
-                                "acosMultiplyValue": 0.01,
-                                "lagerThanValue": 0.02
-                            }
-                        ]
-                    },
-                    {
-                        "compareList": [
-                            {
-                                "autoPlaceCompareValue": "ACOS",
-                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER",
-                                "biggerThan": 100,
+                                "biggerThan": 35,
                                 "smallerThan": 9999999
                             }
                         ],
                         "actionList": [
                             {
-                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
-                                "changeToValue": 0.1,
-                                "lagerThanValue": 0.1
+                                "autoPlaceOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS",
+                                "cpcMultiplyValue": 0.35
                             }
                         ]
                     }
@@ -245,7 +207,7 @@
                 "daysLargerThan": 29,
                 "daysSmallerThan": 0,
                 "ordersLargerThan": 1,
-                "acosLargerThan": 40
+                "acosLargerThan": 35
             },
             "SpamTrafficFromPlaceDoOperation": {
                 "doOperationSingleList": [
@@ -254,33 +216,14 @@
                             {
                                 "autoPlaceCompareValue": "ACOS",
                                 "autoPlaceCompareValueType": "BIGGER_TO_SMALLER_OR_EQUAL",
-                                "biggerThan": 40,
-                                "smallerThan": 100
-                            }
-                        ],
-                        "actionList": [
-                            {
-                                "autoPlaceOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
-                                "acosSubtractValue": 4,
-                                "acosMultiplyValue": 0.01,
-                                "lagerThanValue": 0.02
-                            }
-                        ]
-                    },
-                    {
-                        "compareList": [
-                            {
-                                "autoPlaceCompareValue": "ACOS",
-                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER",
-                                "biggerThan": 100,
+                                "biggerThan": 35,
                                 "smallerThan": 9999999
                             }
                         ],
                         "actionList": [
                             {
-                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
-                                "changeToValue": 0.1,
-                                "lagerThanValue": 0.1
+                                "autoPlaceOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS",
+                                "cpcMultiplyValue": 0.35
                             }
                         ]
                     }
@@ -340,7 +283,7 @@
                 "daysLargerThan": 29,
                 "daysSmallerThan": 0,
                 "ordersLargerThan": 1,
-                "acosLargerThan": 40
+                "acosLargerThan": 35
             },
             "SpamTrafficFromPlaceDoOperation": {
                 "doOperationSingleList": [
@@ -349,33 +292,14 @@
                             {
                                 "autoPlaceCompareValue": "ACOS",
                                 "autoPlaceCompareValueType": "BIGGER_TO_SMALLER_OR_EQUAL",
-                                "biggerThan": 40,
-                                "smallerThan": 100
-                            }
-                        ],
-                        "actionList": [
-                            {
-                                "autoPlaceOperateType": "CPC_SUBTRACT_ACOS_MULTIPLY_VALUE_AND_LAGER_THAN_VALUE",
-                                "acosSubtractValue": 4,
-                                "acosMultiplyValue": 0.01,
-                                "lagerThanValue": 0.02
-                            }
-                        ]
-                    },
-                    {
-                        "compareList": [
-                            {
-                                "autoPlaceCompareValue": "ACOS",
-                                "autoPlaceCompareValueType": "BIGGER_TO_SMALLER",
-                                "biggerThan": 100,
+                                "biggerThan": 35,
                                 "smallerThan": 9999999
                             }
                         ],
                         "actionList": [
                             {
-                                "autoPlaceOperateType": "BID_CHANGE_TO_VALUE_AND_LAGER_THAN_VALUE",
-                                "changeToValue": 0.1,
-                                "lagerThanValue": 0.1
+                                "autoPlaceOperateType": "CPC_MULTIPLY_VALUE_DIVIDE_ACOS",
+                                "cpcMultiplyValue": 0.35
                             }
                         ]
                     }
