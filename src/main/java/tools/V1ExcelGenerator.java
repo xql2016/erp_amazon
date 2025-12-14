@@ -1,5 +1,6 @@
 package tools;
 
+import model.constant.FilePath;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -76,7 +77,7 @@ public class V1ExcelGenerator {
         }
 
         // 写入文件
-        String filePath = "src/main/resources/控制流量MSKU清单.xlsx";
+        String filePath = "src/main/resources/" + FilePath.v1SkuControlExcel;
         FileOutputStream outputStream = new FileOutputStream(filePath);
         workbook.write(outputStream);
         workbook.close();
@@ -128,7 +129,7 @@ public class V1ExcelGenerator {
         }
 
         // 写入文件
-        String filePath = "src/main/resources/导入流量MSKU清单.xlsx";
+        String filePath = "src/main/resources/" + FilePath.v1SkuAddExcel;
         FileOutputStream outputStream = new FileOutputStream(filePath);
         workbook.write(outputStream);
         workbook.close();
