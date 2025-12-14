@@ -3,8 +3,8 @@ package service.functionV1;
 import model.configuration.Configuration;
 import model.response.ProcessResult;
 import service.AbstractAction;
-import service.functionV1.control.ControlTrafficActionV1;
-import service.functionV1.import.ImportTrafficActionV1;
+import service.functionV1.controlAd.*;
+import service.functionV1.importAd.*;
 
 /**
  * V1产品层面广告自动化统一入口类
@@ -24,7 +24,7 @@ public class ProductLevelActionV1 extends AbstractAction {
         ProcessResult controlResult = new ControlTrafficActionV1().execute(configuration);
         
         // 再执行导入流量
-        ProcessResult importResult = new ImportTrafficActionV1().execute(configuration);
+        ProcessResult importResult = new service.functionV1.ImportTrafficActionV1().execute(configuration);
         
         // 输出总体统计
         System.out.println("========== V1产品层面广告自动化执行完成 ==========");
