@@ -24,7 +24,7 @@ public class ProductLevelActionV1 extends AbstractAction {
         ProcessResult controlResult = new ControlTrafficActionV1().execute(configuration);
         
         // 再执行导入流量
-        ProcessResult importResult = new service.functionV1.ImportTrafficActionV1().execute(configuration);
+        ProcessResult importResult = new ImportTrafficActionV1().execute(configuration);
         
         // 输出总体统计
         System.out.println("========== V1产品层面广告自动化执行完成 ==========");
