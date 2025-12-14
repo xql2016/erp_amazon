@@ -1,4 +1,4 @@
-package service.functionV1.control;
+package service.functionV1.controlAd;
 
 import model.configuration.Configuration;
 import model.enums.AdGroupType;

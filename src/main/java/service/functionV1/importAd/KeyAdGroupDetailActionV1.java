@@ -1,4 +1,4 @@
-package service.functionV1.import;
+package service.functionV1.importAd;
 
 import model.configuration.Configuration;
 import model.enums.AdGroupType;

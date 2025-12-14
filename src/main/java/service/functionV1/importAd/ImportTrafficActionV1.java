@@ -1,4 +1,4 @@
-package service.functionV1.import;
+package service.functionV1.importAd;
 
 import model.configuration.Configuration;
 import model.constant.FilePath;
@@ -14,6 +14,7 @@ import tools.DateUtils;
 import tools.HubUtils;
 import tools.MskuExcelReader;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,9 @@ public class ImportTrafficActionV1 {
                 // 查询该MSKU的广告组（近30天数据）
                 AdGroupRequest adGroupRequest = new AdGroupRequest();
                 adGroupRequest.setProfile_id(Long.parseLong(profileId));
-                adGroupRequest.setSku(msku);
+                List<String> mskuTempList = new ArrayList<>();
+                mskuTempList.add(msku);
+                adGroupRequest.setSku(mskuTempList);
                 adGroupRequest.setReport_date(DateUtils.buildReportDateString(29)); // 近30天
                 
                 List<AdGroup> adGroupList = new AdGroupReadRepository().queryAdGroupList(adGroupRequest, configuration);

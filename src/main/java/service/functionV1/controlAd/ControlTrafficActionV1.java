@@ -9,12 +9,12 @@ import model.response.ProcessResult;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import repository.read.AdGroupReadRepository;
-import service.AbstractAction;
 import tools.AdUtils;
 import tools.DateUtils;
 import tools.HubUtils;
 import tools.MskuExcelReader;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +66,9 @@ public class ControlTrafficActionV1 {
                 // 查询该MSKU的广告组（近30天数据）
                 AdGroupRequest adGroupRequest = new AdGroupRequest();
                 adGroupRequest.setProfile_id(Long.parseLong(profileId));
-                adGroupRequest.setSku(msku);
+                List<String> mskuTempList = new ArrayList<>();
+                mskuTempList.add(msku);
+                adGroupRequest.setSku(mskuTempList);
                 adGroupRequest.setReport_date(DateUtils.buildReportDateString(29)); // 近30天
                 
                 List<AdGroup> adGroupList = new AdGroupReadRepository().queryAdGroupList(adGroupRequest, configuration);
