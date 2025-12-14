@@ -59,6 +59,11 @@ public class AdPlacement {
     private int clicks;
 
     /**
+     * 曝光量
+     */
+    private int impressions;
+
+    /**
      * 状态,paused
      */
     private String state;

@@ -3,6 +3,7 @@ package service;
 import model.configuration.*;
 import org.apache.commons.collections4.CollectionUtils;
 import service.configuration.ConfigurationService;
+import service.functionV1.ProductLevelActionV1;
 import service.functionV2.AdGroupActionV2;
 import service.functionV3Common.AdGroupActionV3Common;
 import service.functionV3Enhanced.AdGroupActionV3Enhanced;
@@ -51,6 +52,7 @@ public class Processor {
 
     private List<AbstractAction> loadAllActionList() {
         List<AbstractAction> abstractionActionList = new ArrayList<>();
+        abstractionActionList.add(new ProductLevelActionV1());
         abstractionActionList.add(new AdGroupActionV2());
         abstractionActionList.add(new AdGroupActionV3Common());
         abstractionActionList.add(new AdGroupActionV3Enhanced());

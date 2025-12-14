@@ -40,7 +40,26 @@ public class ConfigurationService {
     private InputConfigurationCustom loadInputConfigurationCustom() {
         String str = FileUtils.loadFile(FilePath.inputConfigurationCustom);
         InputConfigurationCustom inputConfigurationCustom = new InputConfigurationCustom();
-        inputConfigurationCustom.setFeatures(JSONObject.parseObject(str));
+        JSONObject features = JSONObject.parseObject(str);
+        
+        // 加载V1产品层面配置，合并到features中
+        try {
+            String v1ConfigStr = FileUtils.loadFile(FilePath.v1ConfigurationCustom);
+            if (StringUtils.isNotBlank(v1ConfigStr)) {
+                JSONObject v1Features = JSONObject.parseObject(v1ConfigStr);
+                if (v1Features != null) {
+                    // 合并V1配置到features中
+                    for (String key : v1Features.keySet()) {
+                        features.put(key, v1Features.get(key));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // V1配置文件不存在或格式错误时，使用默认值，不阻塞流程
+            System.out.println(String.format("加载V1配置文件失败，将使用默认值: %s", e.getMessage()));
+        }
+        
+        inputConfigurationCustom.setFeatures(features);
         return inputConfigurationCustom;
     }
 
