@@ -9,7 +9,6 @@ import model.response.AdPlacement;
 import org.apache.commons.lang3.StringUtils;
 import repository.read.AdGroupReadRepository;
 import repository.read.AdReadRepository;
-import tools.AdPlacementLogUtils;
 import tools.AdPlacementUtils;
 import tools.BidUtils;
 import tools.DateUtils;
@@ -108,11 +107,6 @@ public class KeyAdGroupDetailActionV1 {
                 continue;
             }
             
-            // 检查昨天和今天是否有变更日志
-            if (new AdPlacementLogUtils().hasBidOperateLog(adGroup, adGroupType, adPlacement, configuration, 1)) {
-                continue;
-            }
-            
             if (placementAcos > acosControlBase && placementAcos <= acosKeepOpen) {
                 // 35%＜ACOS≤60%，保持投放入口打开
                 new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);
@@ -173,11 +167,6 @@ public class KeyAdGroupDetailActionV1 {
                     continue;
                 }
                 
-                // 检查昨天和今天是否有变更日志
-                if (new AdPlacementLogUtils().hasBidOperateLog(adGroup, adGroupType, adPlacement, configuration, 1)) {
-                    continue;
-                }
-                
                 if (currentBid <= 0.3) {
                     // Bid≤0.3，则将投放入口Bid增加0.02
                     new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, currentBid + 0.02, configuration, 1);
@@ -204,11 +193,6 @@ public class KeyAdGroupDetailActionV1 {
         Double placementCpc = NumberUtils.parseDouble(adPlacement.getCpc());
         
         if (placementAcos == null || placementCpc == null) {
-            return;
-        }
-        
-        // 检查昨天和今天是否有变更日志
-        if (new AdPlacementLogUtils().hasBidOperateLog(adGroup, adGroupType, adPlacement, configuration, 1)) {
             return;
         }
         

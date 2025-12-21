@@ -9,7 +9,6 @@ import model.response.AdPlacement;
 import org.apache.commons.lang3.StringUtils;
 import repository.read.AdGroupReadRepository;
 import repository.read.AdReadRepository;
-import tools.AdPlacementLogUtils;
 import tools.AdPlacementUtils;
 import tools.BidUtils;
 import tools.DateUtils;
@@ -117,10 +116,6 @@ public class AsinAdGroupDetailActionV1 {
                     continue;
                 }
                 
-                if (new AdPlacementLogUtils().hasBidOperateLog(adGroup, adGroupType, adPlacement, configuration, 1)) {
-                    continue;
-                }
-                
                 if (currentBid <= 0.3) {
                     // Bid≤0.3，则将投放入口Bid增加0.02
                     new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, currentBid + 0.02, configuration, 1);
@@ -142,10 +137,6 @@ public class AsinAdGroupDetailActionV1 {
         Double placementCpc = NumberUtils.parseDouble(adPlacement.getCpc());
         
         if (placementAcos == null || placementCpc == null) {
-            return;
-        }
-        
-        if (new AdPlacementLogUtils().hasBidOperateLog(adGroup, adGroupType, adPlacement, configuration, 1)) {
             return;
         }
         

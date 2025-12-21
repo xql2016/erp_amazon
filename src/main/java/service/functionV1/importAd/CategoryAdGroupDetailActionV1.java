@@ -9,7 +9,6 @@ import model.response.AdPlacement;
 import org.apache.commons.lang3.StringUtils;
 import repository.read.AdGroupReadRepository;
 import repository.read.AdReadRepository;
-import tools.AdPlacementLogUtils;
 import tools.AdPlacementUtils;
 import tools.BidUtils;
 import tools.DateUtils;
@@ -145,10 +144,6 @@ public class CategoryAdGroupDetailActionV1 {
                     continue;
                 }
                 
-                if (new AdPlacementLogUtils().hasBidOperateLog(adGroup, adGroupType, adPlacement, configuration, 1)) {
-                    continue;
-                }
-                
                 if (currentBid <= 0.3) {
                     new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, currentBid + 0.02, configuration, 1);
                 } else if (currentBid > 0.3 && currentBid <= 0.4) {
@@ -168,10 +163,6 @@ public class CategoryAdGroupDetailActionV1 {
         Double placementCpc = NumberUtils.parseDouble(adPlacement.getCpc());
         
         if (placementAcos == null || placementCpc == null) {
-            return;
-        }
-        
-        if (new AdPlacementLogUtils().hasBidOperateLog(adGroup, adGroupType, adPlacement, configuration, 1)) {
             return;
         }
         
