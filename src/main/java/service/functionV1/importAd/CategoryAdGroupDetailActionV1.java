@@ -187,8 +187,15 @@ public class CategoryAdGroupDetailActionV1 {
         }
     }
     
+    /**
+     * 获取投放入口的唯一标识（用于匹配昨天和近30天的数据）
+     * 注意：ad_group_id可能为null，keyword_id和target_id为0时表示未设置
+     */
     private String getPlacementKey(AdPlacement placement) {
-        return placement.getAd_group_id() + "_" + placement.getTarget_id() + "_" + placement.getKeyword_id();
+        String adGroupId = placement.getAd_group_id() != null ? placement.getAd_group_id() : "";
+        String targetId = placement.getTarget_id() != 0 ? String.valueOf(placement.getTarget_id()) : "";
+        String keywordId = placement.getKeyword_id() != 0 ? String.valueOf(placement.getKeyword_id()) : "";
+        return adGroupId + "_" + targetId + "_" + keywordId;
     }
     
     private int getConfigValue(Configuration configuration, String key, int defaultValue) {
