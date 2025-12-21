@@ -79,32 +79,55 @@ public class AutoAdGroupDetailActionV1 {
                     }
                 }
             } else {
-                // 投放入口没有广告订单，分析投放入口点击数
+                // 【重要】自动广告组投放入口没有广告订单的处理逻辑与关键词/ASIN完全不同！
+                // 策略文档V1_strategy.md 第78-98行定义了自动广告组的特殊规则
                 int placementClicks = adPlacement.getClicks();
                 Double placementCpc = NumberUtils.parseDouble(adPlacement.getCpc());
                 
-                if (placementClicks >= 10) {
-                    new AdPlacementUtils().close(adGroup, adGroupType, adPlacement, configuration);
-                } else if (placementClicks >= 4) {
-                    // 【修复问题1】根据是否为"高点击无转化"情况使用不同公式
+                if (placementClicks >= 20) {
+                    // 【自动广告组特殊规则】点击≥20，将Bid改为0.02（而不是关闭投放入口）
+                    // 这与关键词/ASIN的"点击≥10关闭"完全不同
+                    new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, 0.02, configuration);
+                    
+                } else if (placementClicks >= 10) {
+                    // 【自动广告组特殊规则】10≤点击<20区间处理
+                    // 情况A（高点击无转化）：CPC + 0.07 - 0.01 × 点击数
+                    // 情况B（非高点击无转化）：CPC + 0.08 - 0.01 × 点击数
                     if (placementCpc != null) {
-                        double offset = isHighClickNoConversion ? 0.02 : 0.04;
+                        double offset = isHighClickNoConversion ? 0.07 : 0.08;
                         double targetBid = placementCpc + offset - 0.01 * placementClicks;
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         if (currentBid != null && currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         }
                     }
-                } else if (placementClicks > 0) {
-                    // 【修复问题1】根据是否为"高点击无转化"情况使用不同公式
+                    
+                } else if (isHighClickNoConversion && placementClicks > 0) {
+                    // 【自动广告组特殊规则】高点击无转化，0<点击<10
+                    // 统一使用：CPC - 0.02
+                    // 注意：这与关键词/ASIN的分段处理（4-10和1-4）完全不同
                     if (placementCpc != null) {
-                        double targetBid = isHighClickNoConversion ? (placementCpc - 0.02) : placementCpc;
+                        double targetBid = placementCpc - 0.02;
+                        Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
+                        if (currentBid != null && currentBid > targetBid) {
+                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                        }
+                    }
+                    
+                } else if (!isHighClickNoConversion && placementClicks >= 4) {
+                    // 【自动广告组特殊规则】非高点击无转化，4≤点击<10
+                    // 使用：CPC - 0.01
+                    // 注意：关键词/ASIN用的是 CPC + 0.04 - 0.01 × 点击数
+                    if (placementCpc != null) {
+                        double targetBid = placementCpc - 0.01;
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         if (currentBid != null && currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         }
                     }
                 }
+                // 【自动广告组特殊规则】非高点击无转化，0<点击<4：不做处理
+                // 注意：关键词/ASIN在此情况下会降Bid至CPC
             }
         }
     }
