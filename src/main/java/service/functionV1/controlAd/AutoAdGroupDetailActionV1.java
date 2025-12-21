@@ -75,7 +75,13 @@ public class AutoAdGroupDetailActionV1 {
                         // 【修复问题4】向上取整，保留两位小数（使用UP而不是HALF_UP）
                         BigDecimal bd = new BigDecimal(targetBid);
                         targetBid = bd.setScale(2, RoundingMode.UP).doubleValue();
-                        new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                        
+                        // 【优化】只有当前Bid为null或者当前Bid > 目标Bid时才需要降低竞价
+                        // 如果当前Bid <= 目标Bid，说明已经比目标更低，不需要变更
+                        Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
+                        if (currentBid == null || currentBid > targetBid) {
+                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                        }
                     }
                 }
             } else {
@@ -97,7 +103,8 @@ public class AutoAdGroupDetailActionV1 {
                         double offset = isHighClickNoConversion ? 0.07 : 0.08;
                         double targetBid = placementCpc + offset - 0.01 * placementClicks;
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
-                        if (currentBid != null && currentBid > targetBid) {
+                        // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
+                        if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         }
                     }
@@ -109,7 +116,8 @@ public class AutoAdGroupDetailActionV1 {
                     if (placementCpc != null) {
                         double targetBid = placementCpc - 0.02;
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
-                        if (currentBid != null && currentBid > targetBid) {
+                        // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
+                        if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         }
                     }
@@ -121,7 +129,8 @@ public class AutoAdGroupDetailActionV1 {
                     if (placementCpc != null) {
                         double targetBid = placementCpc - 0.01;
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
-                        if (currentBid != null && currentBid > targetBid) {
+                        // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
+                        if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         }
                     }

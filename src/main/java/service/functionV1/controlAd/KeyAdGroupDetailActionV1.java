@@ -88,7 +88,13 @@ public class KeyAdGroupDetailActionV1 {
                         // 例如：0.234 → 0.24（而不是0.23）
                         BigDecimal bd = new BigDecimal(targetBid);
                         targetBid = bd.setScale(2, RoundingMode.UP).doubleValue();
-                        new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                        
+                        // 【优化】只有当前Bid为null或者当前Bid > 目标Bid时才需要降低竞价
+                        // 如果当前Bid <= 目标Bid，说明已经比目标更低，不需要变更
+                        Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
+                        if (currentBid == null || currentBid > targetBid) {
+                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                        }
                     }
                 }
             } else {
@@ -108,7 +114,8 @@ public class KeyAdGroupDetailActionV1 {
                         double offset = isHighClickNoConversion ? 0.02 : 0.04;
                         double targetBid = placementCpc + offset - 0.01 * placementClicks;
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
-                        if (currentBid != null && currentBid > targetBid) {
+                        // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
+                        if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         }
                     }
@@ -120,7 +127,8 @@ public class KeyAdGroupDetailActionV1 {
                     if (placementCpc != null) {
                         double targetBid = isHighClickNoConversion ? (placementCpc - 0.02) : placementCpc;
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
-                        if (currentBid != null && currentBid > targetBid) {
+                        // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
+                        if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         }
                     }
