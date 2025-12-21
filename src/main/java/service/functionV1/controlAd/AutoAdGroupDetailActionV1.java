@@ -90,6 +90,12 @@ public class AutoAdGroupDetailActionV1 {
                         System.out.println(String.format("        投放入口CPC异常(null或≤0)，跳过降Bid: %s, ACOS=%.2f", 
                                 adPlacement.getTargeting_text_zh(), placementAcos));
                     }
+                } else {
+                    // 【场景3】有订单但ACOS≤35%，符合策略不处理
+                    if (placementAcos != null) {
+                        System.out.println(String.format("        投放入口ACOS达标，无需降Bid: %s, ACOS=%.2f, 基准=%d%%", 
+                                adPlacement.getTargeting_text_zh(), placementAcos, acosControlBase));
+                    }
                 }
             } else {
                 // 【重要】自动广告组投放入口没有广告订单的处理逻辑与关键词/ASIN完全不同！
@@ -159,9 +165,18 @@ public class AutoAdGroupDetailActionV1 {
                         System.out.println(String.format("        投放入口CPC为null，无法计算目标Bid: %s, 点击=%d", 
                                 adPlacement.getTargeting_text_zh(), placementClicks));
                     }
+                } else {
+                    // 【场景4】无订单且点击=0，符合策略不处理
+                    System.out.println(String.format("        投放入口无点击数据，跳过: %s", 
+                            adPlacement.getTargeting_text_zh()));
                 }
                 // 【自动广告组特殊规则】非高点击无转化，0<点击<4：不做处理
                 // 注意：关键词/ASIN在此情况下会降Bid至CPC
+                if (!isHighClickNoConversion && placementClicks > 0 && placementClicks < 4) {
+                    // 【场景5】无订单非高点击无转化且0<点击<4，符合策略不处理
+                    System.out.println(String.format("        投放入口点击数太少(非高点击无转化)，跳过: %s, 点击=%d", 
+                            adPlacement.getTargeting_text_zh(), placementClicks));
+                }
             }
         }
     }

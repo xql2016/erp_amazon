@@ -94,6 +94,12 @@ public class AsinAdGroupDetailActionV1 {
                         System.out.println(String.format("        投放入口CPC异常(null或≤0)，跳过降Bid: %s, ACOS=%.2f", 
                                 adPlacement.getTargeting_text_zh(), placementAcos));
                     }
+                } else {
+                    // 【场景1】有订单但ACOS≤35%，符合策略不处理
+                    if (placementAcos != null) {
+                        System.out.println(String.format("        投放入口ACOS达标，无需降Bid: %s, ACOS=%.2f, 基准=%d%%", 
+                                adPlacement.getTargeting_text_zh(), placementAcos, acosControlBase));
+                    }
                 }
             } else {
                 // 投放入口没有广告订单，分析投放入口点击数
@@ -136,6 +142,10 @@ public class AsinAdGroupDetailActionV1 {
                         System.out.println(String.format("        投放入口CPC为null，无法计算目标Bid: %s, 点击=%d", 
                                 adPlacement.getTargeting_text_zh(), placementClicks));
                     }
+                } else {
+                    // 【场景2】无订单且点击=0，符合策略不处理
+                    System.out.println(String.format("        投放入口无点击数据，跳过: %s", 
+                            adPlacement.getTargeting_text_zh()));
                 }
             }
         }
