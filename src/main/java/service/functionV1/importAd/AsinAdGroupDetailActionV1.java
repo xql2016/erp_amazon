@@ -122,8 +122,10 @@ public class AsinAdGroupDetailActionV1 {
                 }
                 
                 if (currentBid <= 0.3) {
+                    // Bid≤0.3，则将投放入口Bid增加0.02
                     new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, currentBid + 0.02, configuration, 1);
                 } else if (currentBid > 0.3 && currentBid <= 0.45) {
+                    // 0.3＜Bid≤0.45，则将投放入口Bid增加0.01
                     new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, currentBid + 0.01, configuration, 1);
                 }
             } else {
@@ -150,8 +152,9 @@ public class AsinAdGroupDetailActionV1 {
         if (placementAcos > acosControlBase && placementAcos <= acosKeepOpen) {
             new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);
             double targetBid = (acosControlBase * placementCpc / placementAcos) - 0.01;
+            // 【修复问题4】向上取整，保留两位小数（使用UP而不是HALF_UP）
             BigDecimal bd = new BigDecimal(targetBid);
-            targetBid = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
+            targetBid = bd.setScale(2, RoundingMode.UP).doubleValue();
             new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, targetBid, configuration, 1);
         } else if (placementAcos > acosCpcMinus001 && placementAcos <= acosControlBase) {
             new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);

@@ -36,18 +36,18 @@ public class AutoAdGroupDetailActionV1 {
             acosControlBase = 35; // 默认值
         }
         
-        // 判断条件：!(点击数 >= 20 && 花费>5欧 && 无订单) && !(点击数 >= 20 && cpa >= 5)
+        // 【修复问题2】判断广告组是否满足"高点击无转化"条件
+        // 条件1：点击数 >= 20 && 花费>5欧 && 无订单
+        // 条件2：点击数 >= 20 && CPA > 5（注意：策略文档要求是>而不是>=）
         Double spends = NumberUtils.parseDouble(adGroup.getSpends());
         boolean hasOrders = adGroup.getOrders() != null && adGroup.getOrders() > 0;
         Double cpa = NumberUtils.parseDouble(adGroup.getCpa());
         
         boolean condition1 = adGroup.getClicks() >= 20 && spends != null && spends > 5 && !hasOrders;
-        boolean condition2 = adGroup.getClicks() >= 20 && cpa != null && cpa >= 5;
-        boolean shouldProcess = !condition1 && !condition2;
+        boolean condition2 = adGroup.getClicks() >= 20 && cpa != null && cpa > 5; // 修改：>= 改为 >
         
-        if (!shouldProcess) {
-            return;
-        }
+        // 【修复问题1】标记是否为"高点击无转化"情况，但继续处理投放入口
+        boolean isHighClickNoConversion = condition1 || condition2;
         
         // 查询投放入口近30天数据
         AdPlacementRequest adPlacementRequest = new AdPlacementRequest();
@@ -72,8 +72,9 @@ public class AutoAdGroupDetailActionV1 {
                     Double placementCpc = NumberUtils.parseDouble(adPlacement.getCpc());
                     if (placementCpc != null && placementCpc > 0) {
                         double targetBid = (acosControlBase * placementCpc / placementAcos) - 0.01;
+                        // 【修复问题4】向上取整，保留两位小数（使用UP而不是HALF_UP）
                         BigDecimal bd = new BigDecimal(targetBid);
-                        targetBid = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
+                        targetBid = bd.setScale(2, RoundingMode.UP).doubleValue();
                         new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                     }
                 }
@@ -85,18 +86,22 @@ public class AutoAdGroupDetailActionV1 {
                 if (placementClicks >= 10) {
                     new AdPlacementUtils().close(adGroup, adGroupType, adPlacement, configuration);
                 } else if (placementClicks >= 4) {
+                    // 【修复问题1】根据是否为"高点击无转化"情况使用不同公式
                     if (placementCpc != null) {
-                        double targetBid = placementCpc + 0.04 - 0.01 * placementClicks;
+                        double offset = isHighClickNoConversion ? 0.02 : 0.04;
+                        double targetBid = placementCpc + offset - 0.01 * placementClicks;
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         if (currentBid != null && currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         }
                     }
                 } else if (placementClicks > 0) {
+                    // 【修复问题1】根据是否为"高点击无转化"情况使用不同公式
                     if (placementCpc != null) {
+                        double targetBid = isHighClickNoConversion ? (placementCpc - 0.02) : placementCpc;
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
-                        if (currentBid != null && currentBid > placementCpc) {
-                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, placementCpc, configuration);
+                        if (currentBid != null && currentBid > targetBid) {
+                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         }
                     }
                 }

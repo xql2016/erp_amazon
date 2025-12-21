@@ -194,8 +194,9 @@ public class AutoAdGroupDetailActionV1 {
         if (placementAcos > acosControlBase && placementAcos <= acosKeepOpen) {
             new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);
             double targetBid = (acosControlBase * placementCpc / placementAcos) - 0.01;
+            // 【修复问题4】向上取整，保留两位小数（使用UP而不是HALF_UP）
             BigDecimal bd = new BigDecimal(targetBid);
-            targetBid = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
+            targetBid = bd.setScale(2, RoundingMode.UP).doubleValue();
             new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, targetBid, configuration, 1);
         } else if (placementAcos > acosCpcMinus001 && placementAcos <= acosControlBase) {
             new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);
