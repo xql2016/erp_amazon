@@ -157,6 +157,7 @@ public class KeyAdGroupDetailActionV1 {
         List<AdPlacement> adPlacementList = new AdReadRepository().queryAdPlacementList(adPlacementRequest, configuration, adGroupType);
         
         if (adPlacementList == null || adPlacementList.isEmpty()) {
+            System.out.println(String.format("      广告组查询不到投放入口，跳过: %s", adGroup.getName()));
             return;
         }
         
