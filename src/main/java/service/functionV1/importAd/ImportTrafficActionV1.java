@@ -53,6 +53,7 @@ public class ImportTrafficActionV1 {
             List<String> mskuList = entry.getValue();
             
             if (CollectionUtils.isEmpty(mskuList)) {
+                System.out.println(String.format("站点 %s MSKU列表为空，跳过", profileId));
                 continue;
             }
             

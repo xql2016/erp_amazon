@@ -51,12 +51,14 @@ public class AutoAdGroupDetailActionV1 {
         if (clicks30Days >= 10) {
             // 广告组最近30天点击≥10
             if (!hasOrders) {
+                System.out.println(String.format("      广告组近30天点击≥10但无订单，不加流量: %s, 点击=%d", adGroup.getName(), clicks30Days));
                 return;
             }
             processPlacementsWithOrders(adGroup, adGroupType, configuration, acosKeepOpen, acosControlBase, acosCpcMinus001, acosCpcPlus002);
         } else if (clicks30Days < 10 && clicksYesterday >= 1) {
             // 广告组最近30天点击<10，昨天点击≥1
             if (!hasOrders) {
+                System.out.println(String.format("      广告组昨天有点击但无订单，不加流量: %s, 昨天点击=%d", adGroup.getName(), clicksYesterday));
                 return;
             }
             processPlacementsWithOrders(adGroup, adGroupType, configuration, acosKeepOpen, acosControlBase, acosCpcMinus001, acosCpcPlus002);
@@ -78,6 +80,7 @@ public class AutoAdGroupDetailActionV1 {
         List<AdPlacement> adPlacementList = new AdReadRepository().queryAdPlacementList(adPlacementRequest, configuration, adGroupType);
         
         if (adPlacementList == null || adPlacementList.isEmpty()) {
+            System.out.println(String.format("      广告组查询不到投放入口，跳过: %s", adGroup.getName()));
             return;
         }
         
@@ -87,6 +90,7 @@ public class AutoAdGroupDetailActionV1 {
             }
             
             if (adPlacement.getOrders() < 1) {
+                System.out.println(String.format("        投放入口无订单，跳过: %s", adPlacement.getTargeting_text_zh()));
                 continue;
             }
             
@@ -114,6 +118,7 @@ public class AutoAdGroupDetailActionV1 {
         List<AdPlacement> adPlacementList = new AdReadRepository().queryAdPlacementList(adPlacementRequest, configuration, adGroupType);
         
         if (adPlacementList == null || adPlacementList.isEmpty()) {
+            System.out.println(String.format("      广告组查询不到投放入口，跳过: %s", adGroup.getName()));
             return;
         }
         
@@ -140,18 +145,24 @@ public class AutoAdGroupDetailActionV1 {
                 
                 if (yesterdayImpressions >= 20) {
                     // 昨天曝光≥20，不做处理
+                    System.out.println(String.format("        投放入口昨天曝光≥20，不加流量: %s, 昨天曝光=%d", 
+                            adPlacement.getTargeting_text_zh(), yesterdayImpressions));
                     continue;
                 }
                 
                 // 昨天曝光<20
                 if (adPlacement.getClicks() >= 1) {
                     // 投放入口点击≥1，不做处理
+                    System.out.println(String.format("        投放入口无订单但有点击，不加流量: %s, 点击=%d", 
+                            adPlacement.getTargeting_text_zh(), adPlacement.getClicks()));
                     continue;
                 }
                 
                 // 投放入口点击=0
                 Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                 if (currentBid == null) {
+                    System.out.println(String.format("        投放入口当前Bid为null，跳过: %s", 
+                            adPlacement.getTargeting_text_zh()));
                     continue;
                 }
                 
@@ -159,8 +170,11 @@ public class AutoAdGroupDetailActionV1 {
                     new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, currentBid + 0.02, configuration, 1);
                 } else if (currentBid > 0.3 && currentBid <= 0.4) {
                     new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, currentBid + 0.01, configuration, 1);
+                } else {
+                    // Bid＞0.4，不做处理
+                    System.out.println(String.format("        投放入口Bid已达上限，不加流量: %s, currentBid=%.2f", 
+                            adPlacement.getTargeting_text_zh(), currentBid));
                 }
-                // Bid＞0.4，不做处理
             } else {
                 // 有广告订单，分析广告订单≥1的投放入口ACoS数据
                 if (adPlacement.getOrders() >= 1) {
@@ -179,6 +193,8 @@ public class AutoAdGroupDetailActionV1 {
         Double placementCpc = NumberUtils.parseDouble(adPlacement.getCpc());
         
         if (placementAcos == null || placementCpc == null) {
+            System.out.println(String.format("        投放入口ACOS或CPC为null，跳过: %s, ACOS=%s, CPC=%s", 
+                    adPlacement.getTargeting_text_zh(), adPlacement.getAcos(), adPlacement.getCpc()));
             return;
         }
         
@@ -200,6 +216,10 @@ public class AutoAdGroupDetailActionV1 {
             new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);
             double targetBid = placementCpc + 0.02;
             new AdPlacementUtils().addBidWithLog(adGroup, adGroupType, adPlacement, targetBid, configuration, 1);
+        } else {
+            // ACOS>60%，超出保持打开范围，不做处理
+            System.out.println(String.format("        投放入口ACOS>60%%，超出加流量范围，跳过: %s, ACOS=%.2f", 
+                    adPlacement.getTargeting_text_zh(), placementAcos));
         }
     }
     
