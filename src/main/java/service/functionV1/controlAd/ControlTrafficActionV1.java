@@ -53,6 +53,7 @@ public class ControlTrafficActionV1 {
             List<String> mskuList = entry.getValue();
             
             if (CollectionUtils.isEmpty(mskuList)) {
+                System.out.println(String.format("站点 %s MSKU列表为空，跳过", profileId));
                 continue;
             }
             
@@ -112,6 +113,7 @@ public class ControlTrafficActionV1 {
                     
                     if (recentAdGroup.getClicks() == 0) {
                         // 近3天点击=0，不处理
+                        System.out.println(String.format("    广告组近3天无点击，跳过处理: %s", adGroup.getName()));
                         continue;
                     }
                     

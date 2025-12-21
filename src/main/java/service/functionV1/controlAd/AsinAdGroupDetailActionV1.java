@@ -60,6 +60,7 @@ public class AsinAdGroupDetailActionV1 {
         List<AdPlacement> adPlacementList = new AdReadRepository().queryAdPlacementList(adPlacementRequest, configuration, adGroupType);
         
         if (adPlacementList == null || adPlacementList.isEmpty()) {
+            System.out.println(String.format("      广告组查询不到投放入口，跳过: %s", adGroup.getName()));
             return;
         }
         
@@ -85,7 +86,13 @@ public class AsinAdGroupDetailActionV1 {
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                        } else {
+                            System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
+                                    adPlacement.getTargeting_text_zh(), currentBid, targetBid));
                         }
+                    } else {
+                        System.out.println(String.format("        投放入口CPC异常(null或≤0)，跳过降Bid: %s, ACOS=%.2f", 
+                                adPlacement.getTargeting_text_zh(), placementAcos));
                     }
                 }
             } else {
@@ -105,7 +112,13 @@ public class AsinAdGroupDetailActionV1 {
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                        } else {
+                            System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
+                                    adPlacement.getTargeting_text_zh(), currentBid, targetBid));
                         }
+                    } else {
+                        System.out.println(String.format("        投放入口CPC为null，无法计算目标Bid: %s, 点击=%d", 
+                                adPlacement.getTargeting_text_zh(), placementClicks));
                     }
                 } else if (placementClicks > 0) {
                     // 【修复问题1】根据是否为"高点击无转化"情况使用不同公式
@@ -115,7 +128,13 @@ public class AsinAdGroupDetailActionV1 {
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                        } else {
+                            System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
+                                    adPlacement.getTargeting_text_zh(), currentBid, targetBid));
                         }
+                    } else {
+                        System.out.println(String.format("        投放入口CPC为null，无法计算目标Bid: %s, 点击=%d", 
+                                adPlacement.getTargeting_text_zh(), placementClicks));
                     }
                 }
             }
