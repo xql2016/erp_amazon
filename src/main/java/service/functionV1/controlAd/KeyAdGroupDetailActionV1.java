@@ -32,8 +32,10 @@ public class KeyAdGroupDetailActionV1 {
      * @param adGroup 广告组数据（近30天）
      * @param adGroupType 广告组类型
      * @param configuration 配置信息
+     * @return 是否执行了bid变更操作（true=执行了变更，false=符合策略未变更）
      */
-    public void executeAdGroupDetail(AdGroup adGroup, AdGroupType adGroupType, Configuration configuration) {
+    public boolean executeAdGroupDetail(AdGroup adGroup, AdGroupType adGroupType, Configuration configuration) {
+        boolean hasBidChanged = false; // 追踪是否执行了bid变更
         // 获取配置项：V1产品层面关键词广告组长期ACOS控制基准上限（默认35）
         String configKey = "V1产品层面关键词广告组长期ACOS控制基准上限";
         int acosControlBase = configuration.getFeatures().getIntValue(configKey);
@@ -66,7 +68,7 @@ public class KeyAdGroupDetailActionV1 {
         if (adPlacementList == null || adPlacementList.isEmpty()) {
             // 投放入口列表为空，跳过该广告组
             System.out.println(String.format("      广告组查询不到投放入口，跳过: %s", adGroup.getName()));
-            return;
+            return false;
         }
         
         for (AdPlacement adPlacement : adPlacementList) {
@@ -95,6 +97,7 @@ public class KeyAdGroupDetailActionV1 {
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                            hasBidChanged = true; // 记录执行了bid变更
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getKeyword_text(), currentBid, targetBid));
@@ -118,6 +121,7 @@ public class KeyAdGroupDetailActionV1 {
                 if (placementClicks >= 10) {
                     // 投放入口点击≥10，关闭该入口
                     new AdPlacementUtils().close(adGroup, adGroupType, adPlacement, configuration);
+                    hasBidChanged = true; // 记录执行了操作（关闭）
                 } else if (placementClicks >= 4) {
                     // 【修复问题1】10 > 投放入口点击数≥4
                     // 根据是否为"高点击无转化"情况使用不同公式：
@@ -130,6 +134,7 @@ public class KeyAdGroupDetailActionV1 {
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                            hasBidChanged = true; // 记录执行了bid变更
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getKeyword_text(), currentBid, targetBid));
@@ -149,6 +154,7 @@ public class KeyAdGroupDetailActionV1 {
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                            hasBidChanged = true; // 记录执行了bid变更
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getKeyword_text(), currentBid, targetBid));
@@ -164,6 +170,7 @@ public class KeyAdGroupDetailActionV1 {
                 }
             }
         }
+        return hasBidChanged; // 返回是否执行了bid变更
     }
 }
 

@@ -119,15 +119,18 @@ public class ControlTrafficActionV1 {
                     
                     // 处理该广告组
                     System.out.println(String.format("    处理广告组: %s, 类型: %s", adGroup.getName(), adGroupType.getDesc()));
-                    executeAdGroupDetail(adGroup, adGroupType, configuration);
-                    hasProcessed = true;
+                    boolean bidChanged = executeAdGroupDetail(adGroup, adGroupType, configuration);
+                    if (bidChanged) {
+                        hasProcessed = true;
+                    }
                 }
                 
                 if (hasProcessed) {
                     result.incrementProcessed();
                 } else {
-                    // 该MSKU的所有广告组都没有处理，记录到未处理列表
+                    // 该MSKU的所有广告组都符合策略要求，无需变更bid
                     result.addUnprocessedMsku(msku);
+                    System.out.println(String.format("    MSKU %s 所有广告组都符合策略要求，无需变更bid", msku));
                 }
             }
         }
@@ -144,21 +147,21 @@ public class ControlTrafficActionV1 {
     
     /**
      * 根据广告组类型调用对应的处理类
+     * 
+     * @return 是否执行了bid变更操作
      */
-    private void executeAdGroupDetail(AdGroup adGroup, AdGroupType adGroupType, Configuration configuration) {
+    private boolean executeAdGroupDetail(AdGroup adGroup, AdGroupType adGroupType, Configuration configuration) {
         switch (adGroupType) {
             case KEY_AD_GROUP:
-                new KeyAdGroupDetailActionV1().executeAdGroupDetail(adGroup, adGroupType, configuration);
-                break;
+                return new KeyAdGroupDetailActionV1().executeAdGroupDetail(adGroup, adGroupType, configuration);
             case ASIN_AD_GROUP:
-                new AsinAdGroupDetailActionV1().executeAdGroupDetail(adGroup, adGroupType, configuration);
-                break;
+                return new AsinAdGroupDetailActionV1().executeAdGroupDetail(adGroup, adGroupType, configuration);
             case AUTO_AD_GROUP:
-                new AutoAdGroupDetailActionV1().executeAdGroupDetail(adGroup, adGroupType, configuration);
-                break;
+                return new AutoAdGroupDetailActionV1().executeAdGroupDetail(adGroup, adGroupType, configuration);
             case CATEGORY_AD_GROUP:
-                new CategoryAdGroupDetailActionV1().executeAdGroupDetail(adGroup, adGroupType, configuration);
-                break;
+                return new CategoryAdGroupDetailActionV1().executeAdGroupDetail(adGroup, adGroupType, configuration);
+            default:
+                return false;
         }
     }
 }

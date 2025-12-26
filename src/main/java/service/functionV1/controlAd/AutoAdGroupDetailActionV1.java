@@ -27,8 +27,12 @@ public class AutoAdGroupDetailActionV1 {
 
     /**
      * 处理自动广告组的控制流量逻辑
+     * 
+     * @return 是否执行了bid变更操作（true=执行了变更，false=符合策略未变更）
      */
-    public void executeAdGroupDetail(AdGroup adGroup, AdGroupType adGroupType, Configuration configuration) {
+    public boolean executeAdGroupDetail(AdGroup adGroup, AdGroupType adGroupType, Configuration configuration) {
+        boolean hasBidChanged = false; // 追踪是否执行了bid变更
+        
         // 获取配置项：V1产品层面自动广告组长期ACOS控制基准上限（默认35）
         String configKey = "V1产品层面自动广告组长期ACOS控制基准上限";
         int acosControlBase = configuration.getFeatures().getIntValue(configKey);
@@ -58,7 +62,7 @@ public class AutoAdGroupDetailActionV1 {
         
         if (adPlacementList == null || adPlacementList.isEmpty()) {
             System.out.println(String.format("      广告组查询不到投放入口，跳过: %s", adGroup.getName()));
-            return;
+            return false;
         }
         
         for (AdPlacement adPlacement : adPlacementList) {
@@ -82,6 +86,7 @@ public class AutoAdGroupDetailActionV1 {
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                            hasBidChanged = true; // 记录执行了bid变更
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getTargeting_text_zh(), currentBid, targetBid));
@@ -107,6 +112,7 @@ public class AutoAdGroupDetailActionV1 {
                     // 【自动广告组特殊规则】点击≥20，将Bid改为0.02（而不是关闭投放入口）
                     // 这与关键词/ASIN的"点击≥10关闭"完全不同
                     new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, 0.02, configuration);
+                    hasBidChanged = true; // 记录执行了bid变更
                     
                 } else if (placementClicks >= 10) {
                     // 【自动广告组特殊规则】10≤点击<20区间处理
@@ -119,6 +125,7 @@ public class AutoAdGroupDetailActionV1 {
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                            hasBidChanged = true; // 记录执行了bid变更
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getTargeting_text_zh(), currentBid, targetBid));
@@ -138,6 +145,7 @@ public class AutoAdGroupDetailActionV1 {
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                            hasBidChanged = true; // 记录执行了bid变更
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getTargeting_text_zh(), currentBid, targetBid));
@@ -157,6 +165,7 @@ public class AutoAdGroupDetailActionV1 {
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
                             new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
+                            hasBidChanged = true; // 记录执行了bid变更
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getTargeting_text_zh(), currentBid, targetBid));
@@ -179,6 +188,7 @@ public class AutoAdGroupDetailActionV1 {
                 }
             }
         }
+        return hasBidChanged; // 返回是否执行了bid变更
     }
 }
 
