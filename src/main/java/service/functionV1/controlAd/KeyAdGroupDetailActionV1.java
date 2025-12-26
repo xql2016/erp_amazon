@@ -96,8 +96,7 @@ public class KeyAdGroupDetailActionV1 {
                         // 如果当前Bid <= 目标Bid，说明已经比目标更低，不需要变更
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         if (currentBid == null || currentBid > targetBid) {
-                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-                            hasBidChanged = true; // 记录执行了bid变更
+                            hasBidChanged = new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getKeyword_text(), currentBid, targetBid));
@@ -120,8 +119,7 @@ public class KeyAdGroupDetailActionV1 {
                 
                 if (placementClicks >= 10) {
                     // 投放入口点击≥10，关闭该入口
-                    new AdPlacementUtils().close(adGroup, adGroupType, adPlacement, configuration);
-                    hasBidChanged = true; // 记录执行了操作（关闭）
+                    hasBidChanged = new AdPlacementUtils().close(adGroup, adGroupType, adPlacement, configuration);
                 } else if (placementClicks >= 4) {
                     // 【修复问题1】10 > 投放入口点击数≥4
                     // 根据是否为"高点击无转化"情况使用不同公式：
@@ -133,8 +131,7 @@ public class KeyAdGroupDetailActionV1 {
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
-                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-                            hasBidChanged = true; // 记录执行了bid变更
+                            hasBidChanged = new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getKeyword_text(), currentBid, targetBid));
@@ -153,8 +150,7 @@ public class KeyAdGroupDetailActionV1 {
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
-                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-                            hasBidChanged = true; // 记录执行了bid变更
+                            hasBidChanged = new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getKeyword_text(), currentBid, targetBid));

@@ -29,14 +29,14 @@ public class AdPlacementUtils {
         return adPlacementName;
     }
 
-    public void subtractBid(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, double changeToBid, Configuration configuration) {
+    public boolean subtractBid(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, double changeToBid, Configuration configuration) {
         Double nowBid = BidUtils.getAdPlacementBid(adPlacement);
         changeToBid = Math.max(0.02, changeToBid);
         BigDecimal bd = new BigDecimal(changeToBid);
         changeToBid = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
         if(null != nowBid && nowBid <= changeToBid) {
             System.out.println(String.format("    店铺id=%s,名称=%s,bid当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s, nowBid %s changeToBid %s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adPlacement.getAd_group_name(), getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc(), nowBid, changeToBid));
-            return;
+            return false;
         }
         if(!configuration.isDoSimulation()) {
             AdWriteRepository adWriteRepository = new AdWriteRepository();
@@ -50,13 +50,13 @@ public class AdPlacementUtils {
         } else {
             System.out.println(String.format("    店铺id=%s,名称=%s,操作-simulation, 变更bid, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s, from %s to %s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()), adGroup.getStore_country(), adPlacement.getAd_group_name(), getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc(), nowBid, changeToBid));
         }
-        return;
+        return true;
     }
 
-    public void close(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, Configuration configuration) {
+    public boolean close(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, Configuration configuration) {
         if(!"enabled".equalsIgnoreCase(adPlacement.getState())) {
             System.out.println(String.format("    店铺id=%s,名称=%s,投放入口已关闭,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getStore_country(), adPlacement.getAd_group_name(), getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc()));
-            return;
+            return false;
         }
         if(!configuration.isDoSimulation()) {
             AdWriteRepository adWriteRepository = new AdWriteRepository();
@@ -69,7 +69,7 @@ public class AdPlacementUtils {
         } else {
             System.out.println(String.format("    店铺id=%s,名称=%s,操作-simulation, 关闭入口, country=%s, adGroupName=%s, placementName=%s, acos =%s, click=%s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getStore_country(), adPlacement.getAd_group_name(), getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks()));
         }
-        return;
+        return true;
     }
 
     public void addBidWithLog(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, double changeToBid, Configuration configuration, int days) {
@@ -80,13 +80,13 @@ public class AdPlacementUtils {
         addBid(adGroup, adGroupType, adPlacement, changeToBid, configuration);
     }
 
-    public void addBid(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, double changeToBid, Configuration configuration) {
+    public boolean addBid(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, double changeToBid, Configuration configuration) {
         Double nowBid = BidUtils.getAdPlacementBid(adPlacement);
         BigDecimal bd = new BigDecimal(changeToBid);
         changeToBid = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
         if(null != nowBid && nowBid >= changeToBid) {
             System.out.println(String.format("    店铺id=%s,名称=%s,bid当前符合要求,无需变更, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s, nowBid %s changeToBid %s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getStore_country(), adPlacement.getAd_group_name(), getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc(), nowBid, changeToBid));
-            return;
+            return false;
         }
         if(!configuration.isDoSimulation()) {
             AdWriteRepository adWriteRepository = new AdWriteRepository();
@@ -100,7 +100,7 @@ public class AdPlacementUtils {
         } else {
             System.out.println(String.format("    店铺id=%s,名称=%s,操作-simulation, 变更bid, country=%s, adGroupName=%s, placementName=%s， acos =%s, click=%s, cpc=%s, from %s to %s", adGroup.getProfile_id(), HubUtils.getHubName(adGroup.getProfile_id()),adGroup.getStore_country(), adPlacement.getAd_group_name(), getAdPlacementName(adGroupType, adPlacement), adPlacement.getAcos(), adPlacement.getClicks(), adPlacement.getCpc(), nowBid, changeToBid));
         }
-        return;
+        return true;
     }
 
     public void open(AdGroup adGroup, AdGroupType adGroupType, AdPlacement adPlacement, Configuration configuration) {

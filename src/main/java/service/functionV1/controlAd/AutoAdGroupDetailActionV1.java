@@ -85,8 +85,7 @@ public class AutoAdGroupDetailActionV1 {
                         // 如果当前Bid <= 目标Bid，说明已经比目标更低，不需要变更
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         if (currentBid == null || currentBid > targetBid) {
-                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-                            hasBidChanged = true; // 记录执行了bid变更
+                            hasBidChanged = new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getTargeting_text_zh(), currentBid, targetBid));
@@ -111,8 +110,7 @@ public class AutoAdGroupDetailActionV1 {
                 if (placementClicks >= 20) {
                     // 【自动广告组特殊规则】点击≥20，将Bid改为0.02（而不是关闭投放入口）
                     // 这与关键词/ASIN的"点击≥10关闭"完全不同
-                    new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, 0.02, configuration);
-                    hasBidChanged = true; // 记录执行了bid变更
+                    hasBidChanged = new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, 0.02, configuration);
                     
                 } else if (placementClicks >= 10) {
                     // 【自动广告组特殊规则】10≤点击<20区间处理
@@ -124,8 +122,7 @@ public class AutoAdGroupDetailActionV1 {
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
-                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-                            hasBidChanged = true; // 记录执行了bid变更
+                            hasBidChanged = new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getTargeting_text_zh(), currentBid, targetBid));
@@ -144,8 +141,7 @@ public class AutoAdGroupDetailActionV1 {
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
-                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-                            hasBidChanged = true; // 记录执行了bid变更
+                            hasBidChanged = new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getTargeting_text_zh(), currentBid, targetBid));
@@ -164,8 +160,7 @@ public class AutoAdGroupDetailActionV1 {
                         Double currentBid = BidUtils.getAdPlacementBid(adPlacement);
                         // 【优化】当前Bid为null或者大于目标Bid时才降低竞价
                         if (currentBid == null || currentBid > targetBid) {
-                            new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-                            hasBidChanged = true; // 记录执行了bid变更
+                            hasBidChanged = new AdPlacementUtils().subtractBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
                         } else {
                             System.out.println(String.format("        投放入口Bid已达标，跳过: %s, currentBid=%.2f, targetBid=%.2f", 
                                     adPlacement.getTargeting_text_zh(), currentBid, targetBid));

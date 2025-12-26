@@ -182,11 +182,9 @@ public class AutoAdGroupDetailActionV1 {
                 }
                 
                 if (currentBid <= 0.3) {
-                    new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, currentBid + 0.02, configuration);
-                    hasBidChanged = true; // 记录执行了bid变更
+                    hasBidChanged = new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, currentBid + 0.02, configuration);
                 } else if (currentBid > 0.3 && currentBid <= 0.4) {
-                    new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, currentBid + 0.01, configuration);
-                    hasBidChanged = true; // 记录执行了bid变更
+                    hasBidChanged = new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, currentBid + 0.01, configuration);
                 } else {
                     // Bid＞0.4，不做处理
                     System.out.println(String.format("        投放入口Bid已达上限，不加流量: %s, currentBid=%.2f", 
@@ -227,22 +225,18 @@ public class AutoAdGroupDetailActionV1 {
             // 【修复问题4】向上取整，保留两位小数（使用UP而不是HALF_UP）
             BigDecimal bd = new BigDecimal(targetBid);
             targetBid = bd.setScale(2, RoundingMode.UP).doubleValue();
-            new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-            hasBidChanged = true; // 记录执行了bid变更
+            hasBidChanged = new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
         } else if (placementAcos > acosCpcMinus001 && placementAcos <= acosControlBase) {
             new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);
             double targetBid = placementCpc - 0.01;
-            new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-            hasBidChanged = true; // 记录执行了bid变更
+            hasBidChanged = new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
         } else if (placementAcos > acosCpcPlus002 && placementAcos <= acosCpcMinus001) {
             new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);
-            new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, placementCpc, configuration);
-            hasBidChanged = true; // 记录执行了bid变更
+            hasBidChanged = new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, placementCpc, configuration);
         } else if (placementAcos <= acosCpcPlus002) {
             new AdPlacementUtils().open(adGroup, adGroupType, adPlacement, configuration);
             double targetBid = placementCpc + 0.02;
-            new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
-            hasBidChanged = true; // 记录执行了bid变更
+            hasBidChanged = new AdPlacementUtils().addBid(adGroup, adGroupType, adPlacement, targetBid, configuration);
         } else {
             // ACOS>60%，超出保持打开范围，不做处理
             System.out.println(String.format("        投放入口ACOS>60%%，超出加流量范围，跳过: %s, ACOS=%.2f", 
