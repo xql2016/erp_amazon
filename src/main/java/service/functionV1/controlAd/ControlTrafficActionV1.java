@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import repository.read.AdGroupReadRepository;
 import tools.AdUtils;
 import tools.DateUtils;
+import tools.ExcelUtils;
 import tools.HubUtils;
 import tools.MskuExcelReader;
 
@@ -76,7 +77,7 @@ public class ControlTrafficActionV1 {
                 
                 if (CollectionUtils.isEmpty(adGroupList)) {
                     // 查询不到广告组，记录到未处理列表
-                    result.addUnprocessedMsku(msku);
+                    result.addUnprocessedMsku(profileId, msku);
                     System.out.println(String.format("    MSKU %s 查询不到广告组", msku));
                     continue;
                 }
@@ -129,7 +130,7 @@ public class ControlTrafficActionV1 {
                     result.incrementProcessed();
                 } else {
                     // 该MSKU的所有广告组都符合策略要求，无需变更bid
-                    result.addUnprocessedMsku(msku);
+                    result.addUnprocessedMsku(profileId, msku);
                     System.out.println(String.format("    MSKU %s 所有广告组都符合策略要求，无需变更bid", msku));
                 }
             }
@@ -139,10 +140,66 @@ public class ControlTrafficActionV1 {
         System.out.println(String.format("========== 控制流量处理完成 =========="));
         System.out.println(String.format("已处理MSKU数量: %d", result.getProcessedCount()));
         if (!result.getUnprocessedMskuList().isEmpty()) {
-            System.out.println(String.format("未处理MSKU列表（查询不到广告组）: %s", String.join(", ", result.getUnprocessedMskuList())));
+            System.out.println(String.format("未处理MSKU列表: %s", String.join(", ", result.getUnprocessedMskuList())));
+            
+            // 输出未处理MSKU到Excel
+            String outputPath = FilePath.COMMON_PATH + "v1skuControl_output.xlsx";
+            exportUnprocessedMskuToExcel(result.getUnprocessedMskuByProfile(), outputPath);
+            System.out.println(String.format("未处理MSKU已输出到: %s", outputPath));
         }
         
         return result;
+    }
+    
+    /**
+     * 导出未处理的MSKU到Excel文件
+     * Excel格式与输入格式相同：第一行为站点代码，从第二行开始每列是对应站点的MSKU
+     * 
+     * @param unprocessedMskuByProfile 按站点分组的未处理MSKU
+     * @param outputPath 输出文件路径
+     */
+    private void exportUnprocessedMskuToExcel(Map<String, List<String>> unprocessedMskuByProfile, String outputPath) {
+        if (unprocessedMskuByProfile.isEmpty()) {
+            return;
+        }
+        
+        try {
+            // 准备表头（站点ID列表）
+            List<String> profileIds = new ArrayList<>(unprocessedMskuByProfile.keySet());
+            
+            // 准备数据（按列组织：每列是一个站点的MSKU列表）
+            // 先找出最长的MSKU列表，确定需要多少行
+            int maxRows = unprocessedMskuByProfile.values().stream()
+                    .mapToInt(List::size)
+                    .max()
+                    .orElse(0);
+            
+            // 构建数据列表
+            List<List<String>> dataList = new ArrayList<>();
+            dataList.add(profileIds); // 第一行是表头
+            
+            // 从第二行开始填充数据
+            for (int rowIndex = 0; rowIndex < maxRows; rowIndex++) {
+                List<String> row = new ArrayList<>();
+                for (String profileId : profileIds) {
+                    List<String> mskuList = unprocessedMskuByProfile.get(profileId);
+                    if (rowIndex < mskuList.size()) {
+                        row.add(mskuList.get(rowIndex));
+                    } else {
+                        row.add(""); // 空单元格
+                    }
+                }
+                dataList.add(row);
+            }
+            
+            // 写入Excel（注意：ExcelUtils.writeExcel的第一个参数是header，第二个是dataList）
+            // 但实际上这里的dataList已经包含了header，所以需要分开
+            ExcelUtils.writeExcel(outputPath, profileIds, dataList);
+            
+        } catch (Exception e) {
+            System.out.println(String.format("导出未处理MSKU到Excel失败: %s, 错误信息: %s", outputPath, e.getMessage()));
+            e.printStackTrace();
+        }
     }
     
     /**
