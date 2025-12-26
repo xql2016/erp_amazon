@@ -23,6 +23,10 @@ public class FilePath {
     public static String v1SkuControlExcel_Name = "v1skuControl.xlsx";
     // v1产品层面导入流量Excel文件
     public static String v1SkuAddExcel_Name = "v1skuAdd.xlsx";
+    // v1产品层面控制流量输出Excel文件
+    public static String v1SkuControlExcel_Output_Name = "v1skuControl_output.xlsx";
+    // v1产品层面导入流量输出Excel文件
+    public static String v1SkuAddExcel_Output_Name = "v1skuAdd_output.xlsx";
 
 
     public static String inputConfigurationToken = COMMON_PATH + inputConfigurationToken_Name;
@@ -33,5 +37,7 @@ public class FilePath {
     public static String spamTrafficFromAdGroupConfiguration = COMMON_PATH + spamTrafficFromAdGroupConfiguration_Name;
     public static String v1SkuControlExcel = COMMON_PATH + v1SkuControlExcel_Name;
     public static String v1SkuAddExcel = COMMON_PATH + v1SkuAddExcel_Name;
+    public static String v1SkuControlExcel_Output = COMMON_PATH + v1SkuControlExcel_Output_Name;
+    public static String v1SkuAddExcel_Output = COMMON_PATH + v1SkuAddExcel_Output_Name;
 
 }

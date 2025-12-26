@@ -143,7 +143,7 @@ public class ControlTrafficActionV1 {
             System.out.println(String.format("未处理MSKU列表: %s", String.join(", ", result.getUnprocessedMskuList())));
             
             // 输出未处理MSKU到Excel
-            String outputPath = FilePath.COMMON_PATH + "v1skuControl_output.xlsx";
+            String outputPath = FilePath.v1SkuControlExcel_Output;
             exportUnprocessedMskuToExcel(result.getUnprocessedMskuByProfile(), outputPath);
             System.out.println(String.format("未处理MSKU已输出到: %s", outputPath));
         }
@@ -198,7 +198,6 @@ public class ControlTrafficActionV1 {
             
         } catch (Exception e) {
             System.out.println(String.format("导出未处理MSKU到Excel失败: %s, 错误信息: %s", outputPath, e.getMessage()));
-            e.printStackTrace();
         }
     }
     
