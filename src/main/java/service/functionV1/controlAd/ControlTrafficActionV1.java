@@ -18,6 +18,7 @@ import tools.MskuExcelReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * V1产品层面控制流量处理类
@@ -139,9 +140,19 @@ public class ControlTrafficActionV1 {
         // 输出统计结果
         System.out.println(String.format("========== 控制流量处理完成 =========="));
         System.out.println(String.format("已处理MSKU数量: %d", result.getProcessedCount()));
-        if (!result.getUnprocessedMskuList().isEmpty()) {
-            System.out.println(String.format("未处理MSKU列表: %s", String.join(", ", result.getUnprocessedMskuList())));
-            
+        if (!result.getUnprocessedMskuByProfile().isEmpty()) {
+            List<String> skuList = new ArrayList<>();
+            for(String key : result.getUnprocessedMskuByProfile().keySet()) {
+                List<String> tempList = result.getUnprocessedMskuByProfile().get(key);
+                if(CollectionUtils.isNotEmpty(tempList)) {
+                    skuList.addAll(tempList);
+                }
+            }
+            skuList = skuList.stream().distinct().collect(Collectors.toList());
+            if(CollectionUtils.isNotEmpty(skuList)) {
+                System.out.println(String.format("未处理MSKU列表: %s", String.join(", ", skuList)));
+            }
+
             // 输出未处理MSKU到Excel
             String outputPath = FilePath.v1SkuControlExcel_Output;
             exportUnprocessedMskuToExcel(result.getUnprocessedMskuByProfile(), outputPath);
